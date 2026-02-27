@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FoW Framework Deepening — Interactive Review</title>
+<meta property="og:title" content="FoW Framework Deepening — Interactive Review" />
+<meta property="og:description" content="Dismantling the AI-equalizer narrative — 15 variables, 4 layers, 3 problem types | 2026-02-25" />
+<meta property="og:image" content="https://gavse.github.io/session-reviews/og-2026-02-25.png" />
+<meta property="og:type" content="article" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:linear-gradient(180deg,#f0f4ff 0%,#f8fafc 300px);color:#1a1a2e;line-height:1.6;padding:clamp(16px,3vw,40px)}
+.container{max-width:860px;margin:0 auto}
+.header-block{margin-bottom:24px}
+h1{font-size:clamp(24px,5vw,34px);font-weight:800;color:#1a1a2e;margin-bottom:4px;letter-spacing:-0.5px}
+h2{font-size:18px;font-weight:700;color:#1a1a2e;margin:0 0 8px}
+.subtitle{font-size:14px;color:#64748b;margin-bottom:0}
+.overview{font-size:clamp(15px,2vw,16px);line-height:1.75;color:#334155;margin-top:12px}
+.opener{background:linear-gradient(135deg,#1e293b,#334155);border-radius:12px;overflow:hidden;margin-bottom:20px;border-left:4px solid #6366f1;color:#e2e8f0}
+.opener summary{color:#e2e8f0;background:linear-gradient(135deg,#1e293b,#334155);padding:clamp(14px,2vw,20px) clamp(16px,2vw,24px)}
+.opener summary::before{border-color:#94a3b8}
+.opener[open] summary::before{border-color:#a5b4fc}
+.opener em{color:#a5b4fc}
+.opener .opener-body{padding:0 clamp(16px,2vw,24px) clamp(16px,2vw,24px)}
+.opener p{font-size:15px;line-height:1.7;color:#e2e8f0}
+.scaffold-tag{display:inline-block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:3px 10px;border-radius:4px;background:linear-gradient(135deg,#7c3aed,#6366f1);color:white;margin-bottom:8px;margin-right:6px}
+details{background:white;border-radius:12px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,0.06);overflow:hidden;transition:box-shadow 0.2s}
+details:hover{box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+details[open]{box-shadow:0 2px 12px rgba(0,0,0,0.08)}
+details[open] summary{border-bottom:1px solid #e2e8f0}
+summary{padding:clamp(14px,2vw,20px) clamp(16px,2vw,24px);cursor:pointer;font-weight:600;font-size:clamp(14px,2vw,16px);list-style:none;display:flex;align-items:center;gap:10px;line-height:1.45}
+summary::-webkit-details-marker{display:none}
+summary::before{content:'';display:inline-block;width:8px;height:8px;border-right:2px solid #94a3b8;border-bottom:2px solid #94a3b8;transform:rotate(-45deg);transition:transform 0.2s;flex-shrink:0}
+details[open] summary::before{transform:rotate(45deg);border-color:#6366f1}
+.section-content{padding:clamp(14px,2vw,20px) clamp(16px,2vw,24px) clamp(16px,2vw,24px)}
+.section-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;padding:2px 8px;border-radius:4px;display:inline-block;margin-bottom:8px}
+.tag-method{background:#ede9fe;color:#6366f1}
+.tag-framework{background:#dcfce7;color:#16a34a}
+.tag-insight{background:#fef3c7;color:#d97706}
+.tag-novel{background:#fce7f3;color:#db2777}
+.tag-prediction{background:#e0e7ff;color:#4338ca}
+.tag-vocab{background:#f1f5f9;color:#475569}
+.tag-update{background:#ccfbf1;color:#0d9488}
+.styled-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+.styled-table th{background:linear-gradient(135deg,#1a1a2e,#2d2d5e);color:white;padding:10px 12px;text-align:left;font-weight:600;font-size:12px}
+.styled-table td{padding:10px 12px;border-bottom:1px solid #e2e8f0}
+.styled-table tr:last-child td{border-bottom:none}
+.styled-table tr:nth-child(even){background:#f8fafc}
+.pill{display:inline;padding:2px 8px;border-radius:12px;cursor:pointer;font-weight:600;font-size:13px;transition:all 0.2s;user-select:none}
+.pill.blue{background:#dbeafe;color:#2563eb;border:1px solid #93c5fd}
+.pill.blue.revealed{background:#eff6ff;color:#1e40af}
+.pill.red{background:#fee2e2;color:#dc2626;border:1px solid #fca5a5;min-width:60px;display:inline-block;text-align:center}
+.pill.red.revealed{background:#fef2f2;color:#b91c1c}
+.user-quote{border-left:3px solid #ef4444;background:#fef2f2;padding:12px 16px;margin:12px 0;border-radius:0 8px 8px 0;font-style:italic;font-size:14px}
+.user-quote .attribution{font-style:normal;font-size:12px;color:#64748b;margin-top:6px}
+.carousel{position:relative;overflow:hidden;border-radius:12px;margin:16px 0;background:#f1f5f9;border:1px solid #e2e8f0}
+.carousel-track{display:flex;transition:transform 0.3s ease}
+.carousel-card{min-width:100%;box-sizing:border-box;padding:20px}
+.carousel-card.check{border-top:3px solid #ef4444;background:#fff5f5}
+.carousel-card.deepen{border-top:3px solid #6366f1;background:#f5f3ff}
+.carousel-card.connect{border-top:3px solid #10b981;background:#f0fdf4}
+.carousel-card.bloom{border-top:3px solid #f59e0b;background:#fffbeb}
+.carousel-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
+.carousel-label.check{color:#ef4444}
+.carousel-label.deepen{color:#6366f1}
+.carousel-label.connect{color:#10b981}
+.carousel-label.bloom{color:#f59e0b}
+.carousel-nav{display:flex;justify-content:center;gap:6px;padding:10px 0}
+.carousel-dot{width:8px;height:8px;border-radius:50%;background:#cbd5e1;border:none;cursor:pointer;padding:0}
+.carousel-dot.active{background:#1a1a2e}
+.carousel-arrows{position:absolute;top:50%;width:100%;display:flex;justify-content:space-between;transform:translateY(-50%);pointer-events:none;padding:0 4px;box-sizing:border-box}
+.carousel-arrow{pointer-events:auto;background:rgba(255,255,255,0.9);border:none;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.1)}
+.check-btn{display:inline-block;padding:8px 20px;border-radius:8px;border:2px solid #e2e8f0;background:white;cursor:pointer;font-size:14px;margin:4px;transition:all 0.2s;font-family:inherit}
+.check-btn:hover{border-color:#94a3b8}
+.check-btn.correct{background:#dcfce7;border-color:#22c55e;pointer-events:none}
+.check-btn.wrong{background:#fee2e2;border-color:#ef4444;pointer-events:none}
+.check-btn.mc{display:block;width:100%;text-align:left;margin:4px 0;padding:10px 14px;font-size:13px}
+.tap-reveal{background:#e2e8f0;border-radius:6px;padding:10px;margin-top:10px;cursor:pointer;font-size:13px;color:#64748b;text-align:center}
+.tap-reveal.shown{background:#f0fdf4;color:#1a1a2e;text-align:left;cursor:default}
+.carousel-card p,.carousel-card .q-text{font-size:14px;line-height:1.6;margin-bottom:10px}
+.connection{background:linear-gradient(135deg,#eff6ff,#f0fdf4);border-radius:12px;padding:16px 20px;margin:12px 0;border-left:4px solid #10b981}
+.connection .conn-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#10b981;margin-bottom:6px}
+.connection p{font-size:14px}
+.connection .conn-reveal{background:#d1fae5;border-radius:6px;padding:10px;margin-top:8px;cursor:pointer;font-size:13px;color:#065f46;text-align:center}
+.connection .conn-reveal.shown{text-align:left}
+.matrix-container{background:white;border-radius:12px;padding:20px;margin:20px 0;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.matrix-desc{font-size:13px;color:#64748b;margin-bottom:16px}
+.chip-bank{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;padding:12px;background:#f1f5f9;border-radius:8px;min-height:48px}
+.chip{padding:6px 12px;border-radius:16px;font-size:12px;font-weight:600;cursor:pointer;user-select:none;border:2px solid transparent;transition:all 0.15s}
+.chip.type{background:#ede9fe;color:#6366f1;border-color:#c4b5fd}
+.chip.suited{background:#dbeafe;color:#2563eb;border-color:#93c5fd}
+.chip.gap{background:#dcfce7;color:#16a34a;border-color:#86efac}
+.chip.selected{outline:3px solid #f59e0b;outline-offset:1px}
+.chip.placed{opacity:0.4;pointer-events:none}
+.matrix-grid{display:grid;grid-template-columns:120px 1fr 1fr 1fr;gap:2px;margin-bottom:12px;font-size:12px}
+.matrix-grid .header{background:#1a1a2e;color:white;padding:10px 8px;font-weight:600;text-align:center}
+.matrix-grid .row-label{background:#f1f5f9;padding:10px 8px;font-weight:600;display:flex;align-items:center}
+.matrix-grid .cell{background:white;border:2px dashed #cbd5e1;padding:8px;min-height:48px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s}
+.matrix-grid .cell:hover{border-color:#94a3b8;background:#f8fafc}
+.matrix-grid .cell.has-chip{border-style:solid;border-color:#e2e8f0}
+.matrix-grid .cell.correct-cell{background:#dcfce7;border-color:#22c55e}
+.matrix-grid .cell.wrong-cell{background:#fee2e2;border-color:#ef4444}
+.matrix-btns{display:flex;gap:8px;justify-content:center}
+.matrix-btn{padding:10px 24px;border-radius:8px;border:none;cursor:pointer;font-size:14px;font-weight:600;font-family:inherit}
+.matrix-btn.check-matrix{background:#1a1a2e;color:white}
+.matrix-btn.reset-matrix{background:#f1f5f9;color:#64748b}
+.open-qs{background:linear-gradient(135deg,#fef3c7,#fff7ed);padding:20px;margin:0}
+.open-qs-wrap{background:linear-gradient(135deg,#fef3c7,#fff7ed);border-radius:12px;margin:12px 0;overflow:hidden}
+.key-takeaways{background:linear-gradient(135deg,#ede9fe,#f0f4ff);border-top:3px solid #6366f1}
+.key-takeaways summary{color:#4338ca}
+.open-qs h2{margin-bottom:12px}
+.open-q{padding:10px 0;border-bottom:1px solid rgba(0,0,0,0.08);font-size:14px}
+.open-q:last-child{border-bottom:none}
+.open-q strong{color:#d97706}
+.metadata{background:white;border-radius:12px;padding:20px;margin:20px 0;font-size:13px;color:#64748b;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
+.metadata strong{color:#1a1a2e}
+@media(min-width:860px){
+.container{padding:0 20px}
+.carousel-card{padding:28px 32px}
+}
+@media(max-width:500px){
+body{padding:10px}
+.matrix-grid{grid-template-columns:90px 1fr 1fr 1fr;font-size:11px}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header-block">
+<h1>FoW Framework Deepening</h1>
+<div class="subtitle">Problem Types, Value Curves, and Temporal Dynamics &mdash; 2026-02-25</div>
+<p class="overview">This session dismantled the "AI as equalizer" narrative by exposing six methodological limits of the Cruces study, then rebuilt the framework from scratch. The key move: problems aren't just "tasks AI can do" &mdash; they're closed, closed-delayed, or open, and each type predicts a different human-AI dynamic. The result is a 15-variable, four-layer decomposition framework that explains when AI equalizes, when experts retain advantage, and when the categories themselves shift.</p>
+</div>
+
+<details class="opener">
+<summary>Scenario: The board question that breaks your AI strategy</summary>
+<div class="opener-body">
+<p>You're preparing the AI strategy presentation for your company's board meeting next Monday. Your plan: deploy AI company-wide to close the skill gap &mdash; you've cited the Cruces study showing 75% gap closure. Then a board member emails: <em>"Does that 75% apply to tasks where the answer doesn't already exist?"</em> You realize the entire equalizer-vs-amplifier framework you're using might be missing dimensions. The board wants your revised analysis by Friday.</p>
+</div>
+</details>
+
+<!-- BLOOM'S CAROUSEL -->
+<div class="carousel" data-cards="5" data-idx="0">
+<div class="carousel-track">
+<div class="carousel-card bloom"><div class="carousel-label bloom">Retrieval</div><p>Name the three problem types in the closed/closed-delayed/open classification. What distinguishes each by ground truth?</p><div class="tap-reveal" onclick="this.classList.add('shown');this.innerHTML='<strong>Closed:</strong> Ground truth exists now (diagnosis). <strong>Closed-delayed:</strong> Revealed later (prediction &mdash; who leaves, which patient deteriorates). <strong>Open:</strong> Never exists (treatment planning, ethical triage, goals-of-care).'">Tap to reveal</div></div>
+<div class="carousel-card bloom"><div class="carousel-label bloom">Understand</div><p>Explain how satisficing motivation in lab studies biases AI-collaboration results toward the equalizer finding.</p><div class="tap-reveal" onclick="this.classList.add('shown');this.innerHTML='Fictional stakes make both groups converge at the first adequate threshold. AI gets novices there faster, compressing the gap. Real stakes would push experts past &ldquo;good enough&rdquo; toward higher quality bands &mdash; potentially revealing persistent or wider gaps.'">Tap to reveal</div></div>
+<div class="carousel-card bloom"><div class="carousel-label bloom">Implement</div><p>Take a task from your organization. Map it onto the four-layer decomposition (Goals / Variables / Weights / Reframing) and predict where AI adds most value.</p><div class="tap-reveal" onclick="this.classList.add('shown');this.innerHTML='Key test: Layer 1 (goals) and Layer 4 (reframing) = human+AI. Layer 3 (computation) = algorithm-dominated. Layer 2 (variables) = the interesting hybrid &mdash; GenAI suggests but experts must evaluate. The GenAI Wall: novices can\'t discriminate good suggestions from bad.'">Tap to reveal</div></div>
+<div class="carousel-card bloom"><div class="carousel-label bloom">Analyze</div><p>The temporal trajectory predicts task-level equalization coexisting with growing labor-market inequality. What hidden assumption makes this prediction most fragile?</p><div class="tap-reveal" onclick="this.classList.add('shown');this.innerHTML='The prediction assumes open tasks remain exclusively human. If AI enters genuinely open domains (values integration, reframing, ethical judgment), the composition shift stops favoring experts. Also assumes clean task boundaries &mdash; real jobs bundle closed and open subtasks together.'">Tap to reveal</div></div>
+<div class="carousel-card bloom"><div class="carousel-label bloom">Evaluate</div><p>Most studies measure efficiency, not effectiveness. Should we trust the current evidence base on AI's equalizing effect?</p><div class="tap-reveal" onclick="this.classList.add('shown');this.innerHTML='The evidence is systematically biased: general tasks, closed problems, efficiency metrics, fictional stakes, one-shot designs. Trust it for that specific configuration; be skeptical about generalization. A study with domain-specific, real-stakes, effectiveness measures would be far more credible.'">Tap to reveal</div></div>
+</div>
+<div class="carousel-arrows"><button class="carousel-arrow" onclick="moveCarousel(this,-1)">&lsaquo;</button><button class="carousel-arrow" onclick="moveCarousel(this,1)">&rsaquo;</button></div>
+<div class="carousel-nav"><button class="carousel-dot active" onclick="goToCard(this,0)"></button><button class="carousel-dot" onclick="goToCard(this,1)"></button><button class="carousel-dot" onclick="goToCard(this,2)"></button><button class="carousel-dot" onclick="goToCard(this,3)"></button><button class="carousel-dot" onclick="goToCard(this,4)"></button></div>
+</div>
+
+<!-- SECTION 1 -->
+<details>
+<summary>1. The 75% equalizer finding has six methodological limits that change what it actually proves</summary>
+<div class="section-content">
+<span class="scaffold-tag">Scaffold: Diagnostic Case</span><span class="section-tag tag-method">Methodological Analysis</span>
+<h2>Seven limitations qualifying the "75% gap closure"</h2>
+<p>The <span class="pill blue" onclick="revealPill(this)" data-reveal="equalizer finding">???</span> may be an artifact of <span class="pill blue" onclick="revealPill(this)" data-reveal="task structure">???</span>, not a generalizable truth.</p>
+<table class="styled-table">
+<tr><th>Limitation</th><th>Why it matters</th></tr>
+<tr><td>General task (not domain-specific)</td><td>Lowers the floor, biases toward equalizer</td></tr>
+<tr><td>Value curve unknown</td><td>Likely diminishing returns &mdash; ceiling unclear</td></tr>
+<tr><td>Construct validity concern</td><td>Rubric may capture surface quality, not economic value</td></tr>
+<tr><td>Fictional boss / no real stakes</td><td>Satisficing compresses expert-novice differences</td></tr>
+<tr><td>One-shot design</td><td>Can't measure learning, dependency, adaptation</td></tr>
+<tr><td>Closed problem structure</td><td>AI retrieves known solutions; doesn't test open problems</td></tr>
+<tr><td>Component breakdown</td><td>AI equalized on closed subtasks only</td></tr>
+</table>
+<div class="user-quote">"splitting the results by component supports the following: AI closing the gap on identifying the problems, giving solutions, and organizing well... problems here are indeed not open in my opinion"<div class="attribution">&mdash; Gavriel</div></div>
+
+<div class="carousel" data-cards="3" data-idx="0">
+<div class="carousel-track">
+<div class="carousel-card check" data-answer="b"><div class="carousel-label check">Check</div><p class="q-text">A company's AI writing tools improve rubric-rated quality by 18%. A VP concludes: "AI improved our work value by 18%." What's the error?</p>
+<button class="check-btn mc" onclick="checkMC(this,'a')"><strong>A.</strong> The improvement is too small to matter</button>
+<button class="check-btn mc" onclick="checkMC(this,'b')"><strong>B.</strong> Rubric scores measure surface quality, not economic value &mdash; a construct validity gap</button>
+<button class="check-btn mc" onclick="checkMC(this,'c')"><strong>C.</strong> The VP should have run an A/B test first</button>
+<div class="tap-reveal" style="display:none"><strong>Construct validity.</strong> The measure (rubric score) may not capture what it claims (economic value). Revenue impact, client retention, and strategic quality are unmeasured. This gap is systematic across Noy &amp; Zhang, Cruces, and Dell'Acqua.</div></div>
+<div class="carousel-card deepen"><div class="carousel-label deepen">Deepen</div><p>Of the seven limitations, which is most damaging to the generalization &mdash; and why can't it be fixed by replicating with a larger sample?</p></div>
+<div class="carousel-card connect"><div class="carousel-label connect">Connect</div><p>How does the "closed problem structure" limitation connect to the three-type classification in Section 4?</p></div>
+</div>
+<div class="carousel-arrows"><button class="carousel-arrow" onclick="moveCarousel(this,-1)">&lsaquo;</button><button class="carousel-arrow" onclick="moveCarousel(this,1)">&rsaquo;</button></div>
+<div class="carousel-nav"><button class="carousel-dot active" onclick="goToCard(this,0)"></button><button class="carousel-dot" onclick="goToCard(this,1)"></button><button class="carousel-dot" onclick="goToCard(this,2)"></button></div>
+</div>
+</div></details>
+
+<!-- SECTION 2 -->
+<details>
+<summary>2. Value curves aren't just concave/convex &mdash; discrete thresholds change everything</summary>
+<div class="section-content">
+<span class="scaffold-tag">Scaffold: Contrasting Cases</span><span class="section-tag tag-framework">Framework Extension</span>
+<h2>The concave/convex distinction misses <span class="pill blue" onclick="revealPill(this)" data-reveal="discrete thresholds">???</span></h2>
+<table class="styled-table">
+<tr><th>Type</th><th>Shape</th><th>Example</th><th>Gap prediction</th></tr>
+<tr><td><strong>Smooth concave</strong></td><td>Diminishing returns</td><td>Customer service</td><td>Equalizer</td></tr>
+<tr><td><strong>Smooth convex</strong></td><td>Superlinear returns</td><td>Strategy, R&D</td><td>Expert advantage</td></tr>
+<tr><td><strong>Step function</strong></td><td>Discrete pass/fail</td><td>Diagnosis, compliance</td><td>Depends which threshold AI crosses</td></tr>
+<tr><td><strong>Plateau-jump</strong></td><td>Diminishing within band, jump between</td><td>Consulting</td><td>AI equalizes within; experts jump between</td></tr>
+</table>
+<div class="user-quote">"sometimes its not a curved graph but it has thresholds or floors for levels of quality"<div class="attribution">&mdash; Gavriel</div></div>
+
+<div class="carousel" data-cards="3" data-idx="0">
+<div class="carousel-track">
+<div class="carousel-card check" data-answer="false"><div class="carousel-label check">Check</div><p class="q-text">A hospital achieves 95% diagnostic AI accuracy. Since diagnosis has diminishing returns at high accuracy, that last 5% matters less than the first 95%.</p>
+<div><button class="check-btn" onclick="checkAnswer(this,true)">True</button><button class="check-btn" onclick="checkAnswer(this,false)">False</button></div>
+<div class="tap-reveal" style="display:none"><strong>Step-function, not concave.</strong> A missed cancer diagnosis isn't worth "slightly less" &mdash; it's a categorical failure. Below the pass threshold, accuracy has zero diagnostic value. For step functions near the threshold, that last 5% is everything.</div></div>
+<div class="carousel-card deepen"><div class="carousel-label deepen">Deepen</div><p>Why is the plateau-jump the hardest to predict? What makes the "jump" between quality bands different from a step-function threshold?</p></div>
+<div class="carousel-card connect"><div class="carousel-label connect">Connect</div><p>How does value curve type interact with satisficing? If participants satisfice, which curve types show the biggest lab bias?</p></div>
+</div>
+<div class="carousel-arrows"><button class="carousel-arrow" onclick="moveCarousel(this,-1)">&lsaquo;</button><button class="carousel-arrow" onclick="moveCarousel(this,1)">&rsaquo;</button></div>
+<div class="carousel-nav"><button class="carousel-dot active" onclick="goToCard(this,0)"></button><button class="carousel-dot" onclick="goToCard(this,1)"></button><button class="carousel-dot" onclick="goToCard(this,2)"></button></div>
+</div>
+</div></details>
+
+<!-- SECTION 3 -->
+<details>
+<summary>3. When study participants satisfice, the experiment pre-selects its own findings</summary>
+<div class="section-content">
+<span class="scaffold-tag">Scaffold: Challenge / Devil's Advocate</span><span class="section-tag tag-insight">Methodological Insight</span>
+<h2>Lab motivation determines which quality threshold participants target</h2>
+<p>Fictional stakes &rarr; <span class="pill blue" onclick="revealPill(this)" data-reveal="satisficing">???</span> (converge at first adequate plateau). Real stakes &rarr; <span class="pill blue" onclick="revealPill(this)" data-reveal="maximizing">???</span> (push past "good enough"). This systematically biases lab studies toward equalization.</p>
+<p style="margin-top:10px"><span class="pill red" onclick="revealPill(this)" data-reveal="Lab RCTs bias toward equalization because fictional stakes produce satisficing, compressing expert-novice gaps that real-stakes environments would reveal.">Lab RCTs bias toward equalization because ___</span></p>
+
+<div class="carousel" data-cards="3" data-idx="0">
+<div class="carousel-track">
+<div class="carousel-card check" data-answer="false"><div class="carousel-label check">Check</div><p class="q-text">Lab RCTs on AI collaboration provide clean causal estimates because random assignment eliminates all confounders.</p>
+<div><button class="check-btn" onclick="checkAnswer(this,true)">True</button><button class="check-btn" onclick="checkAnswer(this,false)">False</button></div>
+<div class="tap-reveal" style="display:none"><strong>Random assignment eliminates selection confounders but not motivation confounders.</strong> With fictional stakes, both groups satisfice at the same "good enough" threshold. The bias is systematic across Cruces, Noy &amp; Zhang, Dell'Acqua, and Peng. Real-stakes conditions might reveal persistent gaps.</div></div>
+<div class="carousel-card deepen"><div class="carousel-label deepen">Deepen</div><p>Can you design a study testing the satisficing hypothesis directly? What would you measure, and what ethical constraints apply?</p></div>
+<div class="carousel-card connect"><div class="carousel-label connect">Connect</div><p>Does the satisficing bias compound with efficiency-focused measurement (Section 9)?</p></div>
+</div>
+<div class="carousel-arrows"><button class="carousel-arrow" onclick="moveCarousel(this,-1)">&lsaquo;</button><button class="carousel-arrow" onclick="moveCarousel(this,1)">&rsaquo;</button></div>
+<div class="carousel-nav"><button class="carousel-dot active" onclick="goToCard(this,0)"></button><button class="carousel-dot" onclick="goToCard(this,1)"></button><button class="carousel-dot" onclick="goToCard(this,2)"></button></div>
+</div>
+</div></details>
+
+<div class="connection"><div class="conn-label">Connection</div><p>Sections 1&ndash;3 exposed <em>how</em> studies get biased. Now Section 4 introduces the classification that predicts <em>when</em> the equalizer holds vs. doesn't.</p><div class="conn-reveal" onclick="this.classList.add('shown');this.textContent='The closed problem structure limitation (#6) maps directly: the three-type classification shows equalizer findings are expected for closed problems but NOT for open problems. Cruces tested exclusively closed tasks.'">Tap to reveal</div></div>
+
+<!-- SECTION 4 -->
+<details>
+<summary>4. Closed, closed-delayed, or open &mdash; problem type predicts whether AI equalizes</summary>
+<div class="section-content">
+<span class="scaffold-tag">Scaffold: CFU</span><span class="section-tag tag-framework">Core Framework Addition</span>
+<h2>Closed / Closed-delayed / Open &mdash; 70 years of convergent evidence</h2>
+<table class="styled-table">
+<tr><th>Type</th><th>Ground truth</th><th>Efficiency hypothesis</th><th>Gap effect</th></tr>
+<tr><td><strong>Closed</strong></td><td>Exists now</td><td>AI more efficient/consistent</td><td><span class="pill blue" onclick="revealPill(this)" data-reveal="Strong equalizer">???</span></td></tr>
+<tr><td><strong>Closed-delayed</strong></td><td>Revealed later</td><td>AI/algorithm more accurate</td><td>Equalizer on computation; expert edge on <span class="pill blue" onclick="revealPill(this)" data-reveal="feature selection">???</span></td></tr>
+<tr><td><strong>Open</strong></td><td>Never exists</td><td>Human+AI</td><td>Expert advantage persists</td></tr>
+</table>
+<p style="margin-top:12px"><span class="pill red" onclick="revealPill(this)" data-reveal="Prediction feels open but is functionally closed-delayed. Three literatures converge (Meehl 1954, Kahneman 2021, Vaccaro 2024 g=-0.54): humans systematically add noise to prediction.">Prediction feels open but is functionally ___ because ___</span></p>
+<div class="user-quote">"some might argue that humans are less good at predictions as well... is it an open question?"<div class="attribution">&mdash; Gavriel, self-challenging &mdash; leading to reclassifying prediction</div></div>
+
+<div class="carousel" data-cards="3" data-idx="0">
+<div class="carousel-track">
+<div class="carousel-card check" data-answer="c"><div class="carousel-label check">Check</div><p class="q-text">A company uses AI to predict which employees will leave next quarter. This is:</p>
+<button class="check-btn mc" onclick="checkMC(this,'a')"><strong>A.</strong> Open &mdash; human behavior has no ground truth</button>
+<button class="check-btn mc" onclick="checkMC(this,'b')"><strong>B.</strong> Closed &mdash; algorithm matches a known pattern</button>
+<button class="check-btn mc" onclick="checkMC(this,'c')"><strong>C.</strong> Closed-delayed &mdash; ground truth revealed later; algorithms outperform intuition</button>
+<div class="tap-reveal" style="display:none"><strong>Closed-delayed.</strong> Who leaves is revealed after the window. Meehl, Noise, and Vaccaro converge: algorithms beat human prediction because humans add noise through narrative reasoning. The human role isn't computing &mdash; it's sensing when the model's assumptions break.</div></div>
+<div class="carousel-card deepen"><div class="carousel-label deepen">Deepen</div><p>Why do humans treat prediction as open when it's functionally closed? What cognitive mechanism makes us reach for narrative over pattern-matching?</p></div>
+<div class="carousel-card connect"><div class="carousel-label connect">Connect</div><p>Does each problem type tend toward a characteristic value curve shape (Section 2)?</p></div>
+</div>
+<div class="carousel-arrows"><button class="carousel-arrow" onclick="moveCarousel(this,-1)">&lsaquo;</button><button class="carousel-arrow" onclick="moveCarousel(this,1)">&rsaquo;</button></div>
+<div class="carousel-nav"><button class="carousel-dot active" onclick="goToCard(this,0)"></button><button class="carousel-dot" onclick="goToCard(this,1)"></button><button class="carousel-dot" onclick="goToCard(this,2)"></button></div>
+</div>
+</div></details>
+
+<!-- SECTION 5 -->
+<details>
+<summary>5. Medicine splits neatly: diagnosis is closed, treatment planning is open, prognosis got reclassified</summary>
+<div class="section-content">
+<span class="scaffold-tag">Scaffold: Worked Example</span><span class="section-tag tag-framework">Framework Application</span>
+<h2>The open/closed distinction generates specific healthcare predictions</h2>
+<table class="styled-table">
+<tr><th>Task</th><th>Type</th><th>Prediction</th></tr>
+<tr><td>Diagnosis</td><td>Closed</td><td>AI dominates (Goh LLM +16pp)</td></tr>
+<tr><td>Prognosis</td><td>Closed-delayed</td><td>AI more accurate &mdash; reclassified from "open"</td></tr>
+<tr><td>Treatment planning (comorbid)</td><td>Open</td><td>Human+AI &mdash; values integration</td></tr>
+<tr><td>Goals of care</td><td>Open</td><td>Human essential &mdash; no ground truth</td></tr>
+<tr><td>Triage under scarcity</td><td>Open</td><td>Ethical judgment, not pattern matching</td></tr>
+</table>
+
+<div class="carousel" data-cards="3" data-idx="0">
+<div class="carousel-track">
+<div class="carousel-card check" data-answer="b"><div class="carousel-label check">Check</div><p class="q-text">An AI cancer treatment system beats oncologists on single-variable cases. A CTO deploys it for all treatment decisions. The problem:</p>
+<button class="check-btn mc" onclick="checkMC(this,'a')"><strong>A.</strong> AI shouldn't be used in healthcare</button>
+<button class="check-btn mc" onclick="checkMC(this,'b')"><strong>B.</strong> Comorbid treatment is open; AI was validated on closed subtasks only</button>
+<button class="check-btn mc" onclick="checkMC(this,'c')"><strong>C.</strong> The AI just needs more data</button>
+<div class="tap-reveal" style="display:none"><strong>Problem-type mismatch.</strong> Real patients have comorbidities, preferences, and values making treatment planning an open problem. The CTO extrapolates closed-task performance to open-task deployment &mdash; the Cruces generalization error.</div></div>
+<div class="carousel-card deepen"><div class="carousel-label deepen">Deepen</div><p>Which medical tasks will shift from "open" to "closed-delayed" as precision medicine advances? Which remain irreducibly open?</p></div>
+<div class="carousel-card connect"><div class="carousel-label connect">Connect</div><p>Prognosis was reclassified during this session. What would it take for goals-of-care to be reclassified?</p></div>
+</div>
+<div class="carousel-arrows"><button class="carousel-arrow" onclick="moveCarousel(this,-1)">&lsaquo;</button><button class="carousel-arrow" onclick="moveCarousel(this,1)">&rsaquo;</button></div>
+<div class="carousel-nav"><button class="carousel-dot active" onclick="goToCard(this,0)"></button><button class="carousel-dot" onclick="goToCard(this,1)"></button><button class="carousel-dot" onclick="goToCard(this,2)"></button></div>
+</div>
+</div></details>
+
+<!-- SECTION 6 -->
+<details>
+<summary>6. Any task decomposes into four layers &mdash; and AI fits differently in each</summary>
+<div class="section-content">
+<span class="scaffold-tag">Scaffold: CFU</span><span class="section-tag tag-novel">New Framework Component</span>
+<h2>Goals &mdash; Variables &mdash; Weighting &mdash; Emergent Reframing</h2>
+<table class="styled-table">
+<tr><th>Layer</th><th>Type</th><th>Best suited</th><th>Gap effect</th></tr>
+<tr><td><strong>1. Goals</strong></td><td>Open</td><td>Human + GenAI</td><td>Expert advantage</td></tr>
+<tr><td><strong>2. Variables</strong></td><td>Hybrid</td><td>GenAI + human</td><td><span class="pill blue" onclick="revealPill(this)" data-reveal="GenAI Wall">???</span> &mdash; novices can't evaluate</td></tr>
+<tr><td><strong>3. Weights</strong></td><td>Closed-delayed</td><td>Algorithms</td><td>Equalizer</td></tr>
+<tr><td><strong>4. Reframing</strong></td><td>Outside system</td><td>Human + AI</td><td>Human additive</td></tr>
+</table>
+<p style="margin-top:12px"><span class="pill red" onclick="revealPill(this)" data-reveal="Layer 2 is the GenAI Wall: AI generates impressive variable lists, but novices can't discriminate valid suggestions from spurious ones. Expert value = evaluation, not generation.">The GenAI Wall at Layer 2 means ___</span></p>
+
+<div class="carousel" data-cards="3" data-idx="0">
+<div class="carousel-track">
+<div class="carousel-card check" data-answer="false"><div class="carousel-label check">Check</div><p class="q-text">If AI can suggest which variables to consider in a hiring decision (Layer 2), it can fully replace human expertise at that layer.</p>
+<div><button class="check-btn" onclick="checkAnswer(this,true)">True</button><button class="check-btn" onclick="checkAnswer(this,false)">False</button></div>
+<div class="tap-reveal" style="display:none"><strong>The GenAI Wall.</strong> GenAI generates impressive variable lists, but novices can't evaluate which are valid, relevant, or missing. Expert value isn't generating variables &mdash; it's discriminating plausible-sounding suggestions that are genuinely useful vs. spurious, illegal, or missing domain context.</div></div>
+<div class="carousel-card deepen"><div class="carousel-label deepen">Deepen</div><p>Map a decision from your work onto all four layers. Can you identify a moment of emergent reframing &mdash; where someone changed the game?</p></div>
+<div class="carousel-card connect"><div class="carousel-label connect">Connect</div><p>How does the four-layer decomposition relate to the "brain + tools" AI architecture (Section 12)?</p></div>
+</div>
+<div class="carousel-arrows"><button class="carousel-arrow" onclick="moveCarousel(this,-1)">&lsaquo;</button><button class="carousel-arrow" onclick="moveCarousel(this,1)">&rsaquo;</button></div>
+<div class="carousel-nav"><button class="carousel-dot active" onclick="goToCard(this,0)"></button><button class="carousel-dot" onclick="goToCard(this,1)"></button><button class="carousel-dot" onclick="goToCard(this,2)"></button></div>
+</div>
+</div></details>
+
+
+<!-- SECTION 7 -->
+<details>
+<summary>7. Layer 4 isn't innovation &mdash; it changes the frame, not just the answer inside it</summary>
+<div class="section-content">
+<span class="scaffold-tag">Scaffold: Socratic</span><span class="section-tag tag-novel">Novel Concept</span>
+<h2>Transforming the problem space vs. optimizing within it</h2>
+<p>Five properties: (1) not in current search space, (2) unpredictable, (3) scale-independent, (4) high expertise/creativity OR collective intelligence, (5) <span class="pill blue" onclick="revealPill(this)" data-reveal="human+AI persistent role">???</span>.</p>
+<div class="user-quote">"a person might think to do something unexpected that will improve the entire thing &mdash; create data centers in space, find a new way of calculating, think of a law that reduces the problem in the first place"<div class="attribution">&mdash; Gavriel, defining Layer 4</div></div>
+<p>Connects to: <span class="pill blue" onclick="revealPill(this)" data-reveal="Argyris double-loop learning">???</span>, Kuhnian paradigm shifts, exploration vs. exploitation.</p>
+
+<div class="carousel" data-cards="3" data-idx="0">
+<div class="carousel-track">
+<div class="carousel-card check" data-answer="false"><div class="carousel-label check">Check</div><p class="q-text">Emergent reframing (Layer 4) is essentially another term for innovation or creative thinking.</p>
+<div><button class="check-btn" onclick="checkAnswer(this,true)">True</button><button class="check-btn" onclick="checkAnswer(this,false)">False</button></div>
+<div class="tap-reveal" style="display:none"><strong>Five specific properties distinguish it.</strong> Innovation can happen within an existing frame (single-loop). Reframing changes the frame itself (double-loop). A product improvement is innovation; proposing a law that eliminates the problem is reframing. Reframing can't be optimized for &mdash; it's outside the optimization space by definition.</div></div>
+<div class="carousel-card deepen"><div class="carousel-label deepen">Deepen</div><p>A hospital optimized Layers 1&ndash;3 of triage. Performance plateaus. What would Layer 4 reframing look like? One micro, one macro example.</p></div>
+<div class="carousel-card connect"><div class="carousel-label connect">Connect</div><p>If reframing is "outside the system," can AI ever contribute to it?</p></div>
+</div>
+<div class="carousel-arrows"><button class="carousel-arrow" onclick="moveCarousel(this,-1)">&lsaquo;</button><button class="carousel-arrow" onclick="moveCarousel(this,1)">&rsaquo;</button></div>
+<div class="carousel-nav"><button class="carousel-dot active" onclick="goToCard(this,0)"></button><button class="carousel-dot" onclick="goToCard(this,1)"></button><button class="carousel-dot" onclick="goToCard(this,2)"></button></div>
+</div>
+</div></details>
+
+<div class="connection"><div class="conn-label">Connection</div><p>Sections 4&ndash;7 built static classifications. But problems don't stay classified &mdash; two forces continuously push them between categories.</p><div class="conn-reveal" onclick="this.classList.add('shown');this.textContent='Layer 3 is most vulnerable to data degradation. Layer 2 shifts when new variables emerge. Layer 1 shifts with stakeholder values. Only Layer 4 is inherently dynamic by definition.'">Tap to reveal</div></div>
+
+<!-- SECTION 8 -->
+<details>
+<summary>8. Data degradation and environmental flux continuously reopen "closed" problems</summary>
+<div class="section-content">
+<span class="scaffold-tag">Scaffold: Prediction</span><span class="section-tag tag-novel">Dynamic Model</span>
+<h2>Data degradation + environmental flux push closed &rarr; open</h2>
+<table class="styled-table">
+<tr><th>Force</th><th>Mechanism</th><th>Example</th></tr>
+<tr><td><strong>Data degradation</strong></td><td>Distributions shift over time</td><td>Hiring model 2024 &rarr; different market 2026</td></tr>
+<tr><td><strong>Environmental flux</strong></td><td>Novel conditions emerge</td><td>New variant changes "correct" diagnosis</td></tr>
+</table>
+<p style="margin-top:12px"><strong>Combined:</strong> Problems appearing closed at a snapshot are continuously reopened. Humans detect <span class="pill red" onclick="revealPill(this)" data-reveal="'something changed' through qualitative sensing and causal reasoning about structural breaks &mdash; before the data reflects the shift.">"something changed" through ___</span></p>
+<div class="user-quote">"ai is based on training data from the past (even near past is past) but the world keeps changing"<div class="attribution">&mdash; Gavriel, reframing environmental change as a force on classification</div></div>
+
+<div class="carousel" data-cards="3" data-idx="0">
+<div class="carousel-track">
+<div class="carousel-card check" data-answer="b"><div class="carousel-label check">Check</div><p class="q-text">An AI hiring model trained on 2024 data degrades in 2026 as the labor market shifts. Best explanation:</p>
+<button class="check-btn mc" onclick="checkMC(this,'a')"><strong>A.</strong> The model was poorly designed</button>
+<button class="check-btn mc" onclick="checkMC(this,'b')"><strong>B.</strong> Concept drift &mdash; distributions shifted, pushing "closed" back toward "open"</button>
+<button class="check-btn mc" onclick="checkMC(this,'c')"><strong>C.</strong> Hiring is inherently unpredictable</button>
+<div class="tap-reveal" style="display:none"><strong>Concept drift.</strong> The model isn't broken &mdash; the world changed underneath it. More data from the old distribution won't help. Human+AI retains value because humans detect structural breaks through qualitative sensing before data reflects them.</div></div>
+<div class="carousel-card deepen"><div class="carousel-label deepen">Deepen</div><p>Pick a "closed" AI problem. What event would reopen it? How quickly would AI degrade before humans noticed?</p></div>
+<div class="carousel-card connect"><div class="carousel-label connect">Connect</div><p>Are these forces accelerating? Does AI deployment itself create faster environmental flux?</p></div>
+</div>
+<div class="carousel-arrows"><button class="carousel-arrow" onclick="moveCarousel(this,-1)">&lsaquo;</button><button class="carousel-arrow" onclick="moveCarousel(this,1)">&rsaquo;</button></div>
+<div class="carousel-nav"><button class="carousel-dot active" onclick="goToCard(this,0)"></button><button class="carousel-dot" onclick="goToCard(this,1)"></button><button class="carousel-dot" onclick="goToCard(this,2)"></button></div>
+</div>
+</div></details>
+
+<!-- SECTION 9 -->
+<details>
+<summary>9. Most studies measure efficiency &mdash; but effectiveness is where human+AI actually matters</summary>
+<div class="section-content">
+<span class="scaffold-tag">Scaffold: Challenge</span><span class="section-tag tag-update">New Variable (#15)</span>
+<h2>What you optimize for determines whether human+AI retains value</h2>
+<table class="styled-table">
+<tr><th>Target</th><th>Favors</th><th>Why</th></tr>
+<tr><td><strong>Efficiency</strong></td><td>AI</td><td>Task held constant; AI executes consistently</td></tr>
+<tr><td><strong>Effectiveness</strong></td><td>Human+AI</td><td>"Right thing" keeps shifting; humans sense novelty</td></tr>
+</table>
+<p style="margin-top:12px">Most studies measure <span class="pill blue" onclick="revealPill(this)" data-reveal="efficiency">???</span>. Few measure <span class="pill blue" onclick="revealPill(this)" data-reveal="effectiveness">???</span>.</p>
+
+<div class="carousel" data-cards="3" data-idx="0">
+<div class="carousel-track">
+<div class="carousel-card check" data-answer="false"><div class="carousel-label check">Check</div><p class="q-text">Deploying AI to make diagnosis faster and cheaper is the same as deploying AI to improve diagnostic outcomes.</p>
+<div><button class="check-btn" onclick="checkAnswer(this,true)">True</button><button class="check-btn" onclick="checkAnswer(this,false)">False</button></div>
+<div class="tap-reveal" style="display:none"><strong>Efficiency ≠ effectiveness.</strong> Faster/cheaper holds the task constant. Better outcomes requires sensing when context changes &mdash; new variants, treatments, populations. For stable closed tasks, efficiency works. But "the right diagnosis" shifts with environmental flux.</div></div>
+<div class="carousel-card deepen"><div class="carousel-label deepen">Deepen</div><p>When does efficiency optimization become dangerous? Construct a scenario where it produces worse outcomes.</p></div>
+<div class="carousel-card connect"><div class="carousel-label connect">Connect</div><p>If studies measure efficiency but organizations need effectiveness, what does that mean for the evidence base?</p></div>
+</div>
+<div class="carousel-arrows"><button class="carousel-arrow" onclick="moveCarousel(this,-1)">&lsaquo;</button><button class="carousel-arrow" onclick="moveCarousel(this,1)">&rsaquo;</button></div>
+<div class="carousel-nav"><button class="carousel-dot active" onclick="goToCard(this,0)"></button><button class="carousel-dot" onclick="goToCard(this,1)"></button><button class="carousel-dot" onclick="goToCard(this,2)"></button></div>
+</div>
+</div></details>
+
+<!-- SECTION 10 -->
+<details>
+<summary>10. Task-level equalization and labor-market inequality can grow simultaneously</summary>
+<div class="section-content">
+<span class="scaffold-tag">Scaffold: Prediction</span><span class="section-tag tag-prediction">Key Prediction</span>
+<h2>Human work shifts toward open tasks over time</h2>
+<p><span class="pill red" onclick="revealPill(this)" data-reveal="Equalizer at task level coexists with growing labor-market inequality because the distribution of remaining human tasks shifts toward open problems where expert advantage is strongest.">The paradox: task-level equalization + growing inequality because ___</span></p>
+<table class="styled-table">
+<tr><th>Horizon</th><th>AI efficiency</th><th>Gap effect</th></tr>
+<tr><td>Now</td><td>Many closed tasks</td><td>Equalizer on closed; expert advantage on open</td></tr>
+<tr><td>Near (1&ndash;3y)</td><td>More tasks closed</td><td>Equalizer expands; remaining tasks skew open</td></tr>
+<tr><td>Medium (3&ndash;10y)</td><td>AI on prediction/hybrid</td><td>Expert premium grows for what's left</td></tr>
+<tr><td>Far (10y+)</td><td>Unknown</td><td>Depends on AI entering open domains</td></tr>
+</table>
+
+<div class="carousel" data-cards="3" data-idx="0">
+<div class="carousel-track">
+<div class="carousel-card check" data-answer="false"><div class="carousel-label check">Check</div><p class="q-text">Since AI equalizes on closed tasks, widespread adoption will reduce labor-market inequality.</p>
+<div><button class="check-btn" onclick="checkAnswer(this,true)">True</button><button class="check-btn" onclick="checkAnswer(this,false)">False</button></div>
+<div class="tap-reveal" style="display:none"><strong>Composition shift.</strong> As AI automates closed tasks, remaining human tasks skew open &mdash; where expert advantage is strongest. Even with task-level equalization, the task distribution shift means the expert premium grows for remaining work.</div></div>
+<div class="carousel-card deepen"><div class="carousel-label deepen">Deepen</div><p>What if AI also shifts the definition of expertise? If open tasks get partially automated, does the expert premium grow, shrink, or change shape?</p></div>
+<div class="carousel-card connect"><div class="carousel-label connect">Connect</div><p>The trajectory depends on the two forces (Section 8). Does faster environmental flux compress or extend the timeline?</p></div>
+</div>
+<div class="carousel-arrows"><button class="carousel-arrow" onclick="moveCarousel(this,-1)">&lsaquo;</button><button class="carousel-arrow" onclick="moveCarousel(this,1)">&rsaquo;</button></div>
+<div class="carousel-nav"><button class="carousel-dot active" onclick="goToCard(this,0)"></button><button class="carousel-dot" onclick="goToCard(this,1)"></button><button class="carousel-dot" onclick="goToCard(this,2)"></button></div>
+</div>
+</div></details>
+
+<!-- SECTION 11 -->
+<details>
+<summary>11. Short-term prediction is closed; long-term is a different problem type entirely</summary>
+<div class="section-content">
+<span class="scaffold-tag">Scaffold: Contrasting Cases</span><span class="section-tag tag-insight">Analytical Distinction</span>
+<h2>Short-term and long-term are almost different problem types</h2>
+<p><strong>Short-term:</strong> stable distributions, AI advantage. <strong>Long-term:</strong> regime changes, expert <span class="pill blue" onclick="revealPill(this)" data-reveal="causal reasoning">???</span> matters.</p>
+<p style="margin-top:8px"><span class="pill red" onclick="revealPill(this)" data-reveal="AI outperforms on short-term because distributions are stable. Experts retain long-term advantage because causal reasoning about structural breaks matters more than pattern matching. The crossover depends on distribution stability.">"AI outperforms short-term because ___. Experts retain long-term because ___. Crossover depends on ___."</span></p>
+
+<div class="carousel" data-cards="3" data-idx="0">
+<div class="carousel-track">
+<div class="carousel-card check" data-answer="false"><div class="carousel-label check">Check</div><p class="q-text">AI will outperform on long-term prediction once given more training data from the same domain.</p>
+<div><button class="check-btn" onclick="checkAnswer(this,true)">True</button><button class="check-btn" onclick="checkAnswer(this,false)">False</button></div>
+<div class="tap-reveal" style="display:none"><strong>Different problem types.</strong> More data from a stable regime doesn't help predict regime changes. Long-term prediction requires understanding <em>why</em> patterns hold to predict <em>when</em> they'll break &mdash; causal models, not pattern matching.</div></div>
+<div class="carousel-card deepen"><div class="carousel-label deepen">Deepen</div><p>Where's the crossover between short-term AI advantage and long-term human advantage? General principle or domain-specific?</p></div>
+<div class="carousel-card connect"><div class="carousel-label connect">Connect</div><p>Does faster environmental flux (Section 8) move the crossover point closer?</p></div>
+</div>
+<div class="carousel-arrows"><button class="carousel-arrow" onclick="moveCarousel(this,-1)">&lsaquo;</button><button class="carousel-arrow" onclick="moveCarousel(this,1)">&rsaquo;</button></div>
+<div class="carousel-nav"><button class="carousel-dot active" onclick="goToCard(this,0)"></button><button class="carousel-dot" onclick="goToCard(this,1)"></button><button class="carousel-dot" onclick="goToCard(this,2)"></button></div>
+</div>
+</div></details>
+
+<!-- SECTION 12 -->
+<details>
+<summary>12. GenAI orchestrates which model and how to frame &mdash; it doesn't replace prediction algorithms</summary>
+<div class="section-content">
+<span class="scaffold-tag">Scaffold: Contrasting Cases</span><span class="section-tag tag-insight">Architecture Insight</span>
+<h2>GenAI orchestrates; it doesn't replace prediction algorithms</h2>
+<p>Traditional ML (<span class="pill blue" onclick="revealPill(this)" data-reveal="XGBoost">???</span>, random forests) still wins at scale for tabular data. The "brain + tools" architecture: GenAI reasons about <em>which</em> model, <em>how</em> to frame, <em>what</em> features &mdash; then hands off to specialized algorithms. Maps to: GenAI = Layers 1&ndash;2, algorithms = Layer 3, humans = Layer 4.</p>
+
+<div class="carousel" data-cards="3" data-idx="0">
+<div class="carousel-track">
+<div class="carousel-card check" data-answer="false"><div class="carousel-label check">Check</div><p class="q-text">LLMs are the best tool for structured tabular prediction because they can process any data type.</p>
+<div><button class="check-btn" onclick="checkAnswer(this,true)">True</button><button class="check-btn" onclick="checkAnswer(this,false)">False</button></div>
+<div class="tap-reveal" style="display:none"><strong>Misallocated comparative advantage.</strong> Tree-based models match or beat LLMs at scale on tabular data. GenAI's edge is reasoning about which model to use and how to frame the problem (Layers 1&ndash;2), not the computation (Layer 3). Using GenAI for computation is like using an architect to lay bricks.</div></div>
+<div class="carousel-card deepen"><div class="carousel-label deepen">Deepen</div><p>Does the advisory overlay architecture fail for AI-AI the same way it fails for human+AI?</p></div>
+<div class="carousel-card connect"><div class="carousel-label connect">Connect</div><p>If GenAI maps to Layers 1&ndash;2, what does this predict about which data science tasks will be automated?</p></div>
+</div>
+<div class="carousel-arrows"><button class="carousel-arrow" onclick="moveCarousel(this,-1)">&lsaquo;</button><button class="carousel-arrow" onclick="moveCarousel(this,1)">&rsaquo;</button></div>
+<div class="carousel-nav"><button class="carousel-dot active" onclick="goToCard(this,0)"></button><button class="carousel-dot" onclick="goToCard(this,1)"></button><button class="carousel-dot" onclick="goToCard(this,2)"></button></div>
+</div>
+</div></details>
+
+<div class="connection"><div class="conn-label">Connection</div><p>Sections 9 + 13 both expose measurement gaps: studies measure the wrong thing. Together they suggest the evidence base systematically overstates AI's standalone value.</p><div class="conn-reveal" onclick="this.classList.add('shown');this.textContent='Instead of citing \'AI improves quality by X%,\' the revised framing: \'AI improves rubric-rated efficiency on closed tasks with stable distributions. For effectiveness in changing contexts, the evidence is thin and suggests human+AI retention.\''">Tap to reveal</div></div>
+
+<!-- SECTION 13 -->
+<details>
+<summary>13. If the rubric doesn't measure real-world value, perfect internal validity is worthless</summary>
+<div class="section-content">
+<span class="scaffold-tag">Scaffold: CFU</span><span class="section-tag tag-vocab">Methodological Vocabulary</span>
+<h2>Most AI-collaboration studies share this gap</h2>
+<p><strong><span class="pill blue" onclick="revealPill(this)" data-reveal="Construct validity">???</span>:</strong> does the measure capture what it claims? Related: <span class="pill blue" onclick="revealPill(this)" data-reveal="ecological validity">???</span> (does the lab generalize?).</p>
+
+<div class="carousel" data-cards="3" data-idx="0">
+<div class="carousel-track">
+<div class="carousel-card check" data-answer="c"><div class="carousel-label check">Check</div><p class="q-text">"AI improved writing quality by 18%." The most important methodological question:</p>
+<button class="check-btn mc" onclick="checkMC(this,'a')"><strong>A.</strong> Was the sample large enough?</button>
+<button class="check-btn mc" onclick="checkMC(this,'b')"><strong>B.</strong> Were raters blind?</button>
+<button class="check-btn mc" onclick="checkMC(this,'c')"><strong>C.</strong> Does the rubric score capture economic value?</button>
+<div class="tap-reveal" style="display:none"><strong>Construct validity.</strong> Perfect internal validity (randomized, blinded, large N) is useless if the outcome measure doesn't map to real-world value. The 18% may be real on the rubric and meaningless for the business.</div></div>
+<div class="carousel-card deepen"><div class="carousel-label deepen">Deepen</div><p>What would a study with high construct validity look like? What outcome measures instead of rubric scores?</p></div>
+<div class="carousel-card connect"><div class="carousel-label connect">Connect</div><p>Construct validity + satisficing + closed problems = maximum-bias configuration. How many published studies fall in this triple trap?</p></div>
+</div>
+<div class="carousel-arrows"><button class="carousel-arrow" onclick="moveCarousel(this,-1)">&lsaquo;</button><button class="carousel-arrow" onclick="moveCarousel(this,1)">&rsaquo;</button></div>
+<div class="carousel-nav"><button class="carousel-dot active" onclick="goToCard(this,0)"></button><button class="carousel-dot" onclick="goToCard(this,1)"></button><button class="carousel-dot" onclick="goToCard(this,2)"></button></div>
+</div>
+</div></details>
+
+<!-- SECTION 14 -->
+<details>
+<summary>14. Five new variables turn the 10-variable framework into a 15-variable audit lens</summary>
+<div class="section-content">
+<span class="scaffold-tag">Scaffold: Sentence Stem</span><span class="section-tag tag-update">Framework Update</span>
+<h2>Five new dimensions for analyzing any human-AI study</h2>
+<table class="styled-table">
+<tr><th>#</th><th>Variable</th><th>Why it matters</th></tr>
+<tr><td>11</td><td>Knowledge type (general vs. domain)</td><td>General biases toward equalizer</td></tr>
+<tr><td>12</td><td>Problem type (closed/delayed/open)</td><td>Predicts gap direction</td></tr>
+<tr><td>13</td><td>Task continuity (one-shot vs. continuous)</td><td>One-shot can't measure learning</td></tr>
+<tr><td>14</td><td>Motivation (satisficing vs. maximizing)</td><td>Pre-selects quality threshold</td></tr>
+<tr><td>15</td><td>Optimization target (efficiency vs. effectiveness)</td><td>Determines human+AI value</td></tr>
+</table>
+
+<div class="carousel" data-cards="3" data-idx="0">
+<div class="carousel-track">
+<div class="carousel-card check" data-answer="d"><div class="carousel-label check">Check</div><p class="q-text">Which combination most changes your interpretation of Cruces' 75%?</p>
+<button class="check-btn mc" onclick="checkMC(this,'a')"><strong>A.</strong> #11 Knowledge type &mdash; general, not domain-specific</button>
+<button class="check-btn mc" onclick="checkMC(this,'b')"><strong>B.</strong> #14 Motivation &mdash; satisficing from fictional stakes</button>
+<button class="check-btn mc" onclick="checkMC(this,'c')"><strong>C.</strong> #12 Problem type &mdash; closed, not open</button>
+<button class="check-btn mc" onclick="checkMC(this,'d')"><strong>D.</strong> All three interact: general + closed + satisficing = max-equalizer config</button>
+<div class="tap-reveal" style="display:none"><strong>Interaction effects.</strong> General tasks lower the floor (#11), closed problems have reachable ceilings (#12), fictional stakes compress both groups (#14). Change any one and the finding likely shrinks. The 75% isn't wrong &mdash; it's specific to this maximum-equalizer configuration.</div></div>
+<div class="carousel-card deepen"><div class="carousel-label deepen">Deepen</div><p>Which 3 of all 15 variables are most predictive? Which is most often missing from published studies?</p></div>
+<div class="carousel-card connect"><div class="carousel-label connect">Connect</div><p>If you added a 16th variable based on this session, what would it be?</p></div>
+</div>
+<div class="carousel-arrows"><button class="carousel-arrow" onclick="moveCarousel(this,-1)">&lsaquo;</button><button class="carousel-arrow" onclick="moveCarousel(this,1)">&rsaquo;</button></div>
+<div class="carousel-nav"><button class="carousel-dot active" onclick="goToCard(this,0)"></button><button class="carousel-dot" onclick="goToCard(this,1)"></button><button class="carousel-dot" onclick="goToCard(this,2)"></button></div>
+</div>
+</div></details>
+
+<!-- DnD MATRIX -->
+<details>
+<summary>Consolidation: Map the four-layer decomposition from memory</summary>
+<div class="matrix-container" style="box-shadow:none;margin:0;border-radius:0">
+<p class="matrix-desc">Tap a chip, then tap a cell to place it. Or drag. Each layer has a problem type, best-suited actor, and gap effect.</p>
+<div class="chip-bank" id="chipBank">
+<span class="chip type" data-col="type" data-row="1" draggable="true" onclick="selectChip(this)">Open</span>
+<span class="chip suited" data-col="suited" data-row="3" draggable="true" onclick="selectChip(this)">Trad. algorithms</span>
+<span class="chip gap" data-col="gap" data-row="2" draggable="true" onclick="selectChip(this)">GenAI Wall</span>
+<span class="chip type" data-col="type" data-row="4" draggable="true" onclick="selectChip(this)">Outside system</span>
+<span class="chip suited" data-col="suited" data-row="1" draggable="true" onclick="selectChip(this)">Human + GenAI</span>
+<span class="chip gap" data-col="gap" data-row="1" draggable="true" onclick="selectChip(this)">Expert advantage</span>
+<span class="chip type" data-col="type" data-row="2" draggable="true" onclick="selectChip(this)">Hybrid</span>
+<span class="chip suited" data-col="suited" data-row="4" draggable="true" onclick="selectChip(this)">Human + AI</span>
+<span class="chip gap" data-col="gap" data-row="4" draggable="true" onclick="selectChip(this)">Human additive</span>
+<span class="chip type" data-col="type" data-row="3" draggable="true" onclick="selectChip(this)">Closed-delayed</span>
+<span class="chip suited" data-col="suited" data-row="2" draggable="true" onclick="selectChip(this)">GenAI + human</span>
+<span class="chip gap" data-col="gap" data-row="3" draggable="true" onclick="selectChip(this)">Equalizer</span>
+</div>
+<div class="matrix-grid" id="matrixGrid">
+<div class="header"></div><div class="header">Type</div><div class="header">Best Suited</div><div class="header">Gap Effect</div>
+<div class="row-label">L1: Goals</div>
+<div class="cell" data-row="1" data-col="type" onclick="placeChip(this)" ondragover="event.preventDefault()" ondrop="dropChip(event,this)"></div>
+<div class="cell" data-row="1" data-col="suited" onclick="placeChip(this)" ondragover="event.preventDefault()" ondrop="dropChip(event,this)"></div>
+<div class="cell" data-row="1" data-col="gap" onclick="placeChip(this)" ondragover="event.preventDefault()" ondrop="dropChip(event,this)"></div>
+<div class="row-label">L2: Variables</div>
+<div class="cell" data-row="2" data-col="type" onclick="placeChip(this)" ondragover="event.preventDefault()" ondrop="dropChip(event,this)"></div>
+<div class="cell" data-row="2" data-col="suited" onclick="placeChip(this)" ondragover="event.preventDefault()" ondrop="dropChip(event,this)"></div>
+<div class="cell" data-row="2" data-col="gap" onclick="placeChip(this)" ondragover="event.preventDefault()" ondrop="dropChip(event,this)"></div>
+<div class="row-label">L3: Weights</div>
+<div class="cell" data-row="3" data-col="type" onclick="placeChip(this)" ondragover="event.preventDefault()" ondrop="dropChip(event,this)"></div>
+<div class="cell" data-row="3" data-col="suited" onclick="placeChip(this)" ondragover="event.preventDefault()" ondrop="dropChip(event,this)"></div>
+<div class="cell" data-row="3" data-col="gap" onclick="placeChip(this)" ondragover="event.preventDefault()" ondrop="dropChip(event,this)"></div>
+<div class="row-label">L4: Reframing</div>
+<div class="cell" data-row="4" data-col="type" onclick="placeChip(this)" ondragover="event.preventDefault()" ondrop="dropChip(event,this)"></div>
+<div class="cell" data-row="4" data-col="suited" onclick="placeChip(this)" ondragover="event.preventDefault()" ondrop="dropChip(event,this)"></div>
+<div class="cell" data-row="4" data-col="gap" onclick="placeChip(this)" ondragover="event.preventDefault()" ondrop="dropChip(event,this)"></div>
+</div>
+<div class="matrix-btns">
+<button class="matrix-btn check-matrix" onclick="checkMatrix()">Check Answers</button>
+<button class="matrix-btn reset-matrix" onclick="resetMatrix()">Reset</button>
+</div>
+</div>
+</details>
+
+<!-- OPEN QUESTIONS -->
+<details class="open-qs-wrap">
+<summary>5 open questions this session didn't resolve</summary>
+<div class="open-qs" style="margin:0;border-radius:0">
+<div class="open-q"><strong>1. Temporal accumulation:</strong> Does the equalizer grow with repeated AI use or plateau? Do experts and novices follow different curves?</div>
+<div class="open-q"><strong>2. Satisficing bias:</strong> Do ALL lab RCTs share this? What would real-stakes studies show?</div>
+<div class="open-q"><strong>3. Composition shift:</strong> Does task-level equalization coexist with growing expert premium at labor-market level?</div>
+<div class="open-q"><strong>4. Emergent reframing:</strong> Can AI contribute to Layer 4? What if AI + collective intelligence produces reframing?</div>
+<div class="open-q"><strong>5. Boundary shift:</strong> As precision medicine "closes" and flux "reopens" &mdash; what's the net direction?</div>
+</div>
+</details>
+
+<details open class="key-takeaways">
+<summary>Key Takeaways &mdash; the 8 ideas that change how you read AI research</summary>
+<div style="padding:16px 20px 20px">
+<ol style="font-size:14px;line-height:1.8;padding-left:20px;color:#1e293b">
+<li>The "75% gap closure" applies only to closed problems with fictional stakes &mdash; change any condition and the finding shrinks.</li>
+<li>Three problem types (closed / closed-delayed / open) predict AI's equalizer effect better than any single study variable.</li>
+<li>Any complex task splits into four layers (goals, variables, weights, reframing) &mdash; AI fits differently in each.</li>
+<li>The "GenAI Wall" at Layer 2: AI generates impressive variable lists, but novices can't evaluate which are valid vs. spurious.</li>
+<li>Most AI-vs-human studies measure efficiency, not effectiveness &mdash; the evidence base systematically overstates standalone AI value.</li>
+<li>Task-level equalization coexists with growing expert premium because remaining human tasks shift toward open problems.</li>
+<li>Data degradation and environmental flux continuously reopen "closed" problems &mdash; today's automation is tomorrow's open question.</li>
+<li>Prediction feels open but is functionally closed-delayed &mdash; three converging literatures confirm algorithms beat human intuition here.</li>
+</ol>
+</div>
+</details>
+
+<div class="metadata">
+<p><strong>Files updated:</strong> fow-human-ai-collaboration-evidence.md &mdash; 15 variables, 4 value curves, 4-layer decomposition, environmental flux, temporal trajectory.</p>
+<p style="margin-top:6px"><strong>New concepts:</strong> construct validity, satisficing vs. maximizing, plateau-jump, emergent reframing, concept drift, efficiency vs. effectiveness.</p>
+<p style="margin-top:6px"><strong>Framework:</strong> Floor-Ceiling-Frontier &mdash; 15 variables, 4 curve types, 3 problem types, 4 layers, 2 forces, 4 time horizons.</p>
+</div>
+
+</div>
+
+<script>
+function moveCarousel(btn,dir){const c=btn.closest('.carousel'),t=c.querySelector('.carousel-track'),n=parseInt(c.dataset.cards);let i=parseInt(c.dataset.idx||0)+dir;i=Math.max(0,Math.min(i,n-1));c.dataset.idx=i;t.style.transform=`translateX(-${i*100}%)`;c.querySelectorAll('.carousel-dot').forEach((d,j)=>d.classList.toggle('active',j===i));}
+function goToCard(dot,idx){const c=dot.closest('.carousel');c.dataset.idx=idx;c.querySelector('.carousel-track').style.transform=`translateX(-${idx*100}%)`;c.querySelectorAll('.carousel-dot').forEach((d,j)=>d.classList.toggle('active',j===idx));}
+document.querySelectorAll('.carousel').forEach(c=>{let sx;c.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});c.addEventListener('touchend',e=>{if(!sx)return;const dx=e.changedTouches[0].clientX-sx;sx=null;if(Math.abs(dx)>40){const a=c.querySelectorAll('.carousel-arrow');if(dx<0&&a[1])a[1].click();else if(dx>0&&a[0])a[0].click();}},{passive:true});});
+function checkAnswer(btn,val){const card=btn.closest('.carousel-card'),ok=card.dataset.answer==='true';btn.classList.add(val===ok?'correct':'wrong');card.querySelectorAll('.check-btn').forEach(b=>b.disabled=true);const r=card.querySelector('.tap-reveal');if(r){r.style.display='block';r.classList.add('shown');}}
+function checkMC(btn,ch){const card=btn.closest('.carousel-card'),ok=card.dataset.answer;btn.classList.add(ch===ok?'correct':'wrong');card.querySelectorAll('.check-btn').forEach(b=>b.disabled=true);if(ch!==ok)card.querySelectorAll('.check-btn').forEach(b=>{const m=b.textContent.match(/^([A-D])\./);if(m&&m[1].toLowerCase()===ok)b.classList.add('correct');});const r=card.querySelector('.tap-reveal');if(r){r.style.display='block';r.classList.add('shown');}}
+function revealPill(el){el.textContent=el.dataset.reveal;el.classList.add('revealed');}
+let selectedChip=null;
+function selectChip(chip){if(chip.classList.contains('placed'))return;document.querySelectorAll('.chip.selected').forEach(c=>c.classList.remove('selected'));chip.classList.add('selected');selectedChip=chip;}
+function placeChip(cell){if(!selectedChip)return;if(cell.firstChild&&cell.firstChild.classList&&cell.firstChild.classList.contains('chip')){const o=cell.firstChild;o.classList.remove('placed','selected');document.getElementById('chipBank').appendChild(o);}selectedChip.classList.remove('selected');selectedChip.classList.add('placed');cell.innerHTML='';cell.appendChild(selectedChip);cell.classList.add('has-chip');selectedChip=null;}
+document.querySelectorAll('.chip').forEach(ch=>{ch.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain','');selectedChip=ch;ch.classList.add('selected');});});
+function dropChip(e,cell){e.preventDefault();if(selectedChip)placeChip(cell);}
+function checkMatrix(){document.querySelectorAll('.matrix-grid .cell').forEach(cell=>{cell.classList.remove('correct-cell','wrong-cell');if(!cell.firstChild||!cell.firstChild.classList)return;const ch=cell.firstChild;cell.classList.add(ch.dataset.row===cell.dataset.row&&ch.dataset.col===cell.dataset.col?'correct-cell':'wrong-cell');});}
+function resetMatrix(){const bank=document.getElementById('chipBank');document.querySelectorAll('.matrix-grid .cell').forEach(cell=>{cell.classList.remove('correct-cell','wrong-cell','has-chip');if(cell.firstChild&&cell.firstChild.classList&&cell.firstChild.classList.contains('chip')){const ch=cell.firstChild;ch.classList.remove('placed','selected');bank.appendChild(ch);}});}
+</script>
+</body>
+</html>
