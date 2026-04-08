@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Identify High AI Performance + Bottleneck Stage</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ========== RESET & PALETTE A ========== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+:root {
+  --teal: #004E64;
+  --teal-mid: #006880;
+  --teal-light: #e0f0f4;
+  --orange: #F4A261;
+  --orange-dark: #E76F51;
+  --cream: #FEFCF8;
+  --cream-warm: #F5EFE0;
+  --text: #1a2a30;
+  --muted: #5a7a85;
+  --green: #2d9e6b;
+  --red: #c0440a;
+  --ink: #1a2a30;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  line-height: 1.6;
+  color: var(--text);
+  background: #E8E4DC;
+  padding: 40px 20px 80px;
+}
+
+h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
+
+/* ========== POSTER SHELL ========== */
+.poster {
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--cream);
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 8px 60px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* ========== HEADER ========== */
+.header {
+  background: var(--teal);
+  color: white;
+  padding: 56px 64px 48px;
+  position: relative;
+  overflow: hidden;
+}
+.header-bg-pattern {
+  position: absolute; inset: 0; opacity: 0.06; pointer-events: none;
+}
+.header-kicker {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 10px;
+  position: relative; z-index: 1;
+}
+.header-kicker::before {
+  content: ''; display: block; width: 28px; height: 2px; background: var(--orange);
+}
+.header h1 {
+  font-size: clamp(28px, 5vw, 46px);
+  font-weight: 800; line-height: 1.1;
+  position: relative; z-index: 1;
+}
+.header h1 em { font-style: italic; color: var(--orange); }
+.header-subtitle {
+  font-size: 16px; font-weight: 400; line-height: 1.6;
+  color: rgba(255,255,255,0.75); margin-top: 16px;
+  max-width: 600px; position: relative; z-index: 1;
+}
+
+/* ========== SECTIONS ========== */
+.section {
+  padding: 52px 64px;
+  border-bottom: 1px solid rgba(0,78,100,0.12);
+}
+.section-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--teal-mid); margin-bottom: 10px;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 3.5vw, 32px);
+  font-weight: 700; color: var(--teal); line-height: 1.2; margin-bottom: 8px;
+}
+.section-subtitle {
+  font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 28px;
+}
+
+/* ========== SCROLL REVEAL ========== */
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.revealed { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ========== 3-STEP PIPELINE ========== */
+.pipeline-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+  margin-top: 32px;
+}
+.step-stage {
+  background: white;
+  border-radius: 16px;
+  border: 2px solid var(--teal-light);
+  padding: 32px 24px;
+  position: relative;
+  transition: all 0.35s;
+  cursor: default;
+}
+.step-stage:hover {
+  border-color: var(--orange);
+  box-shadow: 0 10px 30px rgba(0,78,100,0.12);
+  transform: translateY(-4px);
+}
+.step-num {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: white;
+  font-weight: 800; font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+}
+.step-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+.step-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px; font-weight: 700;
+  color: var(--teal);
+  margin-bottom: 8px;
+}
+.step-desc {
+  font-size: 13px; color: var(--muted); line-height: 1.7;
+}
+.step-points {
+  list-style: none; margin-top: 16px;
+}
+.step-points li {
+  font-size: 13px; line-height: 1.7;
+  padding: 4px 0 4px 20px;
+  position: relative;
+  color: var(--text);
+}
+.step-points li::before {
+  content: '';
+  position: absolute; left: 0; top: 12px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--orange);
+}
+.step-arrow {
+  display: none;
+}
+
+/* Pipeline arrow connectors (desktop) */
+@media (min-width: 769px) {
+  .step-stage:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: -16px; top: 50%;
+    transform: translateY(-50%);
+    width: 0; height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 12px solid var(--orange);
+    z-index: 2;
+  }
+}
+
+/* ========== PULL QUOTE ========== */
+.pull-quote {
+  background: var(--teal);
+  color: white;
+  border-radius: 16px;
+  padding: 36px 40px;
+  margin: 32px 0;
+  position: relative;
+  overflow: hidden;
+}
+.pull-quote::before {
+  content: '\201C';
+  font-family: 'Playfair Display', serif;
+  font-size: 120px;
+  position: absolute;
+  top: -10px; left: 20px;
+  color: rgba(244,162,97,0.2);
+  line-height: 1;
+}
+.pull-quote blockquote {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(16px, 2.5vw, 22px);
+  font-style: italic;
+  font-weight: 700;
+  line-height: 1.5;
+  position: relative; z-index: 1;
+}
+.pull-quote .quote-source {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px; font-weight: 600;
+  color: var(--orange);
+  margin-top: 16px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  position: relative; z-index: 1;
+}
+
+/* ========== BOTTLENECK SIGNS ========== */
+.signs-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+.sign-chip {
+  background: var(--cream-warm);
+  border: 1.5px solid rgba(0,78,100,0.12);
+  border-radius: 12px;
+  padding: 20px 16px;
+  text-align: center;
+  transition: all 0.3s;
+}
+.sign-chip:hover {
+  background: var(--orange);
+  color: white;
+  border-color: var(--orange);
+  transform: scale(1.05);
+}
+.sign-chip:hover .sign-emoji { transform: scale(1.3); }
+.sign-emoji {
+  font-size: 28px; display: block; margin-bottom: 8px;
+  transition: transform 0.3s;
+}
+.sign-label {
+  font-size: 12px; font-weight: 600; line-height: 1.4;
+}
+
+/* ========== EXPANDABLE EXAMPLE CARDS ========== */
+.cards-grid { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
+.example-card {
+  background: white;
+  border: 1.5px solid rgba(0,78,100,0.12);
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: box-shadow 0.25s, border-color 0.25s, transform 0.25s;
+  position: relative;
+}
+.example-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(0,78,100,0.04), rgba(244,162,97,0.06));
+  opacity: 0; transition: opacity 0.25s; pointer-events: none;
+}
+.example-card:hover {
+  box-shadow: 0 10px 30px rgba(0,78,100,0.15);
+  border-color: var(--teal-mid);
+  transform: translateY(-2px);
+}
+.example-card:hover::before, .example-card.open::before { opacity: 1; }
+.example-card.open { border-color: var(--teal); }
+
+.card-header {
+  display: flex; align-items: center; gap: 16px;
+  padding: 20px 24px;
+}
+.card-icon {
+  width: 48px; height: 48px; min-width: 48px;
+  border-radius: 14px;
+  background: var(--teal-light);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  border: 1px solid rgba(0,78,100,0.1);
+  transition: all 0.25s;
+}
+.example-card.open .card-icon, .example-card:hover .card-icon {
+  background: var(--teal);
+}
+.card-summary { flex: 1; }
+.card-title-text {
+  font-weight: 700; font-size: 15px; color: var(--text);
+}
+.card-tagline {
+  font-size: 12px; color: var(--muted); margin-top: 2px;
+}
+.card-chevron {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--cream-warm);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.25s;
+  flex-shrink: 0;
+}
+.card-chevron svg { width: 16px; height: 16px; }
+.example-card.open .card-chevron {
+  transform: rotate(180deg);
+  background: var(--teal-light);
+  color: var(--teal);
+}
+
+.card-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.example-card.open .card-body { max-height: 800px; }
+.card-body-inner {
+  padding: 0 24px 24px;
+  border-top: 1px solid rgba(0,78,100,0.08);
+  margin: 0 24px;
+  padding-top: 20px;
+}
+.card-body-inner p {
+  font-size: 13px; line-height: 1.7; color: var(--text);
+}
+.card-highlight {
+  background: var(--teal-light);
+  border-left: 3px solid var(--teal);
+  border-radius: 0 8px 8px 0;
+  padding: 12px 16px; margin-top: 12px;
+  font-size: 13px; font-weight: 500;
+  color: var(--teal);
+}
+.card-tag {
+  display: inline-block;
+  font-size: 11px; font-weight: 600;
+  color: var(--teal);
+  background: var(--teal-light);
+  border: 1px solid rgba(0,78,100,0.15);
+  border-radius: 50px; padding: 3px 10px;
+  margin-top: 12px; margin-right: 6px;
+}
+
+/* ========== STEP 3: TESTING RULES ========== */
+.test-rules {
+  display: flex; flex-direction: column; gap: 16px;
+  margin-top: 24px;
+}
+.test-rule {
+  display: flex; align-items: flex-start; gap: 16px;
+  background: white;
+  border-radius: 12px;
+  padding: 20px 24px;
+  border: 1.5px solid rgba(0,78,100,0.1);
+  transition: all 0.3s;
+}
+.test-rule:hover {
+  border-color: var(--orange);
+  box-shadow: 0 4px 16px rgba(0,78,100,0.1);
+}
+.rule-num {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--orange);
+  color: white;
+  font-weight: 800; font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.rule-content { flex: 1; }
+.rule-title {
+  font-weight: 700; font-size: 14px; color: var(--text);
+  margin-bottom: 4px;
+}
+.rule-desc {
+  font-size: 13px; color: var(--muted); line-height: 1.6;
+}
+.rule-warning {
+  font-size: 12px; font-weight: 600; color: var(--red);
+  margin-top: 6px;
+  display: flex; align-items: center; gap: 6px;
+}
+
+/* ========== INSIGHT CALLOUT ========== */
+.insight-section {
+  background: var(--orange-dark);
+  color: white;
+  padding: 56px 64px;
+}
+.insight-section .section-label { color: rgba(255,255,255,0.6); }
+.insight-section .section-title { color: white; }
+
+/* ========== BOTTLENECK CHASE: 5-STEP VERTICAL FLOW ========== */
+.chase-flow {
+  position: relative;
+  margin-top: 32px;
+  padding-left: 48px;
+}
+.chase-spine {
+  position: absolute;
+  left: 20px; top: 0; bottom: 0;
+  width: 4px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 2px;
+}
+.chase-spine-fill {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 0%;
+  background: linear-gradient(180deg, var(--orange), #fff);
+  border-radius: 2px;
+  transition: height 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.chase-step {
+  position: relative;
+  margin-bottom: 36px;
+  opacity: 0; transform: translateX(-20px);
+  transition: all 0.6s ease;
+}
+.chase-step.visible { opacity: 1; transform: translateX(0); }
+.chase-dot {
+  position: absolute;
+  left: -38px; top: 6px;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+  border: 3px solid rgba(255,255,255,0.5);
+  transition: all 0.4s;
+  z-index: 2;
+}
+.chase-step.visible .chase-dot {
+  background: var(--orange);
+  border-color: white;
+  box-shadow: 0 0 0 5px rgba(244,162,97,0.3);
+}
+.chase-label {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 4px;
+}
+.chase-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px; font-weight: 700;
+  margin-bottom: 6px;
+}
+.chase-desc {
+  font-size: 13px; line-height: 1.6;
+  color: rgba(255,255,255,0.8);
+}
+.chase-fork {
+  display: flex; gap: 16px;
+  margin-top: 12px;
+}
+.fork-branch {
+  flex: 1;
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 13px; font-weight: 600;
+  text-align: center;
+  line-height: 1.5;
+}
+.fork-yes {
+  background: rgba(45,158,107,0.2);
+  border: 1.5px solid rgba(45,158,107,0.5);
+  color: #a7f3d0;
+}
+.fork-no {
+  background: rgba(192,68,10,0.2);
+  border: 1.5px solid rgba(192,68,10,0.5);
+  color: #fcd5c0;
+}
+
+/* ========== PROTOTYPING EXAMPLE: VISUAL FLOW ========== */
+.proto-section { background: var(--cream-warm); }
+.proto-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 32px;
+  position: relative;
+}
+.proto-stage {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  min-height: 100px;
+}
+.proto-spine-col {
+  width: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.proto-dot {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  z-index: 2;
+  flex-shrink: 0;
+  transition: all 0.5s;
+}
+.proto-dot.bottleneck {
+  background: var(--red);
+  color: white;
+  box-shadow: 0 0 0 6px rgba(192,68,10,0.2);
+  animation: bottleneck-pulse 1.8s ease-in-out infinite;
+}
+.proto-dot.solved {
+  background: var(--green);
+  color: white;
+  box-shadow: 0 0 0 4px rgba(45,158,107,0.2);
+}
+.proto-dot.warning {
+  background: var(--orange-dark);
+  color: white;
+  box-shadow: 0 0 0 6px rgba(231,111,81,0.2);
+  animation: bottleneck-pulse 1.8s ease-in-out infinite;
+}
+@keyframes bottleneck-pulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(192,68,10,0.2); }
+  50% { box-shadow: 0 0 0 10px rgba(192,68,10,0.08); }
+}
+.proto-line {
+  width: 3px;
+  flex: 1;
+  min-height: 40px;
+}
+.proto-line.teal { background: var(--teal); }
+.proto-line.orange { background: var(--orange); }
+.proto-line.red { background: var(--red); opacity: 0.3; }
+
+.proto-content {
+  flex: 1;
+  padding: 8px 0 24px 16px;
+}
+.proto-stage-label {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.proto-stage-label.teal { color: var(--teal); }
+.proto-stage-label.green { color: var(--green); }
+.proto-stage-label.red { color: var(--red); }
+.proto-stage-label.orange { color: var(--orange-dark); }
+.proto-stage-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px; font-weight: 700; color: var(--teal);
+  margin-bottom: 4px;
+}
+.proto-stage-desc {
+  font-size: 13px; color: var(--muted); line-height: 1.6;
+}
+.proto-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 700;
+  padding: 4px 12px; border-radius: 50px;
+  margin-top: 8px;
+}
+.proto-badge.solved { background: rgba(45,158,107,0.12); color: var(--green); }
+.proto-badge.warning { background: rgba(192,68,10,0.12); color: var(--red); }
+.proto-badge.danger { background: rgba(231,111,81,0.12); color: var(--orange-dark); }
+
+.proto-result {
+  background: var(--teal);
+  color: white;
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.proto-result-stat {
+  font-size: 48px; font-weight: 900;
+  color: var(--orange);
+  line-height: 1;
+  flex-shrink: 0;
+}
+.proto-result-text {
+  font-size: 14px; line-height: 1.6;
+}
+.proto-result-text strong {
+  color: var(--orange);
+}
+
+/* ========== KEY QUESTION ========== */
+.key-question {
+  background: var(--teal);
+  border-radius: 16px;
+  padding: 28px 32px;
+  margin-top: 20px;
+  text-align: center;
+}
+.key-question p {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px; font-style: italic;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.6;
+}
+
+/* ========== FOOTER ========== */
+.footer {
+  background: var(--ink);
+  padding: 28px 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-left {
+  font-size: 11px; color: rgba(255,255,255,0.5);
+  letter-spacing: 0.5px;
+}
+.footer-right {
+  display: flex; gap: 8px;
+}
+.footer-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+}
+.footer-dot:nth-child(1) { background: var(--teal-mid); }
+.footer-dot:nth-child(2) { background: var(--orange); }
+.footer-dot:nth-child(3) { background: var(--orange-dark); }
+
+/* ========== SCROLL NAV DOTS ========== */
+.scroll-dots {
+  position: fixed; right: 24px; top: 50%; transform: translateY(-50%);
+  z-index: 100; display: flex; flex-direction: column; gap: 10px;
+}
+.scroll-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: #c0d4da; cursor: pointer;
+  transition: all 0.25s; border: 2px solid transparent;
+  position: relative;
+}
+.scroll-dot::after {
+  content: attr(data-label);
+  position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
+  background: var(--ink); color: white;
+  font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 6px;
+  white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.25s;
+}
+.scroll-dot:hover::after { opacity: 1; }
+.scroll-dot.active {
+  background: var(--orange);
+  border-color: rgba(244,162,97,0.3);
+  transform: scale(1.3);
+}
+
+/* ========== STAGE INDICATOR ========== */
+.stage-indicator {
+  position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+  background: var(--teal); color: white;
+  font-size: 12px; font-weight: 600; padding: 7px 18px; border-radius: 20px;
+  z-index: 100; opacity: 0; transition: opacity 0.3s;
+  pointer-events: none;
+}
+.stage-indicator.visible { opacity: 1; }
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  body { padding: 16px 8px 40px; }
+  .header { padding: 36px 24px 32px; }
+  .section { padding: 32px 20px; }
+  .insight-section { padding: 36px 20px; }
+  .pipeline-3 {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .step-stage:not(:last-child)::after { display: none; }
+  .signs-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .chase-fork {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .proto-result {
+    flex-direction: column;
+    text-align: center;
+  }
+  .scroll-dots { display: none; }
+  .footer { padding: 20px 24px; flex-direction: column; gap: 12px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- Stage indicator (fixed) -->
+<div class="stage-indicator" id="stageIndicator"></div>
+
+<!-- Scroll nav dots -->
+<nav class="scroll-dots" id="scrollDots">
+  <div class="scroll-dot active" data-label="Overview" data-target="hero"></div>
+  <div class="scroll-dot" data-label="Step 1: Map" data-target="step1"></div>
+  <div class="scroll-dot" data-label="Step 2: Bottleneck" data-target="step2"></div>
+  <div class="scroll-dot" data-label="Step 3: Test" data-target="step3"></div>
+  <div class="scroll-dot" data-label="Bottleneck Chase" data-target="chase"></div>
+  <div class="scroll-dot" data-label="Prototyping Example" data-target="proto"></div>
+</nav>
+
+<div class="poster">
+
+  <!-- ==================== HERO ==================== -->
+  <header class="header" id="hero">
+    <svg class="header-bg-pattern" width="100%" height="100%">
+      <defs>
+        <pattern id="hgrid" width="40" height="40" patternUnits="userSpaceOnUse">
+          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" stroke-width="0.8"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#hgrid)"/>
+    </svg>
+    <div class="header-kicker reveal">AI Implementation Framework</div>
+    <h1 class="reveal reveal-delay-1">How to Identify<br>High AI Performance<br>+ <em>Bottleneck Stage</em></h1>
+    <p class="header-subtitle reveal reveal-delay-2">
+      A systematic method for finding where AI creates the most value in your production chain &mdash; and why fixing one bottleneck is never enough.
+    </p>
+  </header>
+
+  <!-- ==================== 3-STEP OVERVIEW ==================== -->
+  <section class="section" id="step-overview" data-label="The 3-Step Method">
+    <div class="section-label reveal">The Method</div>
+    <h2 class="section-title reveal reveal-delay-1">Three Steps to Find High-Impact AI</h2>
+    <p class="section-subtitle reveal reveal-delay-2">
+      Before investing in AI, systematically map where it will actually move the needle.
+    </p>
+    <div class="pipeline-3">
+      <div class="step-stage reveal">
+        <div class="step-num">1</div>
+        <div class="step-icon">&#x1f5fa;</div>
+        <div class="step-title">Map the Chain</div>
+        <div class="step-desc">List every stage of your production process end-to-end.</div>
+        <ul class="step-points">
+          <li>Who does each step</li>
+          <li>How long it takes</li>
+          <li>What it blocks downstream</li>
+        </ul>
+      </div>
+      <div class="step-stage reveal reveal-delay-1">
+        <div class="step-num">2</div>
+        <div class="step-icon">&#x1f50d;</div>
+        <div class="step-title">Find the Bottleneck</div>
+        <div class="step-desc">Identify the binding constraint that limits overall output.</div>
+        <ul class="step-points">
+          <li>Work piles up before it</li>
+          <li>Downstream stages wait</li>
+          <li>Slowest step or scarcest resource</li>
+        </ul>
+      </div>
+      <div class="step-stage reveal reveal-delay-2">
+        <div class="step-num">3</div>
+        <div class="step-icon">&#x1f9ea;</div>
+        <div class="step-title">Test AI There</div>
+        <div class="step-desc">Prototype AI at the bottleneck and measure full-chain impact.</div>
+        <ul class="step-points">
+          <li>Don't guess &mdash; test</li>
+          <li>Study analogies from peers</li>
+          <li>Measure the whole chain</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== STEP 1: MAP ==================== -->
+  <section class="section" id="step1" data-label="Step 1: Map">
+    <div class="section-label reveal">Step 1</div>
+    <h2 class="section-title reveal reveal-delay-1">Map Your Full Production Chain</h2>
+    <p class="section-subtitle reveal reveal-delay-2">
+      List every stage end-to-end. For each stage note: who does it, how long it takes, what it blocks downstream.
+    </p>
+    <div class="pull-quote reveal reveal-delay-3">
+      <blockquote>
+        A firm's output depends on the joint quality of many interconnected, complementary activities.
+      </blockquote>
+      <div class="quote-source">Key Principle</div>
+    </div>
+    <div class="key-question reveal reveal-delay-4">
+      <p>The critical test: &ldquo;If I made this stage instant, would overall output actually increase?&rdquo;</p>
+    </div>
+  </section>
+
+  <!-- ==================== STEP 2: BOTTLENECK ==================== -->
+  <section class="section" id="step2" data-label="Step 2: Bottleneck">
+    <div class="section-label reveal">Step 2</div>
+    <h2 class="section-title reveal reveal-delay-1">Find the Binding Bottleneck(s)</h2>
+    <p class="section-subtitle reveal reveal-delay-2">
+      The bottleneck is the constraint that actually limits throughput. Classic signs:
+    </p>
+    <div class="signs-grid reveal reveal-delay-3">
+      <div class="sign-chip">
+        <span class="sign-emoji">&#x1f4e6;</span>
+        <span class="sign-label">Work piles up</span>
+      </div>
+      <div class="sign-chip">
+        <span class="sign-emoji">&#x23f3;</span>
+        <span class="sign-label">Downstream waits</span>
+      </div>
+      <div class="sign-chip">
+        <span class="sign-emoji">&#x1f422;</span>
+        <span class="sign-label">Slowest step</span>
+      </div>
+      <div class="sign-chip">
+        <span class="sign-emoji">&#x1f48e;</span>
+        <span class="sign-label">Scarcest resource</span>
+      </div>
+    </div>
+
+    <!-- Examples as expandable cards -->
+    <div style="margin-top: 36px;">
+      <div class="section-label reveal">Real-World Examples</div>
+      <div class="cards-grid">
+
+        <div class="example-card reveal" onclick="toggleCard(this)">
+          <div class="card-header">
+            <div class="card-icon">&#x1f4cb;</div>
+            <div class="card-summary">
+              <div class="card-title-text">Trade Quality Control</div>
+              <div class="card-tagline">Inspector throughput as the binding constraint</div>
+            </div>
+            <div class="card-chevron">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="card-body-inner">
+              <p>In trade quality control, the bottleneck is inspector throughput. Products queue for inspection while downstream shipping and fulfillment wait idle. AI vision systems can inspect at 10&times; human speed, but only if the bottleneck doesn't just shift to documentation or approval workflows.</p>
+              <div class="card-highlight">Bottleneck: Inspector throughput limits the entire trade pipeline.</div>
+              <div><span class="card-tag">Manufacturing</span><span class="card-tag">QC</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="example-card reveal reveal-delay-1" onclick="toggleCard(this)">
+          <div class="card-header">
+            <div class="card-icon">&#x1f691;</div>
+            <div class="card-summary">
+              <div class="card-title-text">Medical Transport</div>
+              <div class="card-tagline">Dispatcher capacity as the binding constraint</div>
+            </div>
+            <div class="card-chevron">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="card-body-inner">
+              <p>Medical transport services are often constrained by dispatcher capacity &mdash; a single human routing dozens of vehicles in real time. AI-powered dispatch can optimize routes and reduce response times, but the true gains come only when downstream stages (driver availability, patient readiness) can keep pace.</p>
+              <div class="card-highlight">Bottleneck: Dispatcher capacity limits patient throughput and response times.</div>
+              <div><span class="card-tag">Healthcare</span><span class="card-tag">Logistics</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="example-card reveal reveal-delay-2" onclick="toggleCard(this)">
+          <div class="card-header">
+            <div class="card-icon">&#x1f527;</div>
+            <div class="card-summary">
+              <div class="card-title-text">Field Services</div>
+              <div class="card-tagline">Communication overhead as the binding constraint</div>
+            </div>
+            <div class="card-chevron">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="card-body-inner">
+              <p>Field service organizations lose enormous time to communication overhead &mdash; technicians calling dispatch, waiting for parts information, writing reports. AI can automate scheduling, surface repair guides in real time, and auto-generate reports &mdash; but the chain only speeds up if parts logistics and customer scheduling also improve.</p>
+              <div class="card-highlight">Bottleneck: Communication overhead between field, dispatch, and back-office.</div>
+              <div><span class="card-tag">Field Ops</span><span class="card-tag">Communication</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== STEP 3: TEST ==================== -->
+  <section class="section" id="step3" data-label="Step 3: Test">
+    <div class="section-label reveal">Step 3</div>
+    <h2 class="section-title reveal reveal-delay-1">Test AI Capability at That Bottleneck</h2>
+    <p class="section-subtitle reveal reveal-delay-2">
+      Three rules for testing AI at the constraint:
+    </p>
+    <div class="test-rules">
+      <div class="test-rule reveal">
+        <div class="rule-num">1</div>
+        <div class="rule-content">
+          <div class="rule-title">Don't guess &mdash; prototype and test</div>
+          <div class="rule-desc">Theoretical capability means nothing. Run a real pilot with real data at the actual bottleneck stage.</div>
+        </div>
+      </div>
+      <div class="test-rule reveal reveal-delay-1">
+        <div class="rule-num">2</div>
+        <div class="rule-content">
+          <div class="rule-title">Look at analogies from similar firms</div>
+          <div class="rule-desc">Find peers who have already tried AI at a comparable bottleneck. Their results tell you more than any vendor demo.</div>
+        </div>
+      </div>
+      <div class="test-rule reveal reveal-delay-2">
+        <div class="rule-num">3</div>
+        <div class="rule-content">
+          <div class="rule-title">Test the full chain, not just one step</div>
+          <div class="rule-desc">Measure end-to-end throughput, not just the stage you automated.</div>
+          <div class="rule-warning">
+            <span>&#x26a0;</span> &ldquo;Partial automation preserves the bottleneck&rdquo;
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CRITICAL INSIGHT: BOTTLENECK CHASE ==================== -->
+  <section class="insight-section" id="chase" data-label="Bottleneck Chase">
+    <div class="section-label reveal">Critical Insight</div>
+    <h2 class="section-title reveal reveal-delay-1">The Bottleneck Chase</h2>
+
+    <div class="pull-quote reveal reveal-delay-2" style="background: rgba(0,0,0,0.2); margin-top: 24px;">
+      <blockquote>
+        When activities within the firm are tightly coupled, the value of applying AI to one activity depends on whether adjacent activities also adjust.
+      </blockquote>
+      <div class="quote-source">The Complementarity Principle</div>
+    </div>
+
+    <p class="reveal reveal-delay-3" style="font-size: 14px; line-height: 1.7; color: rgba(255,255,255,0.85); margin-top: 28px; margin-bottom: 8px;">
+      Fixing one bottleneck just moves it. The method:
+    </p>
+
+    <div class="chase-flow" id="chaseFlow">
+      <div class="chase-spine"><div class="chase-spine-fill" id="chaseSpineFill"></div></div>
+
+      <div class="chase-step" id="chase0">
+        <div class="chase-dot"></div>
+        <div class="chase-label">Step 1</div>
+        <div class="chase-title">Map the chain</div>
+        <div class="chase-desc">Identify every stage in your production process and its dependencies.</div>
+      </div>
+
+      <div class="chase-step" id="chase1">
+        <div class="chase-dot"></div>
+        <div class="chase-label">Step 2</div>
+        <div class="chase-title">Find the bottleneck</div>
+        <div class="chase-desc">Locate the single constraint that limits overall throughput today.</div>
+      </div>
+
+      <div class="chase-step" id="chase2">
+        <div class="chase-dot"></div>
+        <div class="chase-label">Step 3</div>
+        <div class="chase-title">Where does it move if AI fixes it?</div>
+        <div class="chase-desc">Once this constraint is eliminated, which stage becomes the new bottleneck?</div>
+      </div>
+
+      <div class="chase-step" id="chase3">
+        <div class="chase-dot"></div>
+        <div class="chase-label">Step 4</div>
+        <div class="chase-title">Can AI handle that one too?</div>
+        <div class="chase-desc">Evaluate whether AI can also address the next constraint in the chain.</div>
+      </div>
+
+      <div class="chase-step" id="chase4">
+        <div class="chase-dot"></div>
+        <div class="chase-label">Step 5</div>
+        <div class="chase-title">Compounding or diminishing?</div>
+        <div class="chase-fork">
+          <div class="fork-branch fork-yes">
+            <div style="font-size: 20px; margin-bottom: 4px;">&#x2705;</div>
+            <strong>Yes = Compounding Gains</strong><br>
+            AI can chase bottleneck through multiple stages
+          </div>
+          <div class="fork-branch fork-no">
+            <div style="font-size: 20px; margin-bottom: 4px;">&#x26d4;</div>
+            <strong>No = Modest Gains</strong><br>
+            New bottleneck is beyond AI's reach
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PROTOTYPING EXAMPLE ==================== -->
+  <section class="section proto-section" id="proto" data-label="Prototyping Example">
+    <div class="section-label reveal">Concrete Example</div>
+    <h2 class="section-title reveal reveal-delay-1">The Prototyping Case: Chasing Through 3 Stages</h2>
+    <p class="section-subtitle reveal reveal-delay-2">
+      Watch how the bottleneck migrates through the chain &mdash; and why the biggest gains come from following it.
+    </p>
+
+    <div class="proto-flow">
+
+      <!-- Stage 1 -->
+      <div class="proto-stage reveal">
+        <div class="proto-spine-col">
+          <div class="proto-dot solved">&#x2714;</div>
+          <div class="proto-line teal"></div>
+        </div>
+        <div class="proto-content">
+          <div class="proto-stage-label green">Stage 1 &mdash; Solved</div>
+          <div class="proto-stage-title">Building Prototypes</div>
+          <div class="proto-stage-desc">
+            <strong>Old bottleneck:</strong> Physical prototyping took weeks. Teams waited for models before testing anything.<br>
+            <strong>AI fix:</strong> Generative design and rapid prototyping tools reduced build time from weeks to hours.
+          </div>
+          <div class="proto-badge solved">&#x2705; AI handles this</div>
+        </div>
+      </div>
+
+      <!-- Stage 2 -->
+      <div class="proto-stage reveal reveal-delay-1">
+        <div class="proto-spine-col">
+          <div class="proto-dot solved">&#x2714;</div>
+          <div class="proto-line orange"></div>
+        </div>
+        <div class="proto-content">
+          <div class="proto-stage-label green">Stage 2 &mdash; Solved</div>
+          <div class="proto-stage-title">Customer Feedback</div>
+          <div class="proto-stage-desc">
+            <strong>Bottleneck moved here:</strong> Now that prototypes were fast, gathering customer feedback became the constraint.<br>
+            <strong>AI fix:</strong> Automated testing panels, sentiment analysis, and rapid A/B testing tools accelerated feedback cycles.
+          </div>
+          <div class="proto-badge solved">&#x2705; AI handles this too</div>
+        </div>
+      </div>
+
+      <!-- Stage 3 -->
+      <div class="proto-stage reveal reveal-delay-2">
+        <div class="proto-spine-col">
+          <div class="proto-dot warning">&#x26a0;</div>
+          <div class="proto-line red"></div>
+        </div>
+        <div class="proto-content">
+          <div class="proto-stage-label orange">Stage 3 &mdash; Current Constraint</div>
+          <div class="proto-stage-title">Identifying What Customers Want</div>
+          <div class="proto-stage-desc">
+            <strong>Bottleneck landed here:</strong> Speed without direction. You can build and test fast, but are you building the <em>right thing</em>?
+          </div>
+          <div class="proto-badge danger">&#x26a0; If unsolved: &ldquo;build the wrong product faster&rdquo;</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Result callout -->
+    <div class="proto-result reveal">
+      <div class="proto-result-stat">6&times;</div>
+      <div class="proto-result-text">
+        Revenue gains came from <strong>chasing the bottleneck through 2&ndash;3 stages</strong>, not from fixing just one. Each stage AI solved unlocked the next &mdash; compounding the impact across the entire chain.
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer">
+    <div class="footer-left">AI Bottleneck Method &middot; Visual Summary</div>
+    <div class="footer-right">
+      <div class="footer-dot"></div>
+      <div class="footer-dot"></div>
+      <div class="footer-dot"></div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+// ========== EXPANDABLE CARDS ==========
+function toggleCard(card) {
+  const isOpen = card.classList.contains('open');
+  document.querySelectorAll('.example-card').forEach(c => c.classList.remove('open'));
+  if (!isOpen) card.classList.add('open');
+}
+
+// ========== SCROLL REVEAL ==========
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('revealed');
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ========== CHASE FLOW ANIMATION ==========
+const chaseObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && entry.intersectionRatio >= 0.25) {
+      entry.target.classList.add('visible');
+      const idx = parseInt(entry.target.id.replace('chase', ''));
+      const fill = document.getElementById('chaseSpineFill');
+      const pct = ((idx + 1) / 5) * 100;
+      if (fill) fill.style.height = Math.min(pct, 100) + '%';
+    }
+  });
+}, { threshold: 0.25, rootMargin: '0px 0px -10% 0px' });
+document.querySelectorAll('.chase-step').forEach(el => chaseObserver.observe(el));
+
+// ========== SCROLL NAV DOTS ==========
+const sections = [
+  { id: 'hero', label: 'Overview' },
+  { id: 'step1', label: 'Step 1: Map' },
+  { id: 'step2', label: 'Step 2: Bottleneck' },
+  { id: 'step3', label: 'Step 3: Test' },
+  { id: 'chase', label: 'Bottleneck Chase' },
+  { id: 'proto', label: 'Prototyping Example' }
+];
+
+const dots = document.querySelectorAll('.scroll-dot');
+const indicator = document.getElementById('stageIndicator');
+
+// Click to scroll
+dots.forEach(dot => {
+  dot.addEventListener('click', () => {
+    const target = document.getElementById(dot.dataset.target);
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+// Update active dot on scroll
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      const idx = sections.findIndex(s => s.id === id);
+      if (idx >= 0) {
+        dots.forEach((d, i) => {
+          d.classList.toggle('active', i === idx);
+        });
+        indicator.textContent = sections[idx].label;
+        indicator.classList.add('visible');
+        clearTimeout(window._indicatorTimeout);
+        window._indicatorTimeout = setTimeout(() => {
+          indicator.classList.remove('visible');
+        }, 2000);
+      }
+    }
+  });
+}, { threshold: 0.35, rootMargin: '0px 0px -30% 0px' });
+
+sections.forEach(s => {
+  const el = document.getElementById(s.id);
+  if (el) sectionObserver.observe(el);
+});
+</script>
+
+</body>
+</html>
