@@ -335,6 +335,26 @@
     }
 
     backdrop.classList.add('active');
+
+    // On desktop only: animation grows from the clicked photo toward the centered modal.
+    // On phones we leave default origin (center) to keep the simple expand-from-center feel.
+    if (window.innerWidth > 700) {
+      const photoRect = cardEl.querySelector('.photo-wrap').getBoundingClientRect();
+      const photoCx = photoRect.left + photoRect.width / 2;
+      const photoCy = photoRect.top + photoRect.height / 2;
+
+      // Measure popover at full scale (still invisible via opacity:0) to find its centered position
+      popover.style.transform = 'translate(-50%, -50%) scale(1)';
+      const popRect = popover.getBoundingClientRect();
+      popover.style.transform = '';
+
+      const originX = photoCx - popRect.left;
+      const originY = photoCy - popRect.top;
+      popover.style.transformOrigin = `${originX}px ${originY}px`;
+    } else {
+      popover.style.transformOrigin = '';
+    }
+
     requestAnimationFrame(() => popover.classList.add('active'));
   }
 
