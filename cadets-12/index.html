@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=820, user-scalable=yes">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>צוערים לשירות המדינה — מחזור י״ב</title>
 <meta property="og:title" content="צוערים לשירות המדינה — מחזור י״ב">
 <meta property="og:description" content="דף קשר וביוגרפיות — 26 צוערים">
@@ -31,6 +31,28 @@
     html { background: #fff; }
     body { margin: 0; box-shadow: none; }
     @page { size: A4 portrait; margin: 0; }
+  }
+
+  @media (max-width: 700px) {
+    body {
+      width: 100%;
+      height: auto;
+      min-height: 100vh;
+      margin: 0;
+      padding: 14px 12px 20px;
+      box-shadow: none;
+    }
+    h1 { font-size: 18px; }
+    .logo { height: 42px; width: 42px; padding: 4px; }
+    header { gap: 10px; margin-bottom: 14px; }
+    .grid {
+      grid-template-columns: repeat(3, 1fr) !important;
+      grid-template-rows: none !important;
+      column-gap: 12px;
+      row-gap: 16px;
+    }
+    .photo-wrap { max-width: none; }
+    .name { font-size: 12.5px; }
   }
 
 
@@ -91,7 +113,7 @@
 
   .photo-wrap {
     width: 100%;
-    max-width: 110px;
+    max-width: 150px;
     aspect-ratio: 1 / 1;
     border-radius: 50%;
     overflow: hidden;
