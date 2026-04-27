@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<meta name="theme-color" content="#1a2942">
 <title>רקע קצר - צוערות וצוערי מחזור י&quot;ב</title>
 <meta property="og:title" content="רקע קצר - צוערות וצוערי מחזור י&quot;ב">
 <meta property="og:image" content="https://gavse.github.io/session-reviews/cadets-12/og-preview.png">
@@ -110,6 +112,10 @@
     cursor: pointer;
     transition: transform 0.15s ease;
     user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
 
   .person:hover {
@@ -261,6 +267,12 @@
     -webkit-overflow-scrolling: touch;
     flex: 1 1 auto;
     min-height: 0;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .popover, .person { transition: none; }
   }
 
   .popover-bio.placeholder {
@@ -311,6 +323,12 @@
 </style>
 </head>
 <body>
+  <noscript>
+    <div style="padding:40px;text-align:center;font-size:18px;color:#1a2942;background:#fff;border-radius:12px;margin:24px auto;max-width:500px">
+      יש להפעיל JavaScript כדי לצפות בדף זה<br>
+      <span style="font-size:14px;color:#5a6a85">Please enable JavaScript</span>
+    </div>
+  </noscript>
   <header>
     <img class="logo" src="images/logo.png" alt="לוגו">
     <h1>צוערים לשירות המדינה — מחזור י״ב</h1>
@@ -366,10 +384,10 @@
   ];
 
   const team = [
-    { name: "ענת אלדר וטין", title: "מנהלת תחום בכיר הכשרה", img: "team-anat.jpg", bio: "לענת ניסיון עשיר בליווי ופיתוח תהליכים ותכניות בממשלה ובחברה האזרחית. היא עבדה מספר שנים ב\"תובנות\" שם למדה את עבודת השירות הציבורי, ולאחר מכן כהנה כמנהלת תחום יישום באגף בכיר \"עתודות לישראל\" במשרד ראש הממשלה. בתפקידה האחרון שימשה כמנכ\"לית ארגון \"אוניברסיטה בעם\", שם ניהלה מערך ארצי להנגשת השכלה בארבע אוניברסיטאות. בשובה לשירות הציבורי חזרה לתחום העתודות כמנהלת ההכשרה של תכנית צוערים לשירות המדינה. ענת סיימה תואר שני במשפטים באוניברסיטת בר-אילן בהצטיינות יתרה. לעבודתה באגף היא מביאה ניסיון עשיר, מגוון ואינטר-דיסציפלינרי מתחומי המחקר, האסטרטגיה, הניהול והשיתוף." },
-    { name: "אפי הורוביץ", title: "מנהל פיתוח תוכן", img: "team-efi.jpeg", bio: "אפי נשוי, אב לשלושה ותושב לוד. בוגר תכנית מנהיגות של מכון מנדל. את דרכו המקצועית החל אפי כאיש חינוך, כאשר כיהן בתפקידים בכירים במערך ההדרכה של תנועת הנוער עזרא. לאחר שסיים תואר שני בתכנון עירוני באוניברסיטה העברית השתלב במנהל הפיתוח במשרד הפנים, משם המשיך למגוון רחב של תפקידים בתוך המשרד. באגף צוערים לשירות המדינה משלב אפי בין עולמות ההדרכה להיכרותו המעמיקה עם השירות הציבורי, ומשמש כמנהל התוכן של הכשרת הצוערים." },
-    { name: "גליה שושני", title: "מנהלת פיתוח אישי וקבוצתי", img: "team-galia.jpeg", bio: "גליה גרה בתל אביב, נשואה לאמנון, אמא של שירה ונעמה. לגליה שנות נסיון רבות בפיתוח תכנים, הנחיית קבוצות ותהליכי שינוי בעולם החברתי והציבורי, והיא בעלת תואר ראשון בספרות ותואר שני בתקשורת. בנוסף, למדה גליה שלל הכשרות בתחומי ידע מגוונים. בתפקידיה הקודמים שימשה גליה כמנהלת תוכניות בג'וינט אלכא - מובילה צוותי משימה משותפים לטיפול בסוגיות רוחב מורכבות, וכמנהלת תוכן והדרכה בשותפויות רוטשילד. בנוסף לעיסוקיה, גליה הינה המייסדת של \"פואטיקארד\" ו\"פוטופואטיקה\" – קלפי שירה והשראה לעבודה בקבוצות, עורכת ומגישה את הפודקאסט \"השיר הנכון\" וחברה בוועד המנהל של עמותת אנדומטריוזיס ישראל." },
-    { name: "רוני פרידמן", title: "מנהלת תפעול ופרויקטים", img: "team-roni.png", bio: "בתפקידה האחרון שימשה רוני כמנהלת מרכז למידה בקורת גג לנערים בסיכון, שם הייתה אחראית על ניהול צוותי הוראה ומתנדבים, בניית תכניות פדגוגיות ועבודה מול גורמי פיקוח ורווחה. קודם לכן עבדה כמנחת קומונות בארגון \"מרכז מעשה\" וכמרכזת שבט \"גילעד\" בתנועת הצופים בקרית אונו. לרוני תואר ראשון ותעודת הוראה בחינוך דמוקרטי וניהול עסקי-חברתי מסמינר הקיבוצים." }
+    { name: "ענת אלדר וטין", title: "מנהלת תחום בכיר הכשרה", img: "team-anat.jpg", bio: "" },
+    { name: "אפי הורוביץ", title: "מנהל פיתוח תוכן", img: "team-efi.jpeg", bio: "" },
+    { name: "גליה שושני", title: "מנהלת פיתוח אישי וקבוצתי", img: "team-galia.jpeg", bio: "" },
+    { name: "רוני פרידמן", title: "מנהלת תפעול ופרויקטים", img: "team-roni.png", bio: "" }
   ];
 
   function renderPerson(c, container) {
@@ -379,7 +397,7 @@
     const cropStyle = c.crop ? ` style="object-position: ${c.crop}"` : '';
     const titleHtml = c.title ? `<div class="title">${c.title}</div>` : '';
     el.innerHTML = `
-      <div class="photo-wrap"><img src="images/${c.img}" alt="${c.name}" loading="lazy"${cropStyle}></div>
+      <div class="photo-wrap"><img src="images/${c.img}" alt="${c.name}" loading="lazy" decoding="async"${cropStyle}></div>
       <div class="name">${c.name}</div>
       ${titleHtml}
     `;
@@ -387,10 +405,10 @@
   }
 
   const grid = document.getElementById('grid');
-  cadets.forEach(c => renderPerson(c, grid));
+  cadets.forEach(c => { try { renderPerson(c, grid); } catch (e) { console.error('cadet render failed:', c && c.name, e); } });
 
   const teamGrid = document.getElementById('team-grid');
-  team.forEach(t => renderPerson(t, teamGrid));
+  team.forEach(t => { try { renderPerson(t, teamGrid); } catch (e) { console.error('team render failed:', t && t.name, e); } });
 
   const popover = document.getElementById('popover');
   const backdrop = document.getElementById('backdrop');
@@ -421,20 +439,28 @@
 
     // On desktop only: animation grows from the clicked photo toward the centered modal.
     // On phones we leave default origin (center) to keep the simple expand-from-center feel.
-    if (window.innerWidth > 700) {
-      const photoRect = cardEl.querySelector('.photo-wrap').getBoundingClientRect();
-      const photoCx = photoRect.left + photoRect.width / 2;
-      const photoCy = photoRect.top + photoRect.height / 2;
+    try {
+      if (window.innerWidth > 700 && cardEl) {
+        const photoEl = cardEl.querySelector('.photo-wrap');
+        if (photoEl) {
+          const photoRect = photoEl.getBoundingClientRect();
+          const photoCx = photoRect.left + photoRect.width / 2;
+          const photoCy = photoRect.top + photoRect.height / 2;
 
-      // Measure popover at full scale (still invisible via opacity:0) to find its centered position
-      popover.style.transform = 'translate(-50%, -50%) scale(1)';
-      const popRect = popover.getBoundingClientRect();
-      popover.style.transform = '';
+          popover.style.transform = 'translate(-50%, -50%) scale(1)';
+          const popRect = popover.getBoundingClientRect();
+          popover.style.transform = '';
 
-      const originX = photoCx - popRect.left;
-      const originY = photoCy - popRect.top;
-      popover.style.transformOrigin = `${originX}px ${originY}px`;
-    } else {
+          const originX = photoCx - popRect.left;
+          const originY = photoCy - popRect.top;
+          popover.style.transformOrigin = `${originX}px ${originY}px`;
+        } else {
+          popover.style.transformOrigin = '';
+        }
+      } else {
+        popover.style.transformOrigin = '';
+      }
+    } catch (e) {
       popover.style.transformOrigin = '';
     }
 
