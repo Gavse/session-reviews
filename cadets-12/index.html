@@ -33,6 +33,29 @@
     @page { size: A4 portrait; margin: 0; }
   }
 
+  @media (max-width: 700px) {
+    body {
+      width: 100%;
+      height: auto;
+      min-height: 100vh;
+      margin: 0;
+      padding: 14px 12px 18px;
+      box-shadow: none;
+    }
+    h1 { font-size: 18px; }
+    .logo { height: 40px; width: 40px; padding: 4px; }
+    header { gap: 10px; margin-bottom: 14px; }
+    .grid {
+      grid-template-columns: repeat(3, 1fr) !important;
+      grid-template-rows: none !important;
+      column-gap: 10px;
+      row-gap: 14px;
+    }
+    .photo-wrap { max-width: none; }
+    .name { font-size: 12.5px; }
+    .popover { width: calc(100vw - 24px); max-width: 320px; }
+  }
+
   header {
     display: flex;
     justify-content: flex-start;
