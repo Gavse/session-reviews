@@ -130,6 +130,8 @@
 
   .popover {
     position: fixed;
+    top: 50%;
+    left: 50%;
     background: #fff;
     border-radius: 14px;
     width: 300px;
@@ -138,14 +140,15 @@
     box-shadow: 0 10px 32px rgba(26, 41, 66, 0.22);
     z-index: 100;
     opacity: 0;
-    transform: scale(0.15);
+    transform: translate(-50%, -50%) scale(0.6);
+    transform-origin: center center;
     pointer-events: none;
-    transition: transform 0.24s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.18s ease-out;
+    transition: transform 0.22s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.18s ease-out;
   }
 
   .popover.active {
     opacity: 1;
-    transform: scale(1);
+    transform: translate(-50%, -50%) scale(1);
     pointer-events: auto;
   }
 
@@ -285,40 +288,6 @@
     }
 
     backdrop.classList.add('active');
-
-    // Position popover so it grows out of the clicked photo
-    const photoEl = cardEl.querySelector('.photo-wrap');
-    const photoRect = photoEl.getBoundingClientRect();
-
-    // Force layout to get popover dimensions (it's still hidden but has size)
-    popover.style.left = '0';
-    popover.style.top = '0';
-    popover.style.transform = 'scale(1)';
-    popover.style.opacity = '0';
-    const popRect = popover.getBoundingClientRect();
-    popover.style.transform = '';
-
-    const margin = 12;
-    const photoCenterX = photoRect.left + photoRect.width / 2;
-    const photoCenterY = photoRect.top + photoRect.height / 2;
-
-    // Center popover on photo
-    let left = photoCenterX - popRect.width / 2;
-    let top = photoCenterY - popRect.height / 2;
-
-    // Clamp to viewport
-    left = Math.max(margin, Math.min(left, window.innerWidth - popRect.width - margin));
-    top = Math.max(margin, Math.min(top, window.innerHeight - popRect.height - margin));
-
-    // Set transform-origin to the photo's center within the popover
-    const originX = photoCenterX - left;
-    const originY = photoCenterY - top;
-
-    popover.style.left = left + 'px';
-    popover.style.top = top + 'px';
-    popover.style.transformOrigin = `${originX}px ${originY}px`;
-    popover.style.opacity = '';
-
     requestAnimationFrame(() => popover.classList.add('active'));
   }
 
