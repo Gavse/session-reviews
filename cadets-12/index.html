@@ -23,7 +23,7 @@
 
   body {
     width: 210mm;
-    height: 297mm;
+    min-height: 297mm;
     margin: 16px auto;
     padding: 20px 24px 18px;
     background: #e8eef5;
@@ -248,7 +248,45 @@
     text-align: center;
   }
 
-  /* Responsive */
+  .popover-title {
+    font-size: 13.5px;
+    color: #5a6a85;
+    margin-top: 3px;
+    line-height: 1.3;
+  }
+
+  .team-heading {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a2942;
+    text-align: right;
+    margin: 26px 4px 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #cdd5e1;
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 14px;
+    row-gap: 14px;
+    justify-content: stretch;
+  }
+
+  .title {
+    font-size: 11.5px;
+    color: #5a6a85;
+    text-align: center;
+    line-height: 1.3;
+    margin-top: 2px;
+    padding: 0 4px;
+  }
+
+  @media (max-width: 700px) {
+    .team-grid { grid-template-columns: repeat(3, 1fr); column-gap: 12px; row-gap: 16px; }
+    .team-heading { font-size: 17px; margin: 20px 2px 12px; }
+    .title { font-size: 11px; }
+  }
 </style>
 </head>
 <body>
@@ -259,13 +297,19 @@
 
   <main class="grid" id="grid"></main>
 
+  <h2 class="team-heading">צוות ההכשרה</h2>
+  <section class="team-grid" id="team-grid"></section>
+
   <div class="popover-backdrop" id="backdrop" onclick="closePopover()"></div>
 
   <div class="popover" id="popover" role="dialog" aria-modal="true">
     <button class="popover-close" onclick="closePopover()" aria-label="סגור">×</button>
     <div class="popover-header">
       <div class="popover-photo"><img id="pop-img" src="" alt=""></div>
-      <div class="popover-name" id="pop-name"></div>
+      <div>
+        <div class="popover-name" id="pop-name"></div>
+        <div class="popover-title" id="pop-title"></div>
+      </div>
     </div>
     <div class="popover-bio" id="pop-bio"></div>
   </div>
@@ -300,30 +344,49 @@
     { name: "שקד ערן", img: "26-shaked-eran.jpg", crop: "center 50%", bio: "" }
   ];
 
-  const grid = document.getElementById('grid');
-  cadets.forEach((c, i) => {
+  const team = [
+    { name: "ענת אלדר וטין", title: "מנהלת תחום בכיר הכשרה", img: "team-anat.jpg", bio: "" },
+    { name: "אפי הורוביץ", title: "מנהל פיתוח תוכן", img: "team-efi.jpeg", bio: "" },
+    { name: "גליה שושני", title: "מנהלת פיתוח אישי וקבוצתי", img: "team-galia.jpeg", bio: "" },
+    { name: "רוני פרידמן", title: "מנהלת תפעול ופרויקטים", img: "team-roni.png", bio: "" }
+  ];
+
+  function renderPerson(c, container) {
     const el = document.createElement('div');
     el.className = 'person';
-    el.dataset.idx = i;
-    el.onclick = (e) => openPopover(i, e.currentTarget);
+    el.onclick = (e) => openPopover(c, e.currentTarget);
     const cropStyle = c.crop ? ` style="object-position: ${c.crop}"` : '';
+    const titleHtml = c.title ? `<div class="title">${c.title}</div>` : '';
     el.innerHTML = `
       <div class="photo-wrap"><img src="images/${c.img}" alt="${c.name}" loading="lazy"${cropStyle}></div>
       <div class="name">${c.name}</div>
+      ${titleHtml}
     `;
-    grid.appendChild(el);
-  });
+    container.appendChild(el);
+  }
+
+  const grid = document.getElementById('grid');
+  cadets.forEach(c => renderPerson(c, grid));
+
+  const teamGrid = document.getElementById('team-grid');
+  team.forEach(t => renderPerson(t, teamGrid));
 
   const popover = document.getElementById('popover');
   const backdrop = document.getElementById('backdrop');
 
-  function openPopover(i, cardEl) {
-    const c = cadets[i];
+  function openPopover(c, cardEl) {
     const popImg = document.getElementById('pop-img');
     popImg.src = `images/${c.img}`;
     popImg.alt = c.name;
     popImg.style.objectPosition = c.crop || 'center 30%';
     document.getElementById('pop-name').textContent = c.name;
+    const titleEl = document.getElementById('pop-title');
+    if (c.title) {
+      titleEl.textContent = c.title;
+      titleEl.style.display = '';
+    } else {
+      titleEl.style.display = 'none';
+    }
     const bioEl = document.getElementById('pop-bio');
     if (c.bio && c.bio.trim()) {
       bioEl.textContent = c.bio;
