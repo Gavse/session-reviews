@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>צוערים לשירות המדינה — מחזור י״ב</title>
+<meta property="og:title" content="צוערים לשירות המדינה — מחזור י״ב">
+<meta property="og:description" content="דף קשר וביוגרפיות — 26 צוערים">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    color: #1a2942;
+  }
+
+  html { background: #c9d1dd; }
+
+  body {
+    width: 210mm;
+    height: 297mm;
+    margin: 16px auto;
+    padding: 20px 24px 18px;
+    background: #e8eef5;
+    box-shadow: 0 4px 18px rgba(26, 41, 66, 0.18);
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media print {
+    html { background: #fff; }
+    body { margin: 0; box-shadow: none; }
+    @page { size: A4 portrait; margin: 0; }
+  }
+
+  header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding: 0 4px;
+  }
+
+  h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1a2942;
+    letter-spacing: -0.3px;
+    line-height: 1;
+  }
+
+  .logo {
+    height: 56px;
+    width: 56px;
+    border-radius: 50%;
+    border: 1px solid #cdd5e1;
+    padding: 6px;
+    background: transparent;
+    object-fit: contain;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    column-gap: 14px;
+    row-gap: 14px;
+    flex: 1;
+    min-height: 0;
+    justify-content: stretch;
+  }
+
+  .person {
+    justify-content: center;
+  }
+
+  .person {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+    user-select: none;
+  }
+
+  .person:hover {
+    transform: translateY(-2px);
+  }
+
+  .photo-wrap {
+    width: 100%;
+    max-width: 130px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #cdd5e1;
+    box-shadow: 0 2px 6px rgba(26, 41, 66, 0.08);
+    margin-bottom: 8px;
+  }
+
+  .photo-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    display: block;
+  }
+
+  .name {
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    color: #1a2942;
+    line-height: 1.3;
+  }
+
+  /* Popover that anchors to the clicked card */
+  .popover-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 41, 66, 0.25);
+    display: none;
+    z-index: 99;
+  }
+
+  .popover-backdrop.active { display: block; }
+
+  .popover {
+    position: fixed;
+    background: #fff;
+    border-radius: 14px;
+    width: 300px;
+    max-width: calc(100vw - 24px);
+    padding: 22px 24px 20px;
+    box-shadow: 0 10px 32px rgba(26, 41, 66, 0.22);
+    z-index: 100;
+    opacity: 0;
+    transform: scale(0.15);
+    pointer-events: none;
+    transition: transform 0.24s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.18s ease-out;
+  }
+
+  .popover.active {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+  }
+
+  .popover-close {
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: #8896ad;
+    line-height: 1;
+    padding: 4px 8px;
+  }
+
+  .popover-close:hover { color: #1a2942; }
+
+  .popover-photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 12px;
+    background: #f0f4f8;
+  }
+
+  .popover-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+  }
+
+  .popover-name {
+    font-size: 19px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 12px;
+    color: #1a2942;
+  }
+
+  .popover-bio {
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: #2a3a55;
+    text-align: right;
+  }
+
+  .popover-bio.placeholder {
+    color: #8896ad;
+    font-style: italic;
+    text-align: center;
+  }
+
+  /* Responsive */
+</style>
+</head>
+<body>
+  <header>
+    <img class="logo" src="images/logo.png" alt="לוגו">
+    <h1>צוערים לשירות המדינה — מחזור י״ב</h1>
+  </header>
+
+  <main class="grid" id="grid"></main>
+
+  <div class="popover-backdrop" id="backdrop" onclick="closePopover()"></div>
+
+  <div class="popover" id="popover" role="dialog" aria-modal="true">
+    <button class="popover-close" onclick="closePopover()" aria-label="סגור">×</button>
+    <div class="popover-photo"><img id="pop-img" src="" alt=""></div>
+    <div class="popover-name" id="pop-name"></div>
+    <div class="popover-bio" id="pop-bio"></div>
+  </div>
+
+<script>
+  const cadets = [
+    { name: "מיכל אדיב", img: "14-michal-adiv.jpg", crop: "center 3%", bio: "בעלת תואר ראשון במשפטים ותואר שני במדיניות ציבורית. עשיתי את ההמתחות בלשכה המשפטית במשרד האוצר, ולפני כן עבדתי בלשכת השרה הקודמת לתחבורה, בריכוז הקבינט לשוויון מגדרי" },
+    { name: "מיכאל קולמן", img: "12-michael-kolman.jpg", bio: "" },
+    { name: "גבריאל בן חיים", img: "2-gavriel-benhaim.jpg", bio: "" },
+    { name: "הגר אגיאון", img: "1-hagar-agion.jpg", crop: "center 8%", bio: "בוגרת תואר ראשון בממשל ודיפלומטיה ברייכמן, מ\"פ לשעבר של תצפיתניות בעזה, עסקתי בייעוץ ארגוני וניהול פרויקטים בארגון הבוגרים של אונ' רייכמן. בראש פתוח להכיר את המגזר הציבורי ולבחור מיקוד במהלך ההכשרה." },
+    { name: "לאה דיאמנט", img: "3-leah-diamant.jpg", crop: "center 22%", bio: "" },
+    { name: "אלעד לוי", img: "4-elad-levi.png", bio: "" },
+    { name: "אור תום עדי", img: "5-or-tom-adi.jpg", bio: "אני עם תואר ראשון בחינוך בלתי פורמלי ותעודת הוראה ממכללת בית ברל. בעבר עסקתי בחינוך בלתי פורמאלי במועצה אזורית משגב, ולאחר מכן עבדתי במרכז הגאה בעיריית ת\"א יפו, הייתי סגן מנהל המרכז ואחראי על אירועי הגאווה ומפיק התוכן והאומנותי של מצעד הגאווה בתל אביב. בשנה האחרונה לפני תחילת קורס הצוערים עבדתי בארגון חברה אזרחית ששמו 'אידאה'." },
+    { name: "ויטה גבירצמן שיין", img: "6-vita-girshman-shain.jpg", bio: "" },
+    { name: "טל רטנר", img: "7-tal-ratner.jpg", crop: "center 22%", bio: "תואר במשפטים מאוניברסיטת חיפה, עורכת דין (הסמכה בשנת 2024), התמחות במחלקת הבג\"צים בפרקליטות המדינה ולאחר מכן עבודה במשרד פרטי במחלקת ליטיגציה מסחרית. הגעתי לתכנית כדי להשפיע השפעה רחבה ככל הניתן היכן שהדבר יידרש. תחומי עניין - תחבורה, בריאות, פנים (בדגש על שלטון מקומי) ועוד." },
+    { name: "יאיר סילברג", img: "8-yair-silberg.jpg", crop: "center 38%", bio: "" },
+    { name: "יולה ויסבלך", img: "9-yula-weisblach.jpg", crop: "center 22%", bio: "" },
+    { name: "אילון למברגר", img: "10-ilon-lemberger.jpg", bio: "תואר ראשון במשפטים, ושני (לקראת סיום) בניהול מלכ\"רים. עבודה במגזר הפרטי ובשנתיים האחרונות יותר תחת המגזר השלישי. עניין רב בבריאות הציבור שמשרד הבריאות" },
+    { name: "ליאור פוקס", img: "11-lior-fox.jpg", crop: "center 24%", bio: "" },
+    { name: "רחל שטה אסייס", img: "13-rachel-shitta.jpg", bio: "" },
+    { name: "נועה שרה כהן", img: "15-noa-cohen.jpg", bio: "" },
+    { name: "נועם פרומוביץ", img: "16-noam-frumovitz.jpg", crop: "center 22%", bio: "" },
+    { name: "סלאח בדרייה", img: "17-salah-badria.jpg", crop: "center 50%", bio: "בעל תואר ראשון במדעי מדינה התמחות במדיניות ציבורית מאוניברסיטת חיפה, עבדתי במגן דוד אדום במשך 17 שנים, בהם מלאתי שלל תפקידים, האחרון באגף משנה למנכ\"ל במחלקת בקרה, ובעבודה האחרונה כיהנתי כסמנכ\"ל המרכז הישראלי דרוזי(ע\"ר). כיהנתי כחבר מועצה בדאלית אל כרמל, פעיל חברתי בתוך העדה הדרוזית. הכיוון שמעניין אותי בשירות המדינה, זה תפקידי מטה שיש בהם השפעה רוחבית על עניינים מהותיים בחיי היום יום של אזרחי המדינה" },
+    { name: "ספיר רזניק", img: "18-sapir-reznik.jpg", bio: "" },
+    { name: "עדי גלגוט", img: "19-adi-galgut.jpg", crop: "center 8%", bio: "" },
+    { name: "עטר כהנא שמאע", img: "20-atar-kahana.jpg", bio: "תואר ראשון במדעי המדינה, תואר שני במנהל עסקים מגיע מהמגזר השלישי, לפני כן 7.5 שנים בחיל הים בתפקידי שטח ומטה (פיקוד, הכשרות ובניין כח)" },
+    { name: "רבקה זיסנו", img: "21-rivka-zissano.jpg", crop: "center 12%", bio: "" },
+    { name: "רועי כדורי", img: "22-roi-kaduri.png", bio: "" },
+    { name: "עידו פרומנסקי", img: "23-ido-fromansky.png", crop: "center 50%", bio: "" },
+    { name: "טהר בוכניק", img: "24-tahar-buchnik.jpg", crop: "center 45%", bio: "" },
+    { name: "רותם שובל", img: "25-rotem-shoval.jpg", crop: "center 20%", bio: "שלום, אני רותם. יש לי תואר ראשון במנהל עסקים עם התמחות במימון וחשבונאות, ותואר שני במנהל עסקים עם התמחות ביעוץ עסקי. לפני שהגעתי לצוערים עבדתי כעוזרת אישית למנכ\"ל אלקטרה מגורים, ולפני כן עבדתי כרכזת דוברות ויח\"צ במכון ויצמן למדע. אני מגיעה לצוערים עם ראש פתוח לעשות מגוון של תפקידים, אבל המשיכה הראשונית שלי היא לתפקידים כלכליים." },
+    { name: "שקד ערן", img: "26-shaked-eran.jpg", crop: "center 50%", bio: "" }
+  ];
+
+  const grid = document.getElementById('grid');
+  cadets.forEach((c, i) => {
+    const el = document.createElement('div');
+    el.className = 'person';
+    el.dataset.idx = i;
+    el.onclick = (e) => openPopover(i, e.currentTarget);
+    const cropStyle = c.crop ? ` style="object-position: ${c.crop}"` : '';
+    el.innerHTML = `
+      <div class="photo-wrap"><img src="images/${c.img}" alt="${c.name}" loading="lazy"${cropStyle}></div>
+      <div class="name">${c.name}</div>
+    `;
+    grid.appendChild(el);
+  });
+
+  const popover = document.getElementById('popover');
+  const backdrop = document.getElementById('backdrop');
+
+  function openPopover(i, cardEl) {
+    const c = cadets[i];
+    const popImg = document.getElementById('pop-img');
+    popImg.src = `images/${c.img}`;
+    popImg.alt = c.name;
+    popImg.style.objectPosition = c.crop || 'center 30%';
+    document.getElementById('pop-name').textContent = c.name;
+    const bioEl = document.getElementById('pop-bio');
+    if (c.bio && c.bio.trim()) {
+      bioEl.textContent = c.bio;
+      bioEl.classList.remove('placeholder');
+    } else {
+      bioEl.textContent = 'ביוגרפיה תועלה בקרוב';
+      bioEl.classList.add('placeholder');
+    }
+
+    backdrop.classList.add('active');
+
+    // Position popover so it grows out of the clicked photo
+    const photoEl = cardEl.querySelector('.photo-wrap');
+    const photoRect = photoEl.getBoundingClientRect();
+
+    // Force layout to get popover dimensions (it's still hidden but has size)
+    popover.style.left = '0';
+    popover.style.top = '0';
+    popover.style.transform = 'scale(1)';
+    popover.style.opacity = '0';
+    const popRect = popover.getBoundingClientRect();
+    popover.style.transform = '';
+
+    const margin = 12;
+    const photoCenterX = photoRect.left + photoRect.width / 2;
+    const photoCenterY = photoRect.top + photoRect.height / 2;
+
+    // Center popover on photo
+    let left = photoCenterX - popRect.width / 2;
+    let top = photoCenterY - popRect.height / 2;
+
+    // Clamp to viewport
+    left = Math.max(margin, Math.min(left, window.innerWidth - popRect.width - margin));
+    top = Math.max(margin, Math.min(top, window.innerHeight - popRect.height - margin));
+
+    // Set transform-origin to the photo's center within the popover
+    const originX = photoCenterX - left;
+    const originY = photoCenterY - top;
+
+    popover.style.left = left + 'px';
+    popover.style.top = top + 'px';
+    popover.style.transformOrigin = `${originX}px ${originY}px`;
+    popover.style.opacity = '';
+
+    requestAnimationFrame(() => popover.classList.add('active'));
+  }
+
+  function closePopover() {
+    popover.classList.remove('active');
+    backdrop.classList.remove('active');
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closePopover();
+  });
+
+  window.addEventListener('resize', () => closePopover());
+  window.addEventListener('scroll', () => closePopover(), true);
+</script>
+</body>
+</html>
