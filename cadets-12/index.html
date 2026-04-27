@@ -126,6 +126,23 @@
     border: 1px solid #cdd5e1;
     box-shadow: 0 2px 6px rgba(26, 41, 66, 0.08);
     margin-bottom: 8px;
+    position: relative;
+  }
+
+  /* Square fallback for old WebViews without aspect-ratio support */
+  @supports not (aspect-ratio: 1 / 1) {
+    .photo-wrap::before {
+      content: "";
+      display: block;
+      padding-bottom: 100%;
+    }
+    .photo-wrap > img {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
   }
 
   .photo-wrap img {
@@ -147,6 +164,10 @@
   /* Popover that anchors to the clicked card */
   .popover-backdrop {
     position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     inset: 0;
     background: rgba(26, 41, 66, 0.25);
     display: none;
