@@ -192,13 +192,22 @@
 
   .popover-close:hover { color: #1a2942; }
 
+  .popover-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    padding-left: 24px;
+  }
+
   .popover-photo {
-    width: 100px;
-    height: 100px;
+    width: 52px;
+    height: 52px;
     border-radius: 50%;
     overflow: hidden;
-    margin: 0 auto 14px;
     background: #f0f4f8;
+    flex-shrink: 0;
+    border: 1px solid #cdd5e1;
   }
 
   .popover-photo img {
@@ -209,11 +218,10 @@
   }
 
   .popover-name {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
-    text-align: center;
-    margin-bottom: 14px;
     color: #1a2942;
+    line-height: 1.2;
   }
 
   .popover-bio {
@@ -248,8 +256,10 @@
 
   <div class="popover" id="popover" role="dialog" aria-modal="true">
     <button class="popover-close" onclick="closePopover()" aria-label="סגור">×</button>
-    <div class="popover-photo"><img id="pop-img" src="" alt=""></div>
-    <div class="popover-name" id="pop-name"></div>
+    <div class="popover-header">
+      <div class="popover-photo"><img id="pop-img" src="" alt=""></div>
+      <div class="popover-name" id="pop-name"></div>
+    </div>
     <div class="popover-bio" id="pop-bio"></div>
   </div>
 
