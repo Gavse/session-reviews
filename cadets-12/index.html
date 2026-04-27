@@ -151,12 +151,12 @@
   .popover-backdrop.active { display: block; }
 
   .popover {
-    position: absolute;
+    position: fixed;
     background: #fff;
-    border-radius: 14px;
-    width: 300px;
+    border-radius: 16px;
+    width: 360px;
     max-width: calc(100vw - 24px);
-    padding: 22px 24px 20px;
+    padding: 26px 28px 24px;
     box-shadow: 0 10px 32px rgba(26, 41, 66, 0.22);
     z-index: 100;
     opacity: 0;
@@ -187,11 +187,11 @@
   .popover-close:hover { color: #1a2942; }
 
   .popover-photo {
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     overflow: hidden;
-    margin: 0 auto 12px;
+    margin: 0 auto 14px;
     background: #f0f4f8;
   }
 
@@ -203,16 +203,16 @@
   }
 
   .popover-name {
-    font-size: 19px;
+    font-size: 22px;
     font-weight: 700;
     text-align: center;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
     color: #1a2942;
   }
 
   .popover-bio {
-    font-size: 14.5px;
-    line-height: 1.65;
+    font-size: 16px;
+    line-height: 1.7;
     color: #2a3a55;
     text-align: right;
   }
@@ -308,36 +308,31 @@
 
     backdrop.classList.add('active');
 
-    // Use document/body coordinates so positioning is independent of viewport zoom
+    // Use viewport coords (position: fixed) so popover always stays on screen
     const photoEl = cardEl.querySelector('.photo-wrap');
     const photoRect = photoEl.getBoundingClientRect();
-    const scrollX = window.pageXOffset;
-    const scrollY = window.pageYOffset;
-    const photoCenterX = photoRect.left + scrollX + photoRect.width / 2;
-    const photoCenterY = photoRect.top + scrollY + photoRect.height / 2;
+    const photoCenterX = photoRect.left + photoRect.width / 2;
+    const photoCenterY = photoRect.top + photoRect.height / 2;
 
-    // Measure popover at its natural size (still hidden)
+    // Measure popover at natural size
     popover.style.left = '0';
     popover.style.top = '0';
     popover.style.transform = 'scale(1)';
     const popRect = popover.getBoundingClientRect();
     popover.style.transform = '';
 
-    // Clamp to body bounds (the page), not the viewport
-    const bodyRect = document.body.getBoundingClientRect();
-    const bodyLeft = bodyRect.left + scrollX;
-    const bodyTop = bodyRect.top + scrollY;
-    const bodyRight = bodyLeft + bodyRect.width;
-    const bodyBottom = bodyTop + bodyRect.height;
     const margin = 12;
+    const vw = document.documentElement.clientWidth;
+    const vh = document.documentElement.clientHeight;
 
     let left = photoCenterX - popRect.width / 2;
     let top = photoCenterY - popRect.height / 2;
-    left = Math.max(bodyLeft + margin, Math.min(left, bodyRight - popRect.width - margin));
-    top = Math.max(bodyTop + margin, Math.min(top, bodyBottom - popRect.height - margin));
+    left = Math.max(margin, Math.min(left, vw - popRect.width - margin));
+    top = Math.max(margin, Math.min(top, vh - popRect.height - margin));
 
-    const originX = photoCenterX - left;
-    const originY = photoCenterY - top;
+    // Transform-origin = where the photo is relative to the popover (for grow-from animation)
+    const originX = Math.max(0, Math.min(popRect.width, photoCenterX - left));
+    const originY = Math.max(0, Math.min(popRect.height, photoCenterY - top));
 
     popover.style.left = left + 'px';
     popover.style.top = top + 'px';
