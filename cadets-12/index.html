@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=820, user-scalable=yes">
 <title>צוערים לשירות המדינה — מחזור י״ב</title>
 <meta property="og:title" content="צוערים לשירות המדינה — מחזור י״ב">
 <meta property="og:description" content="דף קשר וביוגרפיות — 26 צוערים">
@@ -33,28 +33,6 @@
     @page { size: A4 portrait; margin: 0; }
   }
 
-  @media (max-width: 700px) {
-    body {
-      width: 100%;
-      height: auto;
-      min-height: 100vh;
-      margin: 0;
-      padding: 14px 12px 18px;
-      box-shadow: none;
-    }
-    h1 { font-size: 18px; }
-    .logo { height: 40px; width: 40px; padding: 4px; }
-    header { gap: 10px; margin-bottom: 14px; }
-    .grid {
-      grid-template-columns: repeat(3, 1fr) !important;
-      grid-template-rows: none !important;
-      column-gap: 10px;
-      row-gap: 14px;
-    }
-    .photo-wrap { max-width: none; }
-    .name { font-size: 12.5px; }
-    .popover { width: calc(100vw - 24px); max-width: 320px; }
-  }
 
   header {
     display: flex;
@@ -113,7 +91,7 @@
 
   .photo-wrap {
     width: 100%;
-    max-width: 130px;
+    max-width: 110px;
     aspect-ratio: 1 / 1;
     border-radius: 50%;
     overflow: hidden;
@@ -353,8 +331,6 @@
     if (e.key === 'Escape') closePopover();
   });
 
-  window.addEventListener('resize', () => closePopover());
-  window.addEventListener('scroll', () => closePopover(), true);
 </script>
 </body>
 </html>
