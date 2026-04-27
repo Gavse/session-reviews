@@ -324,11 +324,24 @@
     const margin = 12;
     const vw = document.documentElement.clientWidth;
     const vh = document.documentElement.clientHeight;
+    const bodyRect = document.body.getBoundingClientRect();
+
+    // Clamp to intersection of body bounds and viewport (so popover stays on the visible page)
+    const minLeft = Math.max(margin, bodyRect.left + margin);
+    const maxLeft = Math.min(vw - margin, bodyRect.right - margin) - popRect.width;
+    const minTop = Math.max(margin, bodyRect.top + margin);
+    const maxTop = Math.min(vh - margin, bodyRect.bottom - margin) - popRect.height;
 
     let left = photoCenterX - popRect.width / 2;
     let top = photoCenterY - popRect.height / 2;
-    left = Math.max(margin, Math.min(left, vw - popRect.width - margin));
-    top = Math.max(margin, Math.min(top, vh - popRect.height - margin));
+
+    // If popover is nearly as wide as the page, always center it horizontally
+    if (popRect.width > (bodyRect.right - bodyRect.left) * 0.7) {
+      left = (bodyRect.left + bodyRect.right - popRect.width) / 2;
+    } else {
+      left = Math.max(minLeft, Math.min(left, maxLeft));
+    }
+    top = Math.max(minTop, Math.min(top, maxTop));
 
     // Transform-origin = where the photo is relative to the popover (for grow-from animation)
     const originX = Math.max(0, Math.min(popRect.width, photoCenterX - left));
