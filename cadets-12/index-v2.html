@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<meta name="theme-color" content="#1a2942">
+<title>רקע קצר - צוערות וצוערי מחזור י&quot;ב</title>
+<meta property="og:title" content="רקע קצר - צוערות וצוערי מחזור י&quot;ב">
+<meta property="og:image" content="https://gavse.github.io/session-reviews/cadets-12/og-preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gavse.github.io/session-reviews/cadets-12/">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    color: #1a2942;
+  }
+
+  html { background: #c9d1dd; }
+
+  body {
+    width: 210mm;
+    min-height: 297mm;
+    margin: 16px auto;
+    padding: 20px 24px 18px;
+    background: #e8eef5;
+    box-shadow: 0 4px 18px rgba(26, 41, 66, 0.18);
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media print {
+    html { background: #fff; }
+    body { margin: 0; box-shadow: none; }
+    @page { size: A4 portrait; margin: 0; }
+  }
+
+  @media (max-width: 700px) {
+    body {
+      width: 100%;
+      height: auto;
+      min-height: 100vh;
+      margin: 0;
+      padding: 14px 12px 20px;
+      box-shadow: none;
+    }
+    h1 { font-size: 18px; }
+    .logo { height: 42px; width: 42px; padding: 4px; }
+    header { gap: 10px; margin-bottom: 14px; }
+    .grid {
+      grid-template-columns: repeat(3, 1fr) !important;
+      grid-template-rows: none !important;
+      column-gap: 12px;
+      row-gap: 16px;
+    }
+    .photo-wrap { max-width: none; }
+    .name { font-size: 12.5px; }
+  }
+
+
+  header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding: 0 4px;
+  }
+
+  h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1a2942;
+    letter-spacing: -0.3px;
+    line-height: 1;
+  }
+
+  .logo {
+    height: 56px;
+    width: 56px;
+    border-radius: 50%;
+    border: 1px solid #cdd5e1;
+    padding: 6px;
+    background: transparent;
+    object-fit: contain;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(7, 1fr);
+    column-gap: 14px;
+    row-gap: 14px;
+    flex: 1;
+    min-height: 0;
+    justify-content: stretch;
+  }
+
+  .person {
+    justify-content: center;
+  }
+
+  .person {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .person:hover {
+    transform: translateY(-2px);
+  }
+
+  .photo-wrap {
+    width: 100%;
+    max-width: 150px;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #cdd5e1;
+    box-shadow: 0 2px 6px rgba(26, 41, 66, 0.08);
+    margin-bottom: 8px;
+    position: relative;
+  }
+
+  /* Square fallback for old WebViews without aspect-ratio support */
+  @supports not (aspect-ratio: 1 / 1) {
+    .photo-wrap::before {
+      content: "";
+      display: block;
+      padding-bottom: 100%;
+    }
+    .photo-wrap > img {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+  }
+
+  .photo-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    display: block;
+  }
+
+  .name {
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    color: #1a2942;
+    line-height: 1.3;
+  }
+
+  /* Popover that anchors to the clicked card */
+  .popover-backdrop {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    inset: 0;
+    background: rgba(26, 41, 66, 0.25);
+    display: none;
+    z-index: 99;
+  }
+
+  .popover-backdrop.active { display: block; }
+
+  .popover {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    background: #fff;
+    border-radius: 16px;
+    width: 500px;
+    max-width: calc(100vw - 24px);
+    max-height: calc(100vh - 24px);
+    padding: 26px 28px 24px;
+    box-shadow: 0 10px 32px rgba(26, 41, 66, 0.22);
+    z-index: 100;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.85);
+    pointer-events: none;
+    transition: transform 0.22s cubic-bezier(0.34, 1.4, 0.64, 1), opacity 0.18s ease-out;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .popover.active {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: auto;
+  }
+
+  .popover-close {
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: #8896ad;
+    line-height: 1;
+    padding: 4px 8px;
+  }
+
+  .popover-close:hover { color: #1a2942; }
+
+  .popover-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-left: 24px;
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid #c5cdd9;
+  }
+
+  .popover-photo {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #f0f4f8;
+    flex-shrink: 0;
+    border: 1px solid #cdd5e1;
+  }
+
+  .popover-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+  }
+
+  .popover-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a2942;
+    line-height: 1.2;
+  }
+
+  .popover-bio {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #2a3a55;
+    text-align: right;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    white-space: pre-line;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .popover, .person { transition: none; }
+  }
+
+  .popover-bio.placeholder {
+    color: #8896ad;
+    font-style: italic;
+    text-align: center;
+  }
+
+  .popover-title {
+    font-size: 13.5px;
+    color: #5a6a85;
+    margin-top: 3px;
+    line-height: 1.3;
+  }
+
+  .team-heading {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a2942;
+    text-align: right;
+    margin: 26px 4px 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #cdd5e1;
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 14px;
+    row-gap: 14px;
+    justify-content: stretch;
+  }
+
+  .title {
+    font-size: 11.5px;
+    color: #5a6a85;
+    text-align: center;
+    line-height: 1.3;
+    margin-top: 2px;
+    padding: 0 4px;
+  }
+
+  @media (max-width: 700px) {
+    .team-grid { grid-template-columns: repeat(3, 1fr); column-gap: 12px; row-gap: 16px; }
+    .team-heading { font-size: 17px; margin: 20px 2px 12px; }
+    .title { font-size: 11px; }
+  }
+
+  /* No-JS fallback: bio modal shown via :target. Suppressed when JS is active. */
+  .bio-fallback { display: none; }
+  .bio-fallback:target {
+    display: block;
+    position: fixed;
+    top: 0; right: 0; bottom: 0; left: 0;
+    inset: 0;
+    z-index: 200;
+  }
+  body.js-on .bio-fallback:target { display: none; }
+  .bio-fallback-backdrop {
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    inset: 0;
+    background: rgba(26, 41, 66, 0.35);
+    text-decoration: none;
+  }
+  .bio-fallback-card {
+    position: relative;
+    z-index: 1;
+    max-width: 500px;
+    width: calc(100vw - 24px);
+    max-height: calc(100vh - 24px);
+    margin: 60px auto 0;
+    background: #fff;
+    border-radius: 16px;
+    padding: 26px 28px 24px;
+    box-shadow: 0 10px 32px rgba(26, 41, 66, 0.22);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .bio-fallback-close {
+    position: absolute;
+    top: 6px;
+    left: 12px;
+    font-size: 26px;
+    color: #8896ad;
+    text-decoration: none;
+    line-height: 1;
+    padding: 4px 8px;
+  }
+  .bio-fallback-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-left: 24px;
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid #c5cdd9;
+  }
+  .bio-fallback-photo {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #f0f4f8;
+    flex-shrink: 0;
+    border: 1px solid #cdd5e1;
+  }
+  .bio-fallback-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+  }
+  .bio-fallback-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a2942;
+    line-height: 1.2;
+  }
+  .bio-fallback-title {
+    font-size: 13.5px;
+    color: #5a6a85;
+    margin-top: 3px;
+    line-height: 1.3;
+  }
+  .bio-fallback-text {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #2a3a55;
+    text-align: right;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    white-space: pre-line;
+  }
+  .bio-fallback-text.placeholder {
+    color: #8896ad;
+    font-style: italic;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+  <header>
+    <img class="logo" src="images/logo.png" alt="לוגו">
+    <h1>צוערים לשירות המדינה — מחזור י״ב</h1>
+  </header>
+
+  <main class="grid" id="grid">
+    <a href="#bio-cadet-0" class="person" data-crop="center 3%" data-bio="עורכת דין, בעלת תואר ראשון במשפטים ותואר שני במדיניות ציבורית. את ההתמחות המשפטית עשיתי בלשכה המשפטית במשרד האוצר, ולפני כן עבדתי בלשכת שרת התחבורה דאז, מיכאלי, כרכזת הקבינט לשוויון מגדרי. מתעניינת בתחומי מגדר, זכויות אדם, סוגיות ורוחב ותכלול תהליכים.">
+      <div class="photo-wrap"><img src="images/14-michal-adiv.jpg" alt="מיכל אדיב" loading="lazy" decoding="async" style="object-position: center 3%"></div>
+      <div class="name">מיכל אדיב</div>
+    </a>
+    <a href="#bio-cadet-1" class="person" data-bio="תואר ראשון מהאוני&#39; העברית במדעי הסביבה והחברה
+תואר שני מחקרי מהטכניון בהנדסת סביבה
+בשנים האחרונות התעסקתי בהנדסת מים, מו&quot;פ בטיהור מים וייעוץ לטיהור קרקעות מזוהמות
+מעוניין לתרום למדינה ולהוביל שינויי עומק, עדיין לא יודע באיזה תפקיד או תחום">
+      <div class="photo-wrap"><img src="images/12-michael-kolman.jpg" alt="מיכאל קולמן" loading="lazy" decoding="async"></div>
+      <div class="name">מיכאל קולמן</div>
+    </a>
+    <a href="#bio-cadet-2" class="person" data-bio="תואר שני במדיניות ציבורית מאוניברסיטת קיימברידג&#39;, עמית פולברייט ותואר מהרווארד במדיניות החינוך וחדשנות. הייתי יועץ מנכ״ל במשרד החינוך, לפני כן ניהול עמותות, ניהול פרויקטים וקצת אקדמיה. בהמשך אשמח להשתלב בתפקיד עם השפעת דומינו חיובית עבור מדינת ישראל שיאפשר לי לתרום להתאמת שירות המדינה לעולם המשתנה">
+      <div class="photo-wrap"><img src="images/2-gavriel-benhaim.jpg" alt="גבריאל בן חיים" loading="lazy" decoding="async"></div>
+      <div class="name">גבריאל בן חיים</div>
+    </a>
+    <a href="#bio-cadet-3" class="person" data-crop="center 8%" data-bio="בוגרת תואר ראשון בממשל ודיפלומטיה ברייכמן, מ&quot;פ לשעבר של תצפיתניות בעזה, עסקתי בייעוץ ארגוני וניהול פרויקטים בארגון הבוגרים של אונ&#39; רייכמן. בראש פתוח להכיר את המגזר הציבורי ולבחור מיקוד במהלך ההכשרה.">
+      <div class="photo-wrap"><img src="images/1-hagar-agion.jpg" alt="הגר אגיאון" loading="lazy" decoding="async" style="object-position: center 8%"></div>
+      <div class="name">הגר אגיאון</div>
+    </a>
+    <a href="#bio-cadet-4" class="person" data-crop="center 22%" data-bio="עו״ס, למעלה מעשור בתחום נוער בסיכון, במקביל עסקתי בתקשורת וקצת פוליטיקה, שבהם בעיקר יצרתי גשרים וחיבורים בין החברה החרדית לרשויות שונות ומשרדים שונים. בעצם, לקחתי ידע מקצועי ותרבותי ועשיתי איתם דברים טובים :)">
+      <div class="photo-wrap"><img src="images/3-leah-diamant.jpg" alt="לאה דיאמנט" loading="lazy" decoding="async" style="object-position: center 22%"></div>
+      <div class="name">לאה דיאמנט</div>
+    </a>
+    <a href="#bio-cadet-5" class="person" data-bio="בוגר תואר ראשון במשפטים מהאוניברסיטה העברית ועורך דין בתחומים של משפט מסחרי ורגולציה של הגנת מידע. בשנים האחרונות עסקתי בחינוך והוראה.
+בשירות המדינה מתעניין בנושא החינוך והנושא המשפטי.">
+      <div class="photo-wrap"><img src="images/4-elad-levi.png" alt="אלעד לוי" loading="lazy" decoding="async"></div>
+      <div class="name">אלעד לוי</div>
+    </a>
+    <a href="#bio-cadet-6" class="person" data-bio="אני עם תואר ראשון בחינוך בלתי פורמלי ותעודת הוראה ממכללת בית ברל. בעבר עסקתי בחינוך בלתי פורמאלי במועצה אזורית משגב, ולאחר מכן עבדתי במרכז הגאה בעיריית ת&quot;א יפו , הייתי סגן מנהל המרכז ואחראי על אירועי הגאווה ומפיק התוכן והאומנותי של מצעד הגאווה בתל אביב. בשנה האחרונה לפני תחילת קורס הצוערים עבדתי בארגון חברה אזרחית ששמו &#39;אידאה&#39;.">
+      <div class="photo-wrap"><img src="images/5-or-tom-adi.jpg" alt="אור תום עדי" loading="lazy" decoding="async"></div>
+      <div class="name">אור תום עדי</div>
+    </a>
+    <a href="#bio-cadet-7" class="person" data-bio="בוגרת תואר ראשון בלימודי משפטים ופילוסופיה באוניברסיטת בר אילן. הגעתי לתכנית הצוערים אחרי עשור של עבודה כעורכת דין במשרד פרטי שעסק בדין האזרחי. תחומי העניין שלי בשירות הציבורי הם בעיקר בתחום הבריאות, בדגש על קביעת מדיניות ופיתוח דרכים להנגשה של שירותי רפואה טובים ומתקדמים לכל גווני האוכלוסייה.">
+      <div class="photo-wrap"><img src="images/6-vita-girshman-shain.jpg" alt="ויטה גבירצמן שיין" loading="lazy" decoding="async"></div>
+      <div class="name">ויטה גבירצמן שיין</div>
+    </a>
+    <a href="#bio-cadet-8" class="person" data-crop="center 22%" data-bio="תואר במשפטים מאוניברסיטת חיפה, עורכת דין (הסמכה בשנת 2024), התמחות במחלקת הבג&quot;צים בפרקליטות המדינה ולאחר מכן עבודה במשרד פרטי במחלקת ליטיגציה מסחרית. הגעתי לתכנית כדי להשפיע השפעה רחבה ככל הניתן היכן שהדבר יידרש. תחומי עניין - תחבורה, בריאות, פנים (בדגש על שלטון מקומי) ועוד.">
+      <div class="photo-wrap"><img src="images/7-tal-ratner.jpg" alt="טל רטנר" loading="lazy" decoding="async" style="object-position: center 22%"></div>
+      <div class="name">טל רטנר</div>
+    </a>
+    <a href="#bio-cadet-9" class="person" data-crop="center 38%" data-bio="עורך דין צעיר, התמחיתי בלשכה המשפטית של משרד המשפטים, ועבדתי לתקופה קצרה במילוי מקום במשרד לבטחון לאומי. 
+מעוניין למצוא את מקומי כמשפטן בתחומי בטחון פנים או במשרד המשפטים.">
+      <div class="photo-wrap"><img src="images/8-yair-silberg.jpg" alt="יאיר סילברג" loading="lazy" decoding="async" style="object-position: center 38%"></div>
+      <div class="name">יאיר סילברג</div>
+    </a>
+    <a href="#bio-cadet-10" class="person" data-crop="center 22%" data-bio="עוס, פנימייה פוסט אישפוזית. כיוון- קיימות">
+      <div class="photo-wrap"><img src="images/9-yula-weisblach.jpg" alt="יולה ויסבלך" loading="lazy" decoding="async" style="object-position: center 22%"></div>
+      <div class="name">יולה ויסבלך</div>
+    </a>
+    <a href="#bio-cadet-11" class="person" data-bio="תואר ראשון במשפטים, ושני (לקראת סיום) בניהול מלכ&quot;רים. עבודה במגזר הפרטי ובשנתיים האחרונות יותר תחת המגזר השלישי.
+עניין רב בבריאות הציבור שמשרד הבריאות">
+      <div class="photo-wrap"><img src="images/10-ilon-lemberger.jpg" alt="אילון למברגר" loading="lazy" decoding="async"></div>
+      <div class="name">אילון למברגר</div>
+    </a>
+    <a href="#bio-cadet-12" class="person" data-crop="center 24%" data-bio="תואר ראשון בפסיכולוגיה וניהול מבן גוריון, קורס חווית משתמש, לפני עבדתי קצת בתור UX/UI ובלימודים הייתי מדריכה בהוסטל של צעירות חסרות עורף משפחתי. מתעניינת בתחומי דיגיטל וחדשנות טכנולוגית, תודה רבה :)">
+      <div class="photo-wrap"><img src="images/11-lior-fox.jpg" alt="ליאור פוקס" loading="lazy" decoding="async" style="object-position: center 24%"></div>
+      <div class="name">ליאור פוקס</div>
+    </a>
+    <a href="#bio-cadet-13" class="person" data-bio="תואר שני במדיניות ציבורית. לפני התכנית עבדתי בנש״מ באגף גיוון תעסוקתי . 
+עדיין לא החלטתי איזה תחום. הגעתי לתוכנית כדי לדייק את זה ובמהלך ההכשרה אני נחשפת לנושאים שלא חשבתי עליהם. הכל פתוח כרגע">
+      <div class="photo-wrap"><img src="images/13-rachel-shitta.jpg" alt="רחל שטה אסייס" loading="lazy" decoding="async"></div>
+      <div class="name">רחל שטה אסייס</div>
+    </a>
+    <a href="#bio-cadet-14" class="person" data-bio="תואר ראשון במדעי המדינה ותקשורת.
+ניסיון מקצועי - דוברות והסברה, שיתופי ציבור וקשרי קהילה בתחום התשתיות והתחבורה.
+תחומי עניין בשירות המדינה- תחבורה ותשתיות, חברה וממשל,   כלכלה ותאגידים.">
+      <div class="photo-wrap"><img src="images/15-noa-cohen.jpg" alt="נועה שרה כהן" loading="lazy" decoding="async"></div>
+      <div class="name">נועה שרה כהן</div>
+    </a>
+    <a href="#bio-cadet-15" class="person" data-crop="center 22%" data-bio="תואר ראשון בכלכלה ופסיכולוגיה, תואר שני במימון. עסקתי בעבר ביעוץ כלכלי אבל לאו דווקא רוצה להמשיך לתחום כלכלי/פיננסי בשירות המדינה, מתעניין בייעול תהליכים ובשיפור שירותים אזרחיים.">
+      <div class="photo-wrap"><img src="images/16-noam-frumovitz.jpg" alt="נועם פרומוביץ" loading="lazy" decoding="async" style="object-position: center 22%"></div>
+      <div class="name">נועם פרומוביץ</div>
+    </a>
+    <a href="#bio-cadet-16" class="person" data-crop="center 50%" data-bio="בעל תואר ראשון במדעי מדינה התמחות במדיניות ציבורית מאוניברסיטת חיפה, עבדתי במגן דוד אדום במשך 17 שנים, בהם מלאתי שלל תפקידים, האחרון באגף משנה למנכ&quot;ל במחלקת בקרה, ובעבודה האחרונה כיהנתי כסמנכ&quot;ל המרכז הישראלי דרוזי(ע&quot;ר). כיהנתי כחבר מועצה בדאלית אל כרמל, פעיל חברתי בתוך העדה הדרוזית.
+הכיוון שמעניין אותי בשירות המדינה, זה תפקידי מטה שיש בהם השפעה רוחבית על עניינים מהותיים בחיי היום יום של אזרחי המדינה">
+      <div class="photo-wrap"><img src="images/17-salah-badria.jpg" alt="סלאח בדרייה" loading="lazy" decoding="async" style="object-position: center 50%"></div>
+      <div class="name">סלאח בדרייה</div>
+    </a>
+    <a href="#bio-cadet-17" class="person" data-bio="בעלת תואר ראשון בממשל (ודיפלומטיה) לאחר שירות קבע קצר כקצינת חינוך בחיל הים. אני מגיעה מעולמות החינוך הבלתי פורמלי, עמותות וניהול פרוייקטים, קרן רמון ושליחת הסוכנות היהודית באוניברסיטת הרווארד. מתעניינת בקשרי יהדות התפוצות, חינוך וקבוצות סיכון/רווחה. אולי תחומים שקשורים לעידן פוסט ה7/10 וההשפעה באוכלוסיות שונות. אני עם ראש פתוח, סקרנית להגיע למקום משמעותי לאחר ההכשרה">
+      <div class="photo-wrap"><img src="images/18-sapir-reznik.jpg" alt="ספיר רזניק" loading="lazy" decoding="async"></div>
+      <div class="name">ספיר רזניק</div>
+    </a>
+    <a href="#bio-cadet-18" class="person" data-crop="center 8%" data-bio="למדתי תואר שני במדיניות ציבורית במכללה האקדמית ספיר.
+עסקתי בתחום החינוך הבלתי פורמלי, בתפקיד האחרון כמנהלת תוכניות של שנת שירות &quot;בקהילה&quot; בירושלים.
+מתעניינת בתחומי הקליטה והחינוך.">
+      <div class="photo-wrap"><img src="images/19-adi-galgut.jpg" alt="עדי גלגוט" loading="lazy" decoding="async" style="object-position: center 8%"></div>
+      <div class="name">עדי גלגוט</div>
+    </a>
+    <a href="#bio-cadet-19" class="person" data-bio="תואר ראשון במדעי המדינה, תואר שני במנהל עסקים
+מגיע מהמגזר השלישי, לפני כן 7.5 שנים בחיל הים בתפקידי שטח ומטה (פיקוד, הכשרות ובניין כח)">
+      <div class="photo-wrap"><img src="images/20-atar-kahana.jpg" alt="עטר כהנא שמאע" loading="lazy" decoding="async"></div>
+      <div class="name">עטר כהנא שמאע</div>
+    </a>
+    <a href="#bio-cadet-20" class="person" data-crop="center 12%" data-bio="בעלת תואר בעבודה סוציאלית, בוגרת תוכנית שגרירי רוטשילד ורקע בעשייה בארגונים חברתיים. מכוונת למשרד הרווחה, הקליטה, הבריאות אך מגיעה עם ראש פתוח וסקרנות">
+      <div class="photo-wrap"><img src="images/21-rivka-zissano.jpg" alt="רבקה זיסנו" loading="lazy" decoding="async" style="object-position: center 12%"></div>
+      <div class="name">רבקה זיסנו</div>
+    </a>
+    <a href="#bio-cadet-21" class="person" data-bio="מגיע מתחום תכנון ערים, ולפני כן במדעי הרוח. פתוח גם לכיוון הרחב הזה וגם לכיוונים נוספים. למדתי במגוון מוסדות ודיסצפלינות - חינוך (מכללת הרצוג) פילוסופיה (אונ&#39; הפתוחה) משפטים בתוכנית משפט עברי (אונ&#39; תל אביב) וכעת לקראת סיום תכנון ערים (אונ&#39; העברית). מחפש בעיקר אתגרים ומקומות שאפשר לעשות בהם דברים משמעותיים ויצירתיים.">
+      <div class="photo-wrap"><img src="images/22-roi-kaduri.png" alt="רועי כדורי" loading="lazy" decoding="async"></div>
+      <div class="name">רועי כדורי</div>
+    </a>
+    <a href="#bio-cadet-22" class="person" data-crop="center 50%" data-bio="בעל תואר ראשון במדע המדינה והיסטוריה בעברית ותואר שני בלימודי ביטחון ודיפלומטיה בתל אביב. מגיע מעולם חינוך וקהילה. בתפקידי האחרון ניהלתי מתנ&quot;ס ברמת השרון. הרבה דברים נשמעים לי מעניינים. חינוך, תשתיות, רגולציה, ביטחון- אני עוד לומד את העולם הציבורי לפני שאתמקד במשהו ספציפי">
+      <div class="photo-wrap"><img src="images/23-ido-fromansky.png" alt="עידו פרומנסקי" loading="lazy" decoding="async" style="object-position: center 50%"></div>
+      <div class="name">עידו פרומנסקי</div>
+    </a>
+    <a href="#bio-cadet-23" class="person" data-crop="center 45%" data-bio="למדתי משפטים באוניברסיטה העברית. עבדתי במחלקת ליטיגציה במשרד פרטי וכעוזרת משפטית לשופטת בבית המשפט המחוזי. מתעניינת בחינוך, רווחה, בריאות, רגולציה ורוצה תפקיד עם השפעה על השטח ולא רק משהו תכנוני מלמעלה">
+      <div class="photo-wrap"><img src="images/24-tahar-buchnik.jpg" alt="טהר בוכניק" loading="lazy" decoding="async" style="object-position: center 45%"></div>
+      <div class="name">טהר בוכניק</div>
+    </a>
+    <a href="#bio-cadet-24" class="person" data-crop="center 20%" data-bio="תואר ראשון במנהל עסקים עם התמחות במימון וחשבונאות, ותואר שני במנהל עסקים עם התמחות ביעוץ עסקי. לפני שהגעתי לצוערים עבדתי כעוזרת אישית למנכ&quot;ל אלקטרה מגורים, ולפני כן עבדתי כרכזת דוברות ויח&quot;צ במכון ויצמן למדע. אני מגיעה לצוערים עם ראש פתוח לעשות מגוון של תפקידים, אבל המשיכה הראשונית שלי היא לתפקידים כלכליים.">
+      <div class="photo-wrap"><img src="images/25-rotem-shoval.jpg" alt="רותם שובל" loading="lazy" decoding="async" style="object-position: center 20%"></div>
+      <div class="name">רותם שובל</div>
+    </a>
+    <a href="#bio-cadet-25" class="person" data-crop="center 50%" data-bio="תואר ראשון במדעי המדינה והיסטוריה של עם ישראל בהצטיינות יתרה באונ׳ חיפה, מסיימת תואר שני במדיניות ציבורית באונ׳ ת״א. בעברי מתמחה במינהל קשרי חוץ במרכז השלטון המקומי, פרויקטורית ועידת השלטון המקומי MuniExpo ועובדת לשכת מנכ״לית ויו״ר מרכז השלטון המקומי, לאחר מכן רכזת תחום יצרנים ויבואנים בתאגיד המיחזור תמיר. שואפת להשתלב בתחומי התחבורה/השלטון המקומי/הרגולציה.">
+      <div class="photo-wrap"><img src="images/26-shaked-eran.jpg" alt="שקד ערן" loading="lazy" decoding="async" style="object-position: center 50%"></div>
+      <div class="name">שקד ערן</div>
+    </a>
+  </main>
+
+  <h2 class="team-heading">צוות ההכשרה</h2>
+  <section class="team-grid" id="team-grid">
+    <a href="#bio-team-0" class="person" data-title="מנהלת תחום בכיר הכשרה" data-bio="לענת ניסיון עשיר בליווי ופיתוח תהליכים ותכניות בממשלה ובחברה האזרחית. היא עבדה מספר שנים ב&quot;תובנות&quot; שם למדה את עבודת השירות הציבורי, ולאחר מכן כהנה כמנהלת תחום יישום באגף בכיר &quot;עתודות לישראל&quot; במשרד ראש הממשלה. בתפקידה האחרון שימשה כמנכ&quot;לית ארגון &quot;אוניברסיטה בעם&quot;, שם ניהלה מערך ארצי להנגשת השכלה בארבע אוניברסיטאות. בשובה לשירות הציבורי חזרה לתחום העתודות כמנהלת ההכשרה של תכנית צוערים לשירות המדינה. ענת סיימה תואר שני במשפטים באוניברסיטת בר-אילן בהצטיינות יתרה. לעבודתה באגף היא מביאה ניסיון עשיר, מגוון ואינטר-דיסציפלינרי מתחומי המחקר, האסטרטגיה, הניהול והשיתוף.">
+      <div class="photo-wrap"><img src="images/team-anat.jpg" alt="ענת אלדר וטין" loading="lazy" decoding="async"></div>
+      <div class="name">ענת אלדר וטין</div>
+      <div class="title">מנהלת תחום בכיר הכשרה</div>
+    </a>
+    <a href="#bio-team-1" class="person" data-title="מנהל פיתוח תוכן" data-bio="אפי נשוי, אב לשלושה ותושב לוד. בוגר תכנית מנהיגות של מכון מנדל. את דרכו המקצועית החל אפי כאיש חינוך, כאשר כיהן בתפקידים בכירים במערך ההדרכה של תנועת הנוער עזרא. לאחר שסיים תואר שני בתכנון עירוני באוניברסיטה העברית השתלב במנהל הפיתוח במשרד הפנים, משם המשיך למגוון רחב של תפקידים בתוך המשרד. באגף צוערים לשירות המדינה משלב אפי בין עולמות ההדרכה להיכרותו המעמיקה עם השירות הציבורי, ומשמש כמנהל התוכן של הכשרת הצוערים.">
+      <div class="photo-wrap"><img src="images/team-efi.jpeg" alt="אפי הורוביץ" loading="lazy" decoding="async"></div>
+      <div class="name">אפי הורוביץ</div>
+      <div class="title">מנהל פיתוח תוכן</div>
+    </a>
+    <a href="#bio-team-2" class="person" data-title="מנהלת פיתוח אישי וקבוצתי" data-bio="גליה גרה בתל אביב, נשואה לאמנון, אמא של שירה ונעמה. לגליה שנות נסיון רבות בפיתוח תכנים, הנחיית קבוצות ותהליכי שינוי בעולם החברתי והציבורי, והיא בעלת תואר ראשון בספרות ותואר שני בתקשורת. בנוסף, למדה גליה שלל הכשרות בתחומי ידע מגוונים. בתפקידיה הקודמים שימשה גליה כמנהלת תוכניות בג&#39;וינט אלכא - מובילה צוותי משימה משותפים לטיפול בסוגיות רוחב מורכבות, וכמנהלת תוכן והדרכה בשותפויות רוטשילד. בנוסף לעיסוקיה, גליה הינה המייסדת של &quot;פואטיקארד&quot; ו&quot;פוטופואטיקה&quot; – קלפי שירה והשראה לעבודה בקבוצות, עורכת ומגישה את הפודקאסט &quot;השיר הנכון&quot; וחברה בוועד המנהל של עמותת אנדומטריוזיס ישראל.">
+      <div class="photo-wrap"><img src="images/team-galia.jpeg" alt="גליה שושני" loading="lazy" decoding="async"></div>
+      <div class="name">גליה שושני</div>
+      <div class="title">מנהלת פיתוח אישי וקבוצתי</div>
+    </a>
+    <a href="#bio-team-3" class="person" data-title="מנהלת תפעול ופרויקטים" data-bio="בתפקידה האחרון שימשה רוני כמנהלת מרכז למידה בקורת גג לנערים בסיכון, שם הייתה אחראית על ניהול צוותי הוראה ומתנדבים, בניית תכניות פדגוגיות ועבודה מול גורמי פיקוח ורווחה. קודם לכן עבדה כמנחת קומונות בארגון &quot;מרכז מעשה&quot; וכמרכזת שבט &quot;גילעד&quot; בתנועת הצופים בקרית אונו. לרוני תואר ראשון ותעודת הוראה בחינוך דמוקרטי וניהול עסקי-חברתי מסמינר הקיבוצים.">
+      <div class="photo-wrap"><img src="images/team-roni.png" alt="רוני פרידמן" loading="lazy" decoding="async"></div>
+      <div class="name">רוני פרידמן</div>
+      <div class="title">מנהלת תפעול ופרויקטים</div>
+    </a>
+  </section>
+
+  <div class="bio-fallback" id="bio-cadet-0">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/14-michal-adiv.jpg" alt="מיכל אדיב" style="object-position: center 3%"></div>
+        <div>
+          <div class="bio-fallback-name">מיכל אדיב</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">עורכת דין, בעלת תואר ראשון במשפטים ותואר שני במדיניות ציבורית. את ההתמחות המשפטית עשיתי בלשכה המשפטית במשרד האוצר, ולפני כן עבדתי בלשכת שרת התחבורה דאז, מיכאלי, כרכזת הקבינט לשוויון מגדרי. מתעניינת בתחומי מגדר, זכויות אדם, סוגיות ורוחב ותכלול תהליכים.</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-cadet-1">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/12-michael-kolman.jpg" alt="מיכאל קולמן"></div>
+        <div>
+          <div class="bio-fallback-name">מיכאל קולמן</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">תואר ראשון מהאוני' העברית במדעי הסביבה והחברה
+תואר שני מחקרי מהטכניון בהנדסת סביבה
+בשנים האחרונות התעסקתי בהנדסת מים, מו"פ בטיהור מים וייעוץ לטיהור קרקעות מזוהמות
+מעוניין לתרום למדינה ולהוביל שינויי עומק, עדיין לא יודע באיזה תפקיד או תחום</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-cadet-2">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/2-gavriel-benhaim.jpg" alt="גבריאל בן חיים"></div>
+        <div>
+          <div class="bio-fallback-name">גבריאל בן חיים</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">תואר שני במדיניות ציבורית מאוניברסיטת קיימברידג', עמית פולברייט ותואר מהרווארד במדיניות החינוך וחדשנות. הייתי יועץ מנכ״ל במשרד החינוך, לפני כן ניהול עמותות, ניהול פרויקטים וקצת אקדמיה. בהמשך אשמח להשתלב בתפקיד עם השפעת דומינו חיובית עבור מדינת ישראל שיאפשר לי לתרום להתאמת שירות המדינה לעולם המשתנה</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-cadet-3">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/1-hagar-agion.jpg" alt="הגר אגיאון" style="object-position: center 8%"></div>
+        <div>
+          <div class="bio-fallback-name">הגר אגיאון</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">בוגרת תואר ראשון בממשל ודיפלומטיה ברייכמן, מ"פ לשעבר של תצפיתניות בעזה, עסקתי בייעוץ ארגוני וניהול פרויקטים בארגון הבוגרים של אונ' רייכמן. בראש פתוח להכיר את המגזר הציבורי ולבחור מיקוד במהלך ההכשרה.</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-cadet-4">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/3-leah-diamant.jpg" alt="לאה דיאמנט" style="object-position: center 22%"></div>
+        <div>
+          <div class="bio-fallback-name">לאה דיאמנט</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">עו״ס, למעלה מעשור בתחום נוער בסיכון, במקביל עסקתי בתקשורת וקצת פוליטיקה, שבהם בעיקר יצרתי גשרים וחיבורים בין החברה החרדית לרשויות שונות ומשרדים שונים. בעצם, לקחתי ידע מקצועי ותרבותי ועשיתי איתם דברים טובים :)</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-cadet-5">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/4-elad-levi.png" alt="אלעד לוי"></div>
+        <div>
+          <div class="bio-fallback-name">אלעד לוי</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">בוגר תואר ראשון במשפטים מהאוניברסיטה העברית ועורך דין בתחומים של משפט מסחרי ורגולציה של הגנת מידע. בשנים האחרונות עסקתי בחינוך והוראה.
+בשירות המדינה מתעניין בנושא החינוך והנושא המשפטי.</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-cadet-6">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/5-or-tom-adi.jpg" alt="אור תום עדי"></div>
+        <div>
+          <div class="bio-fallback-name">אור תום עדי</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">אני עם תואר ראשון בחינוך בלתי פורמלי ותעודת הוראה ממכללת בית ברל. בעבר עסקתי בחינוך בלתי פורמאלי במועצה אזורית משגב, ולאחר מכן עבדתי במרכז הגאה בעיריית ת"א יפו , הייתי סגן מנהל המרכז ואחראי על אירועי הגאווה ומפיק התוכן והאומנותי של מצעד הגאווה בתל אביב. בשנה האחרונה לפני תחילת קורס הצוערים עבדתי בארגון חברה אזרחית ששמו 'אידאה'.</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-cadet-7">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/6-vita-girshman-shain.jpg" alt="ויטה גבירצמן שיין"></div>
+        <div>
+          <div class="bio-fallback-name">ויטה גבירצמן שיין</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">בוגרת תואר ראשון בלימודי משפטים ופילוסופיה באוניברסיטת בר אילן. הגעתי לתכנית הצוערים אחרי עשור של עבודה כעורכת דין במשרד פרטי שעסק בדין האזרחי. תחומי העניין שלי בשירות הציבורי הם בעיקר בתחום הבריאות, בדגש על קביעת מדיניות ופיתוח דרכים להנגשה של שירותי רפואה טובים ומתקדמים לכל גווני האוכלוסייה.</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-cadet-8">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/7-tal-ratner.jpg" alt="טל רטנר" style="object-position: center 22%"></div>
+        <div>
+          <div class="bio-fallback-name">טל רטנר</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">תואר במשפטים מאוניברסיטת חיפה, עורכת דין (הסמכה בשנת 2024), התמחות במחלקת הבג"צים בפרקליטות המדינה ולאחר מכן עבודה במשרד פרטי במחלקת ליטיגציה מסחרית. הגעתי לתכנית כדי להשפיע השפעה רחבה ככל הניתן היכן שהדבר יידרש. תחומי עניין - תחבורה, בריאות, פנים (בדגש על שלטון מקומי) ועוד.</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-cadet-9">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/8-yair-silberg.jpg" alt="יאיר סילברג" style="object-position: center 38%"></div>
+        <div>
+          <div class="bio-fallback-name">יאיר סילברג</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">עורך דין צעיר, התמחיתי בלשכה המשפטית של משרד המשפטים, ועבדתי לתקופה קצרה במילוי מקום במשרד לבטחון לאומי. 
+מעוניין למצוא את מקומי כמשפטן בתחומי בטחון פנים או במשרד המשפטים.</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-cadet-10">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/9-yula-weisblach.jpg" alt="יולה ויסבלך" style="object-position: center 22%"></div>
+        <div>
+          <div class="bio-fallback-name">יולה ויסבלך</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">עוס, פנימייה פוסט אישפוזית. כיוון- קיימות</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-cadet-11">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/10-ilon-lemberger.jpg" alt="אילון למברגר"></div>
+        <div>
+          <div class="bio-fallback-name">אילון למברגר</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">תואר ראשון במשפטים, ושני (לקראת סיום) בניהול מלכ"רים. עבודה במגזר הפרטי ובשנתיים האחרונות יותר תחת המגזר השלישי.
+עניין רב בבריאות הציבור שמשרד הבריאות</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-cadet-12">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/11-lior-fox.jpg" alt="ליאור פוקס" style="object-position: center 24%"></div>
+        <div>
+          <div class="bio-fallback-name">ליאור פוקס</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">תואר ראשון בפסיכולוגיה וניהול מבן גוריון, קורס חווית משתמש, לפני עבדתי קצת בתור UX/UI ובלימודים הייתי מדריכה בהוסטל של צעירות חסרות עורף משפחתי. מתעניינת בתחומי דיגיטל וחדשנות טכנולוגית, תודה רבה :)</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-cadet-13">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/13-rachel-shitta.jpg" alt="רחל שטה אסייס"></div>
+        <div>
+          <div class="bio-fallback-name">רחל שטה אסייס</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">תואר שני במדיניות ציבורית. לפני התכנית עבדתי בנש״מ באגף גיוון תעסוקתי . 
+עדיין לא החלטתי איזה תחום. הגעתי לתוכנית כדי לדייק את זה ובמהלך ההכשרה אני נחשפת לנושאים שלא חשבתי עליהם. הכל פתוח כרגע</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-cadet-14">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/15-noa-cohen.jpg" alt="נועה שרה כהן"></div>
+        <div>
+          <div class="bio-fallback-name">נועה שרה כהן</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">תואר ראשון במדעי המדינה ותקשורת.
+ניסיון מקצועי - דוברות והסברה, שיתופי ציבור וקשרי קהילה בתחום התשתיות והתחבורה.
+תחומי עניין בשירות המדינה- תחבורה ותשתיות, חברה וממשל,   כלכלה ותאגידים.</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-cadet-15">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/16-noam-frumovitz.jpg" alt="נועם פרומוביץ" style="object-position: center 22%"></div>
+        <div>
+          <div class="bio-fallback-name">נועם פרומוביץ</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">תואר ראשון בכלכלה ופסיכולוגיה, תואר שני במימון. עסקתי בעבר ביעוץ כלכלי אבל לאו דווקא רוצה להמשיך לתחום כלכלי/פיננסי בשירות המדינה, מתעניין בייעול תהליכים ובשיפור שירותים אזרחיים.</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-cadet-16">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/17-salah-badria.jpg" alt="סלאח בדרייה" style="object-position: center 50%"></div>
+        <div>
+          <div class="bio-fallback-name">סלאח בדרייה</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">בעל תואר ראשון במדעי מדינה התמחות במדיניות ציבורית מאוניברסיטת חיפה, עבדתי במגן דוד אדום במשך 17 שנים, בהם מלאתי שלל תפקידים, האחרון באגף משנה למנכ"ל במחלקת בקרה, ובעבודה האחרונה כיהנתי כסמנכ"ל המרכז הישראלי דרוזי(ע"ר). כיהנתי כחבר מועצה בדאלית אל כרמל, פעיל חברתי בתוך העדה הדרוזית.
+הכיוון שמעניין אותי בשירות המדינה, זה תפקידי מטה שיש בהם השפעה רוחבית על עניינים מהותיים בחיי היום יום של אזרחי המדינה</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-cadet-17">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/18-sapir-reznik.jpg" alt="ספיר רזניק"></div>
+        <div>
+          <div class="bio-fallback-name">ספיר רזניק</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">בעלת תואר ראשון בממשל (ודיפלומטיה) לאחר שירות קבע קצר כקצינת חינוך בחיל הים. אני מגיעה מעולמות החינוך הבלתי פורמלי, עמותות וניהול פרוייקטים, קרן רמון ושליחת הסוכנות היהודית באוניברסיטת הרווארד. מתעניינת בקשרי יהדות התפוצות, חינוך וקבוצות סיכון/רווחה. אולי תחומים שקשורים לעידן פוסט ה7/10 וההשפעה באוכלוסיות שונות. אני עם ראש פתוח, סקרנית להגיע למקום משמעותי לאחר ההכשרה</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-cadet-18">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/19-adi-galgut.jpg" alt="עדי גלגוט" style="object-position: center 8%"></div>
+        <div>
+          <div class="bio-fallback-name">עדי גלגוט</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">למדתי תואר שני במדיניות ציבורית במכללה האקדמית ספיר.
+עסקתי בתחום החינוך הבלתי פורמלי, בתפקיד האחרון כמנהלת תוכניות של שנת שירות "בקהילה" בירושלים.
+מתעניינת בתחומי הקליטה והחינוך.</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-cadet-19">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/20-atar-kahana.jpg" alt="עטר כהנא שמאע"></div>
+        <div>
+          <div class="bio-fallback-name">עטר כהנא שמאע</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">תואר ראשון במדעי המדינה, תואר שני במנהל עסקים
+מגיע מהמגזר השלישי, לפני כן 7.5 שנים בחיל הים בתפקידי שטח ומטה (פיקוד, הכשרות ובניין כח)</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-cadet-20">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/21-rivka-zissano.jpg" alt="רבקה זיסנו" style="object-position: center 12%"></div>
+        <div>
+          <div class="bio-fallback-name">רבקה זיסנו</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">בעלת תואר בעבודה סוציאלית, בוגרת תוכנית שגרירי רוטשילד ורקע בעשייה בארגונים חברתיים. מכוונת למשרד הרווחה, הקליטה, הבריאות אך מגיעה עם ראש פתוח וסקרנות</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-cadet-21">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/22-roi-kaduri.png" alt="רועי כדורי"></div>
+        <div>
+          <div class="bio-fallback-name">רועי כדורי</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">מגיע מתחום תכנון ערים, ולפני כן במדעי הרוח. פתוח גם לכיוון הרחב הזה וגם לכיוונים נוספים. למדתי במגוון מוסדות ודיסצפלינות - חינוך (מכללת הרצוג) פילוסופיה (אונ' הפתוחה) משפטים בתוכנית משפט עברי (אונ' תל אביב) וכעת לקראת סיום תכנון ערים (אונ' העברית). מחפש בעיקר אתגרים ומקומות שאפשר לעשות בהם דברים משמעותיים ויצירתיים.</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-cadet-22">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/23-ido-fromansky.png" alt="עידו פרומנסקי" style="object-position: center 50%"></div>
+        <div>
+          <div class="bio-fallback-name">עידו פרומנסקי</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">בעל תואר ראשון במדע המדינה והיסטוריה בעברית ותואר שני בלימודי ביטחון ודיפלומטיה בתל אביב. מגיע מעולם חינוך וקהילה. בתפקידי האחרון ניהלתי מתנ"ס ברמת השרון. הרבה דברים נשמעים לי מעניינים. חינוך, תשתיות, רגולציה, ביטחון- אני עוד לומד את העולם הציבורי לפני שאתמקד במשהו ספציפי</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-cadet-23">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/24-tahar-buchnik.jpg" alt="טהר בוכניק" style="object-position: center 45%"></div>
+        <div>
+          <div class="bio-fallback-name">טהר בוכניק</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">למדתי משפטים באוניברסיטה העברית. עבדתי במחלקת ליטיגציה במשרד פרטי וכעוזרת משפטית לשופטת בבית המשפט המחוזי. מתעניינת בחינוך, רווחה, בריאות, רגולציה ורוצה תפקיד עם השפעה על השטח ולא רק משהו תכנוני מלמעלה</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-cadet-24">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/25-rotem-shoval.jpg" alt="רותם שובל" style="object-position: center 20%"></div>
+        <div>
+          <div class="bio-fallback-name">רותם שובל</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">תואר ראשון במנהל עסקים עם התמחות במימון וחשבונאות, ותואר שני במנהל עסקים עם התמחות ביעוץ עסקי. לפני שהגעתי לצוערים עבדתי כעוזרת אישית למנכ"ל אלקטרה מגורים, ולפני כן עבדתי כרכזת דוברות ויח"צ במכון ויצמן למדע. אני מגיעה לצוערים עם ראש פתוח לעשות מגוון של תפקידים, אבל המשיכה הראשונית שלי היא לתפקידים כלכליים.</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-cadet-25">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/26-shaked-eran.jpg" alt="שקד ערן" style="object-position: center 50%"></div>
+        <div>
+          <div class="bio-fallback-name">שקד ערן</div>
+          
+        </div>
+      </div>
+      <div class="bio-fallback-text">תואר ראשון במדעי המדינה והיסטוריה של עם ישראל בהצטיינות יתרה באונ׳ חיפה, מסיימת תואר שני במדיניות ציבורית באונ׳ ת״א. בעברי מתמחה במינהל קשרי חוץ במרכז השלטון המקומי, פרויקטורית ועידת השלטון המקומי MuniExpo ועובדת לשכת מנכ״לית ויו״ר מרכז השלטון המקומי, לאחר מכן רכזת תחום יצרנים ויבואנים בתאגיד המיחזור תמיר. שואפת להשתלב בתחומי התחבורה/השלטון המקומי/הרגולציה.</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-team-0">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/team-anat.jpg" alt="ענת אלדר וטין"></div>
+        <div>
+          <div class="bio-fallback-name">ענת אלדר וטין</div>
+          <div class="bio-fallback-title">מנהלת תחום בכיר הכשרה</div>
+        </div>
+      </div>
+      <div class="bio-fallback-text">לענת ניסיון עשיר בליווי ופיתוח תהליכים ותכניות בממשלה ובחברה האזרחית. היא עבדה מספר שנים ב&quot;תובנות&quot; שם למדה את עבודת השירות הציבורי, ולאחר מכן כהנה כמנהלת תחום יישום באגף בכיר &quot;עתודות לישראל&quot; במשרד ראש הממשלה. בתפקידה האחרון שימשה כמנכ&quot;לית ארגון &quot;אוניברסיטה בעם&quot;, שם ניהלה מערך ארצי להנגשת השכלה בארבע אוניברסיטאות. בשובה לשירות הציבורי חזרה לתחום העתודות כמנהלת ההכשרה של תכנית צוערים לשירות המדינה. ענת סיימה תואר שני במשפטים באוניברסיטת בר-אילן בהצטיינות יתרה. לעבודתה באגף היא מביאה ניסיון עשיר, מגוון ואינטר-דיסציפלינרי מתחומי המחקר, האסטרטגיה, הניהול והשיתוף.</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-team-1">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/team-efi.jpeg" alt="אפי הורוביץ"></div>
+        <div>
+          <div class="bio-fallback-name">אפי הורוביץ</div>
+          <div class="bio-fallback-title">מנהל פיתוח תוכן</div>
+        </div>
+      </div>
+      <div class="bio-fallback-text">אפי נשוי, אב לשלושה ותושב לוד. בוגר תכנית מנהיגות של מכון מנדל. את דרכו המקצועית החל אפי כאיש חינוך, כאשר כיהן בתפקידים בכירים במערך ההדרכה של תנועת הנוער עזרא. לאחר שסיים תואר שני בתכנון עירוני באוניברסיטה העברית השתלב במנהל הפיתוח במשרד הפנים, משם המשיך למגוון רחב של תפקידים בתוך המשרד. באגף צוערים לשירות המדינה משלב אפי בין עולמות ההדרכה להיכרותו המעמיקה עם השירות הציבורי, ומשמש כמנהל התוכן של הכשרת הצוערים.</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-team-2">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/team-galia.jpeg" alt="גליה שושני"></div>
+        <div>
+          <div class="bio-fallback-name">גליה שושני</div>
+          <div class="bio-fallback-title">מנהלת פיתוח אישי וקבוצתי</div>
+        </div>
+      </div>
+      <div class="bio-fallback-text">גליה גרה בתל אביב, נשואה לאמנון, אמא של שירה ונעמה. לגליה שנות נסיון רבות בפיתוח תכנים, הנחיית קבוצות ותהליכי שינוי בעולם החברתי והציבורי, והיא בעלת תואר ראשון בספרות ותואר שני בתקשורת. בנוסף, למדה גליה שלל הכשרות בתחומי ידע מגוונים. בתפקידיה הקודמים שימשה גליה כמנהלת תוכניות בג&#39;וינט אלכא - מובילה צוותי משימה משותפים לטיפול בסוגיות רוחב מורכבות, וכמנהלת תוכן והדרכה בשותפויות רוטשילד. בנוסף לעיסוקיה, גליה הינה המייסדת של &quot;פואטיקארד&quot; ו&quot;פוטופואטיקה&quot; – קלפי שירה והשראה לעבודה בקבוצות, עורכת ומגישה את הפודקאסט &quot;השיר הנכון&quot; וחברה בוועד המנהל של עמותת אנדומטריוזיס ישראל.</div>
+    </div>
+  </div>
+  <div class="bio-fallback" id="bio-team-3">
+    <a href="#" class="bio-fallback-backdrop" aria-label="סגור"></a>
+    <div class="bio-fallback-card">
+      <a href="#" class="bio-fallback-close" aria-label="סגור">×</a>
+      <div class="bio-fallback-header">
+        <div class="bio-fallback-photo"><img src="images/team-roni.png" alt="רוני פרידמן"></div>
+        <div>
+          <div class="bio-fallback-name">רוני פרידמן</div>
+          <div class="bio-fallback-title">מנהלת תפעול ופרויקטים</div>
+        </div>
+      </div>
+      <div class="bio-fallback-text">בתפקידה האחרון שימשה רוני כמנהלת מרכז למידה בקורת גג לנערים בסיכון, שם הייתה אחראית על ניהול צוותי הוראה ומתנדבים, בניית תכניות פדגוגיות ועבודה מול גורמי פיקוח ורווחה. קודם לכן עבדה כמנחת קומונות בארגון &quot;מרכז מעשה&quot; וכמרכזת שבט &quot;גילעד&quot; בתנועת הצופים בקרית אונו. לרוני תואר ראשון ותעודת הוראה בחינוך דמוקרטי וניהול עסקי-חברתי מסמינר הקיבוצים.</div>
+    </div>
+  </div>
+
+  <div class="popover-backdrop" id="backdrop" onclick="closePopover()"></div>
+
+  <div class="popover" id="popover" role="dialog" aria-modal="true">
+    <button class="popover-close" onclick="closePopover()" aria-label="סגור">×</button>
+    <div class="popover-header">
+      <div class="popover-photo"><img id="pop-img" src="" alt=""></div>
+      <div>
+        <div class="popover-name" id="pop-name"></div>
+        <div class="popover-title" id="pop-title"></div>
+      </div>
+    </div>
+    <div class="popover-bio" id="pop-bio"></div>
+  </div>
+
+<script>
+  // Mark JS-on so the no-JS :target fallback CSS is suppressed.
+  document.body.classList.add('js-on');
+
+  const popover = document.getElementById('popover');
+  const backdrop = document.getElementById('backdrop');
+
+  // Attach click handlers to all pre-rendered .person anchors
+  document.querySelectorAll('a.person').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      openPopover(a);
+    });
+  });
+
+  function openPopover(cardEl) {
+    const imgEl = cardEl.querySelector('img');
+    const name = cardEl.querySelector('.name').textContent;
+    const bio = cardEl.dataset.bio || '';
+    const title = cardEl.dataset.title || '';
+    const crop = cardEl.dataset.crop || '';
+
+    const popImg = document.getElementById('pop-img');
+    popImg.src = imgEl.getAttribute('src');
+    popImg.alt = name;
+    popImg.style.objectPosition = crop || 'center 30%';
+    document.getElementById('pop-name').textContent = name;
+    const titleEl = document.getElementById('pop-title');
+    if (title) {
+      titleEl.textContent = title;
+      titleEl.style.display = '';
+    } else {
+      titleEl.style.display = 'none';
+    }
+    const bioEl = document.getElementById('pop-bio');
+    if (bio && bio.trim()) {
+      bioEl.textContent = bio;
+      bioEl.classList.remove('placeholder');
+    } else {
+      bioEl.textContent = 'ביוגרפיה תועלה בקרוב';
+      bioEl.classList.add('placeholder');
+    }
+
+    backdrop.classList.add('active');
+
+    // On desktop only: animation grows from the clicked photo toward the centered modal.
+    // On phones we leave default origin (center) to keep the simple expand-from-center feel.
+    try {
+      if (window.innerWidth > 700 && cardEl) {
+        const photoEl = cardEl.querySelector('.photo-wrap');
+        if (photoEl) {
+          const photoRect = photoEl.getBoundingClientRect();
+          const photoCx = photoRect.left + photoRect.width / 2;
+          const photoCy = photoRect.top + photoRect.height / 2;
+
+          popover.style.transform = 'translate(-50%, -50%) scale(1)';
+          const popRect = popover.getBoundingClientRect();
+          popover.style.transform = '';
+
+          const originX = photoCx - popRect.left;
+          const originY = photoCy - popRect.top;
+          popover.style.transformOrigin = `${originX}px ${originY}px`;
+        } else {
+          popover.style.transformOrigin = '';
+        }
+      } else {
+        popover.style.transformOrigin = '';
+      }
+    } catch (e) {
+      popover.style.transformOrigin = '';
+    }
+
+    requestAnimationFrame(() => popover.classList.add('active'));
+  }
+
+  function closePopover() {
+    popover.classList.remove('active');
+    backdrop.classList.remove('active');
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closePopover();
+  });
+
+</script>
+</body>
+</html>
