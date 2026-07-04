@@ -1,0 +1,715 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gallery</title>
+<style>
+  :root{
+    --bg:#f7f6f4;
+    --bg-2:#efedea;
+    --ink:#1c1b19;
+    --ink-soft:#6b6862;
+    --line:rgba(0,0,0,.08);
+    --card-radius:20px;
+    --tile-radius:12px;
+    --shadow-soft:0 1px 2px rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.06);
+    --shadow-lift:0 6px 14px rgba(0,0,0,.10),0 30px 60px rgba(0,0,0,.16);
+    --ease:cubic-bezier(.22,.61,.36,1);
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:var(--font);
+    color:var(--ink);
+    background:var(--bg);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+  img{display:block;max-width:100%}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  ::selection{background:#1c1b19;color:#fff}
+
+  /* ============ LANDING ============ */
+  #landing{
+    max-width:1180px;
+    margin:0 auto;
+    padding:clamp(28px,6vw,80px) clamp(20px,5vw,56px) 96px;
+  }
+  .hero{
+    padding:clamp(48px,11vw,140px) 4px clamp(40px,7vw,76px);
+    text-align:center;
+  }
+  .hero .eyebrow{
+    font-size:12.5px;
+    letter-spacing:.42em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    font-weight:600;
+    margin-bottom:26px;
+    padding-left:.42em;
+  }
+  .hero h1{
+    font-size:clamp(52px,13vw,132px);
+    font-weight:700;
+    letter-spacing:-.045em;
+    line-height:.92;
+    margin-bottom:26px;
+  }
+  .hero p{
+    font-size:clamp(15px,1.7vw,18px);
+    color:var(--ink-soft);
+    max-width:38ch;
+    margin:0 auto;
+    line-height:1.55;
+    font-weight:400;
+  }
+
+  .cards{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:clamp(16px,2vw,26px);
+    margin-top:clamp(20px,4vw,44px);
+  }
+  .card{
+    position:relative;
+    aspect-ratio:3/4;
+    border-radius:var(--card-radius);
+    overflow:hidden;
+    background:var(--bg-2);
+    box-shadow:var(--shadow-soft);
+    transition:transform .5s var(--ease),box-shadow .5s var(--ease);
+    text-align:left;
+    width:100%;
+    display:block;
+    isolation:isolate;
+  }
+  .card:hover,.card:focus-visible{
+    transform:translateY(-6px);
+    box-shadow:var(--shadow-lift);
+    outline:none;
+  }
+  .card .cover{
+    position:absolute;inset:0;
+    width:100%;height:100%;
+    object-fit:cover;
+    transition:transform .8s var(--ease),opacity .8s var(--ease);
+    opacity:0;
+    z-index:0;
+  }
+  .card .cover.loaded{opacity:1}
+  .card:hover .cover,.card:focus-visible .cover{transform:scale(1.06)}
+  .card .veil{
+    position:absolute;inset:0;z-index:1;
+    background:linear-gradient(180deg,rgba(0,0,0,0) 32%,rgba(0,0,0,.12) 58%,rgba(0,0,0,.66) 100%);
+  }
+  .card .meta{
+    position:absolute;left:0;right:0;bottom:0;z-index:2;
+    padding:clamp(18px,2.4vw,26px);
+    color:#fff;
+  }
+  .card .heb{
+    font-size:clamp(24px,3vw,34px);
+    font-weight:700;
+    letter-spacing:-.01em;
+    line-height:1.05;
+    direction:rtl;
+    text-shadow:0 1px 18px rgba(0,0,0,.4);
+  }
+  .card .en{
+    font-size:12px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    opacity:.86;
+    margin-top:8px;
+    font-weight:600;
+  }
+  .card .count{
+    position:absolute;top:0;right:0;z-index:2;
+    margin:clamp(14px,1.8vw,20px);
+    font-size:11.5px;
+    font-weight:600;
+    letter-spacing:.04em;
+    color:#fff;
+    background:rgba(20,20,22,.34);
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    padding:5px 11px;
+    border-radius:999px;
+  }
+
+  /* Shuffle */
+  .shuffle-wrap{margin-top:clamp(16px,2vw,26px)}
+  .shuffle{
+    width:100%;
+    display:flex;align-items:center;justify-content:center;gap:14px;
+    padding:22px;
+    border-radius:var(--card-radius);
+    background:var(--ink);
+    color:#fff;
+    font-size:clamp(15px,1.7vw,17px);
+    font-weight:600;
+    letter-spacing:.01em;
+    box-shadow:var(--shadow-soft);
+    transition:transform .4s var(--ease),box-shadow .4s var(--ease);
+  }
+  .shuffle:hover,.shuffle:focus-visible{transform:translateY(-4px);box-shadow:var(--shadow-lift);outline:none}
+  .shuffle svg{width:19px;height:19px;flex:none}
+  .shuffle .sub{color:rgba(255,255,255,.6);font-weight:400;margin-left:4px}
+  .foot{
+    text-align:center;
+    margin-top:clamp(40px,7vw,72px);
+    color:var(--ink-soft);
+    font-size:12.5px;
+    letter-spacing:.03em;
+  }
+
+  /* ============ CATEGORY VIEW ============ */
+  #catview{
+    display:none;
+    max-width:1320px;
+    margin:0 auto;
+    padding:clamp(20px,4vw,44px) clamp(16px,4vw,48px) 100px;
+  }
+  #catview.on{display:block}
+  .catbar{
+    display:flex;align-items:baseline;gap:18px;
+    padding:14px 2px clamp(22px,3vw,34px);
+    flex-wrap:wrap;
+  }
+  .back{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:14px;font-weight:600;color:var(--ink-soft);
+    padding:9px 15px 9px 11px;border-radius:999px;
+    transition:background .3s var(--ease),color .3s var(--ease);
+  }
+  .back:hover,.back:focus-visible{background:var(--bg-2);color:var(--ink);outline:none}
+  .back svg{width:16px;height:16px}
+  .cattitle{display:flex;align-items:baseline;gap:12px;margin-left:auto}
+  .cattitle .heb{font-size:clamp(20px,2.6vw,28px);font-weight:700;direction:rtl;letter-spacing:-.01em}
+  .cattitle .en{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+  .cattitle .n{font-size:12.5px;color:var(--ink-soft);font-weight:500}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:clamp(10px,1.3vw,18px);
+  }
+  .cell{
+    position:relative;
+    aspect-ratio:1/1;
+    border-radius:var(--tile-radius);
+    overflow:hidden;
+    background:var(--bg-2);
+    box-shadow:0 1px 2px rgba(0,0,0,.04);
+    transition:transform .45s var(--ease),box-shadow .45s var(--ease);
+    width:100%;
+  }
+  .cell:hover,.cell:focus-visible{transform:translateY(-4px) scale(1.012);box-shadow:var(--shadow-lift);outline:none;z-index:2}
+  .cell img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    opacity:0;transition:opacity .6s var(--ease),transform .8s var(--ease);
+  }
+  .cell img.loaded{opacity:1}
+  .cell:hover img{transform:scale(1.05)}
+
+  /* shimmer placeholder */
+  .shimmer::before{
+    content:"";position:absolute;inset:0;z-index:0;
+    background:linear-gradient(100deg,var(--bg-2) 30%,#e4e1dc 50%,var(--bg-2) 70%);
+    background-size:220% 100%;
+    animation:sh 1.5s var(--ease) infinite;
+  }
+  .shimmer.done::before{display:none}
+  @keyframes sh{0%{background-position:180% 0}100%{background-position:-40% 0}}
+
+  /* ============ VIEWER ============ */
+  #viewer{
+    position:fixed;inset:0;z-index:100;
+    background:#0a0a0b;
+    display:none;
+    align-items:center;justify-content:center;
+    touch-action:none;
+    opacity:0;transition:opacity .38s var(--ease);
+  }
+  #viewer.on{display:flex;opacity:1}
+  #viewer.chrome-hidden{cursor:none}
+  .stage{position:absolute;inset:0;overflow:hidden}
+  .frame{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    opacity:0;
+    transition:opacity .45s var(--ease);
+    padding:0;
+  }
+  .frame.show{opacity:1}
+  .frame img{
+    max-width:100vw;max-height:100vh;
+    width:auto;height:auto;
+    object-fit:contain;
+    -webkit-user-select:none;user-select:none;-webkit-user-drag:none;
+  }
+  .frame .vshim{
+    position:absolute;width:min(60vw,340px);height:2px;overflow:hidden;border-radius:2px;
+    background:rgba(255,255,255,.07);
+  }
+  .frame .vshim::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);
+    animation:vl 1.3s ease-in-out infinite;
+  }
+  @keyframes vl{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+
+  .chrome{transition:opacity .5s var(--ease);}
+  #viewer.chrome-hidden .chrome{opacity:0!important}
+
+  .nav{
+    position:absolute;top:50%;transform:translateY(-50%);
+    z-index:10;
+    width:56px;height:56px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;
+    background:rgba(255,255,255,.06);
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    transition:background .3s var(--ease),transform .3s var(--ease),opacity .5s var(--ease);
+  }
+  .nav:hover{background:rgba(255,255,255,.16)}
+  .nav:active{transform:translateY(-50%) scale(.92)}
+  .nav svg{width:26px;height:26px}
+  .nav.prev{left:clamp(10px,2.5vw,30px)}
+  .nav.next{right:clamp(10px,2.5vw,30px)}
+
+  .close{
+    position:absolute;top:clamp(12px,2vw,22px);right:clamp(12px,2vw,22px);
+    z-index:12;width:46px;height:46px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;color:#fff;
+    background:rgba(255,255,255,.06);
+    -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
+    transition:background .3s var(--ease),transform .3s var(--ease),opacity .5s var(--ease);
+  }
+  .close:hover{background:rgba(255,255,255,.16)}
+  .close:active{transform:scale(.92)}
+  .close svg{width:20px;height:20px}
+
+  .headline{
+    position:absolute;left:50%;bottom:clamp(18px,3.4vh,34px);
+    transform:translateX(-50%);
+    z-index:11;
+    display:flex;align-items:center;gap:10px;
+    color:rgba(255,255,255,.72);
+    font-size:12.5px;font-weight:500;letter-spacing:.06em;
+    padding:8px 16px;border-radius:999px;
+    background:rgba(255,255,255,.05);
+    -webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);
+    white-space:nowrap;
+  }
+  .headline .cat{color:#fff;font-weight:600;letter-spacing:.03em}
+  .headline .dot{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.4)}
+  .headline .pos{font-variant-numeric:tabular-nums}
+
+  @media(max-width:900px){
+    .cards{grid-template-columns:1fr;gap:16px}
+    .card{aspect-ratio:16/10}
+    .grid{grid-template-columns:repeat(3,1fr)}
+    .cattitle{margin-left:auto}
+  }
+  @media(max-width:560px){
+    .grid{grid-template-columns:repeat(2,1fr)}
+    .nav{width:46px;height:46px}
+    .nav.prev{left:6px}.nav.next{right:6px}
+    .cattitle .en{display:none}
+  }
+</style>
+
+<main id="landing">
+  <header class="hero">
+    <div class="eyebrow">Photographs</div>
+    <h1>Gallery</h1>
+    <p>A small collection from home, from Cambridge, and from Harvard. Pick a set to wander through, or shuffle everything.</p>
+  </header>
+
+  <section class="cards" id="cards" aria-label="Categories"></section>
+
+  <div class="shuffle-wrap">
+    <button class="shuffle" id="shuffleBtn" aria-label="Shuffle all photos">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M4 20 21 3"/><path d="M21 16v5h-5"/><path d="m15 15 6 6"/><path d="M4 4l5 5"/></svg>
+      <span>Shuffle All</span><span class="sub" id="shuffleCount"></span>
+    </button>
+  </div>
+
+  <div class="foot" id="foot"></div>
+</main>
+
+<section id="catview" aria-label="Category grid">
+  <div class="catbar">
+    <button class="back" id="backBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      All galleries
+    </button>
+    <div class="cattitle">
+      <span class="heb" id="catHeb"></span>
+      <span class="en" id="catEn"></span>
+      <span class="n" id="catN"></span>
+    </div>
+  </div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<div id="viewer" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <div class="stage" id="stage"></div>
+  <button class="nav prev chrome" id="prevBtn" aria-label="Previous photo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+  </button>
+  <button class="nav next chrome" id="nextBtn" aria-label="Next photo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+  </button>
+  <button class="close chrome" id="closeBtn" aria-label="Close viewer">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+  </button>
+  <div class="headline chrome" id="headline">
+    <span class="cat" id="hlCat"></span>
+    <span class="dot"></span>
+    <span class="pos" id="hlPos"></span>
+  </div>
+</div>
+
+<script>
+/* ---------- Manifest ---------- */
+var CATS = {
+  family:    { heb:"משפחה", en:"Family" },
+  cambridge: { heb:"קיימברידג׳", en:"Cambridge" },
+  harvard:   { heb:"הרוורד", en:"Harvard" }
+};
+
+var PHOTOS = [
+  {id:"1Lksc20c4lxraMDnwZ0B2HBk3YQmNRPK4",title:"IMG_7151.heic",category:"family"},
+  {id:"1ialcBSiD1XcuwPMEMb4rLygh6k-DozwS",title:"IMG_5532.heic",category:"family"},
+  {id:"1szEejWhfXqVWqBQPMoPqioHrrtNiSyGU",title:"IMG_5531.heic",category:"family"},
+  {id:"1EQDY-TjtE4ZkbFlAp1fSLMJ0sGsobl4P",title:"IMG_5509.heic",category:"family"},
+  {id:"1RVznX48G599X07UE9F0joiggywnHwjg0",title:"IMG_7475.HEIC",category:"family"},
+  {id:"16SygQ9B5ZnmpL-NlDyog8DymdVxh3n_P",title:"IMG_7205.heic",category:"family"},
+  {id:"1ZB0FkDb9i_16SuNxO1OB_3V74a02bx0K",title:"IMG_5581.heic",category:"family"},
+  {id:"18yjFQ7eMZRcKfXnnvt7xNMnOJ7diWCjk",title:"IMG_7291.heic",category:"family"},
+  {id:"1sjzBUfo77nvoR2g-wbVpla1Ffqd-R2aA",title:"IMG_7290.heic",category:"family"},
+  {id:"14EwN8LHFjq5ptX3BKGKVaqdaLaCGRwzE",title:"IMG_5478.HEIC",category:"family"},
+  {id:"1oCftCK684fQ-fI8JdmCWa8x8FefJovjw",title:"IMG_5484.HEIC",category:"family"},
+  {id:"1eo4dzRUjT65viaM5AkVevhJS25CrW3Pi",title:"IMG_4813.heic",category:"family"},
+  {id:"1qlHBB4ullTn_NZR49bslHGXIqVVK-w9a",title:"IMG_7050.heic",category:"family"},
+  {id:"155gmvtUalG8DeOsk_wOwdsNbulOvfrFl",title:"IMG_4208.HEIC",category:"family"},
+  {id:"144bIzWhYdDIVGmQIOEWQHTFj4_ocNZfh",title:"IMG_6995.heic",category:"family"},
+  {id:"1torHiLAyH6fSihQmXG2wa_Lrw0Nf_gDX",title:"IMG_6388.heic",category:"family"},
+  {id:"1Y3X9Jl069uP_S1uFi2ZCZyixkB2u1DDX",title:"IMG_3866.HEIC",category:"family"},
+  {id:"1NFi4FpgJpgM7R2Z3L2fWpCf7J_vqorA1",title:"IMG_8496.HEIC",category:"family"},
+
+  {id:"1KQgpRozElOwD7fsrrtHEGPn70tFy4odO",title:"IMG_4905.heic",category:"cambridge"},
+  {id:"1QY3oOJxbzAerEwrPtN19tYkyPsSdnI93",title:"IMG_1932.heic",category:"cambridge"},
+  {id:"1qDIYHHxrFEBxgP2hKVnqjheyY90XfzpL",title:"IMG_0443.heic",category:"cambridge"},
+  {id:"1i-HhzgoCtwXRqjNrpYAVmakrtEBwHycK",title:"IMG_9108.heic",category:"cambridge"},
+  {id:"14fXWeP4LlZAUF-qtjEyCUSP5X9B3IGiV",title:"IMG_3644.HEIC",category:"cambridge"},
+  {id:"1KGwFNTGuLUzCapxf_HQy4_loup-JNcDH",title:"IMG_2864.heic",category:"cambridge"},
+  {id:"1Eim_y-dB0p6kgx7P9qje5JXhxPqvktv4",title:"IMG_3712.heic",category:"cambridge"},
+  {id:"1Bb5UHceqQDjCd_K2MM0sQJ7qZ_GVK5SW",title:"IMG_0405.heic",category:"cambridge"},
+  {id:"1aMUNeAyd0GeQ6KPzTBSfTghyiBlLcxoa",title:"IMG_8878.heic",category:"cambridge"},
+  {id:"1lysrSLvSsmjwiTa-idGTv-VmwJG_-ypJ",title:"IMG_0093.heic",category:"cambridge"},
+  {id:"1hPF5AqtRZ0QTfjlXEJvwRAtKjqV8W9Nj",title:"IMG_3204.heic",category:"cambridge"},
+  {id:"1rP220EgGGGjkZOPuMY9SFpOToE2u7fhv",title:"IMG_3343.heic",category:"cambridge"},
+  {id:"1zLmYHXZ19V610teySfFKWSygQ1uc7qX6",title:"IMG_3823.heic",category:"cambridge"},
+  {id:"1B8Qent2ul3a2HDLSZg8g2ZPo0K4LFDfc",title:"IMG_3634.heic",category:"cambridge"},
+  {id:"1CJAIhqDyCZQ8QV9gCGP-6wce8WS3WcYU",title:"IMG_8778.heic",category:"cambridge"},
+  {id:"16qpre5Hw8GMJpXPM5jd9vTEAMvwP65DE",title:"IMG_8971.heic",category:"cambridge"},
+  {id:"1tigrQF6c6I6vK2AgbIx7VnE66jpdWxiQ",title:"IMG_0388.heic",category:"cambridge"},
+  {id:"1xJaOe3ybi3qVvYaStqssn3tLezRgn1Lj",title:"IMG_3655.heic",category:"cambridge"},
+  {id:"11SyqS6sMJE8mrmIoqsz5hzknsE5MRviG",title:"IMG_1952.heic",category:"cambridge"},
+  {id:"1hEj7KMF3S-bexhcENpq1ADp6jwTRN-aN",title:"IMG_1101.heic",category:"cambridge"},
+  {id:"1rEHvW4oQkdH6dJswuN5ma62--vcrXaog",title:"IMG_9015.heic",category:"cambridge"},
+  {id:"1TXm1MT2h71kTIYopYxKPTEBipcxhXPQc",title:"IMG_0077.heic",category:"cambridge"},
+  {id:"1T5HAHUhXqPtZtRexEK0vbMqKjzJW9Fh6",title:"IMG_1944.heic",category:"cambridge"},
+  {id:"1AJIC8vvymFrPIAW9P94t6ag1QKTeLoAf",title:"IMG_9643.heic",category:"cambridge"},
+  {id:"19hxJdmyEUKKHdyD_Z9nyGL6sZSpTeH-j",title:"IMG_3607.HEIC",category:"cambridge"},
+  {id:"1Z5Zog_VQrAhT_D1WZoaev-GZuWWbSdHV",title:"IMG_2881.HEIC",category:"cambridge"},
+  {id:"1P0Dwj2D70iWW3ozpjkl7kKZzlCLmvetJ",title:"IMG_3130.HEIC",category:"cambridge"},
+  {id:"1SbecABCZ5JQdmMJCDn9puzJb95Wkf1ET",title:"IMG_9513.heic",category:"cambridge"},
+  {id:"1dsxN3NQXzgP0gCEtSHd1Iph6fraw1UiQ",title:"IMG_0081.heic",category:"cambridge"},
+  {id:"1rDRNqtIQf5uEby0oM1o7TrW_E0wV_DtK",title:"IMG_3442.heic",category:"cambridge"},
+  {id:"1WPmpEv9Cx7FWMD9_PEgiP9_O6Ly6s0tt",title:"IMG_0087.heic",category:"cambridge"},
+  {id:"1RZoMHKz9O8Eth9B_4imzDh1JwrUQCVbu",title:"IMG_9746.heic",category:"cambridge"},
+  {id:"1kpUTFRcS0Ebo_0a0pfYoHlorCiOjsDt0",title:"IMG_0139.heic",category:"cambridge"},
+  {id:"1ZHQkOocOQ_DgYDod1sl1eSAg-UJ8x2kK",title:"IMG_0078.heic",category:"cambridge"},
+  {id:"1PolSWJ0Cd3952-az244yL10ctFi12F-M",title:"IMG_1198.heic",category:"cambridge"},
+  {id:"1kU2GadE7rGMPaBdpb1wM8jbXOFcPSgmb",title:"IMG_8882.heic",category:"cambridge"},
+  {id:"1J9UJEHuriZXAp0goBOdJBKbuHrZqYDNF",title:"IMG_9739.heic",category:"cambridge"},
+  {id:"1G23DIzq1SCOxxbzt_vIcPJMdzAWFEU_2",title:"IMG_0075.heic",category:"cambridge"},
+  {id:"182RafiXT6vehNvAVhflerqjOgAe0g2tI",title:"IMG_1043.HEIC",category:"cambridge"},
+  {id:"1btdBRVPC4c8GzTHEWvYYSSyyreEFSLHg",title:"IMG_9014.heic",category:"cambridge"},
+  {id:"1tSfg6IIA2e_oN7A7OOvC6ZOuhunb5Kyy",title:"IMG_3187.HEIC",category:"cambridge"},
+  {id:"1xU2Ll6aJI_DGTSuG0YcirRqSFRydg2vx",title:"IMG_8916.heic",category:"cambridge"},
+  {id:"1gtuXstqzyJv97E8q4HzR0WvYSnqpN6nM",title:"IMG_3449.heic",category:"cambridge"},
+  {id:"1OBAs9RdftrFf7TNk0EHYd5JPn7kUotOO",title:"IMG_1989.heic",category:"cambridge"},
+  {id:"1zDOgNtfTOZl-ThprhoZPpcoJXRzYR9_a",title:"IMG_0085.heic",category:"cambridge"},
+  {id:"1QXfbZSFqiQOFoYNWPXGqGpnBWH5arNII",title:"IMG_1365.HEIC",category:"cambridge"},
+  {id:"1Sy36CmRMgZsC65jfvdFKcfglHO3Jsxog",title:"IMG_8959.heic",category:"cambridge"},
+  {id:"1n2mM39EqO0qevn9l6_LzAsDZ7KmJrNXw",title:"IMG_8927.heic",category:"cambridge"},
+  {id:"1R2Fm6l-x15McKbUFXdd-3lFq1mdUOkR9",title:"IMG_9322.heic",category:"cambridge"},
+  {id:"1mlTR3zTg9EX5QAAm_dOtJSYKqalqNpzP",title:"1c21ae69.jpg",category:"cambridge"},
+  {id:"1bC4EYQMUWsR7YHpYvirSyv9fFdHvAzL_",title:"IMG_3637.heic",category:"cambridge"},
+  {id:"1NDDgNcEDwijhGKmCEflaVj_ic3C8INmD",title:"IMG_9065.heic",category:"cambridge"},
+  {id:"1gQjJLBQdzCI6bLqT0WVojh0OrTfyDlPc",title:"IMG_3445.heic",category:"cambridge"},
+  {id:"1HWCKw4ypBb2HUgIErEraflHGVLJq9it-",title:"IMG_0072.heic",category:"cambridge"},
+  {id:"1JbAAOdvYl0Lib5npM1E_vgFZMKHIJZA3",title:"IMG_0137.heic",category:"cambridge"},
+  {id:"1zFyrU2Qax1uOHd1_Yz8gZKMm3vD6XpNh",title:"IMG_3521.HEIC",category:"cambridge"},
+
+  {id:"1GIyn-EtgMU48cZ0T4ykl5Sjn6PF0Oim-",title:"IMG_E1365.HEIC",category:"harvard"},
+  {id:"1yFaTsNjKsDjyrRVCESy5ahjIAX46FMjD",title:"IMG_5202.heic",category:"harvard"},
+  {id:"1QhdltvCheY3jCU01Ef_bEWASc8bVGfU8",title:"IMG_4056.heic",category:"harvard"},
+  {id:"1OVqm9vV_PnkXN5peBuGyvO1t8Gq9CJJw",title:"IMG_1189.HEIC",category:"harvard"},
+  {id:"1betCnaEIHZrMsSdTgy1m86GrShLWfOvM",title:"deca567a.JPG",category:"harvard"},
+  {id:"1mue7cO10gIH7kXXPWRxAvgkt4vkIoUTJ",title:"CQQBE4921.JPG",category:"harvard"},
+  {id:"1mk10afD4DA2PtCrbAhGdvku9C1uWVETd",title:"IMG_4201.heic",category:"harvard"},
+  {id:"11eLXZK_9AaqaWmA5XfWZ-RGhMgOKyhL-",title:"IMG_0750.heic",category:"harvard"},
+  {id:"1IfLctoWqyNoBgR0Vf0zqpSqOhCMaLRRs",title:"IMG_9255.heic",category:"harvard"},
+  {id:"1A0iLBw-makdRc-U38Tm8nrOvcKKK_rk-",title:"IMG_1078.heic",category:"harvard"},
+  {id:"1_SRieZbtPeP6p2uMq5KxRSLiNXf9cY40",title:"IMG_1095.heic",category:"harvard"},
+  {id:"1QD-bbBh7v44K48w1qwF1B0XsbPnZKHh9",title:"IMG_9801.HEIC",category:"harvard"},
+  {id:"1tEsmwAc7lERrydOuOgEZitAZsjn1Ahe0",title:"IMG_9213.heic",category:"harvard"},
+  {id:"1gai-rW7lHYN2Xu5gLqoQM3VKkQE-DBKS",title:"IMG_1369.HEIC",category:"harvard"},
+  {id:"12ysokNHWGs8TR1Qb7GktQW63LVNRuuHp",title:"IMG_2416.HEIC",category:"harvard"},
+  {id:"1xKxIPgy1BnIZXZdNQt2CiaajfeA0kAAf",title:"IMG_9244.heic",category:"harvard"},
+  {id:"1I8geTWENXCLTWW4wLuU3y66hoojpzxMA",title:"IMG_9279.HEIC",category:"harvard"},
+  {id:"1jqKcxA11VolyJD_3Iv0DEFa5pB1n8UXq",title:"IMG_9853.heic",category:"harvard"},
+  {id:"1VVWS1H5psLQNzBwOL98jFUoaoHrEwjpi",title:"IMG_9362.heic",category:"harvard"},
+  {id:"1pHXVNyDcJBwlzI9oC0wdcuRVHhLKGIfm",title:"IMG_9128.HEIC",category:"harvard"},
+  {id:"1GXIXxfMmEQWXyNZMSjuWyrPu6Lu-zu4w",title:"IMG_1981.heic",category:"harvard"},
+  {id:"1l90eNFAx67E-jLZvSpThGJ9tKh8KgEs2",title:"IMG_9175.heic",category:"harvard"},
+  {id:"1-lzxBXU5lCsAWcS6XWD7ey7WHOYzMVGk",title:"IMG_1950.heic",category:"harvard"},
+  {id:"1OG5je9UXUQmsInlkFmfPSyQejMlOjTpx",title:"IMG_1042.heic",category:"harvard"},
+  {id:"1DLNCi-lTbweE7P4sbYfTSdY4B3loogT3",title:"IMG_1967.heic",category:"harvard"},
+  {id:"1kRdWp92AdztfqasZri52B_i3IayVHD0y",title:"IMG_2782.heic",category:"harvard"},
+  {id:"1UDPWtbC_cYlnu-FWhB6Ug6R5exeo2wmd",title:"IMG_9246.jpg",category:"harvard"},
+  {id:"1eMg7dvOMUmF1bq8ZDo79D718exHtYYqL",title:"IMG_1963.heic",category:"harvard"}
+];
+
+/* ---------- URL helpers ---------- */
+function thumb(id,w){ return "https://drive.google.com/thumbnail?id="+id+"&sz=w"+w; }
+
+/* Robust image loader: retry once, then fall back to smaller size, then neutral placeholder. */
+function loadImage(imgEl, id, baseW, onOk){
+  var attempt=0;
+  var sizes=[baseW, baseW, Math.min(baseW,600)]; // try, retry same, then smaller
+  function go(){
+    var w=sizes[attempt];
+    var probe=new Image();
+    probe.decoding="async";
+    probe.onload=function(){
+      imgEl.src=probe.src;
+      imgEl.classList.add("loaded");
+      if(onOk) onOk();
+    };
+    probe.onerror=function(){
+      attempt++;
+      if(attempt<sizes.length){ setTimeout(go, 500+attempt*400); }
+      // else: leave shimmer/neutral placeholder in place, no broken icon
+    };
+    probe.src=thumb(id,w);
+  }
+  go();
+}
+
+/* ---------- Landing ---------- */
+var order=["family","cambridge","harvard"];
+function countOf(cat){ return PHOTOS.filter(function(p){return p.category===cat;}).length; }
+function firstOf(cat){ return PHOTOS.filter(function(p){return p.category===cat;})[0]; }
+
+var cardsEl=document.getElementById("cards");
+order.forEach(function(cat){
+  var c=CATS[cat], n=countOf(cat), cover=firstOf(cat);
+  var btn=document.createElement("button");
+  btn.className="card";
+  btn.setAttribute("aria-label",c.en+", "+n+" photos");
+  btn.innerHTML=
+    '<img class="cover" alt="'+c.en+' cover photo">'+
+    '<div class="veil"></div>'+
+    '<div class="count">'+n+' photos</div>'+
+    '<div class="meta"><div class="heb">'+c.heb+'</div><div class="en">'+c.en+'</div></div>';
+  cardsEl.appendChild(btn);
+  var cov=btn.querySelector(".cover");
+  loadImage(cov, cover.id, 800);
+  btn.addEventListener("click",function(){ openCategory(cat); });
+});
+
+document.getElementById("shuffleCount").textContent=PHOTOS.length+" photos";
+document.getElementById("foot").textContent=PHOTOS.length+" photographs across "+order.length+" galleries";
+
+/* ---------- Category grid ---------- */
+var gridEl=document.getElementById("grid");
+var landing=document.getElementById("landing");
+var catview=document.getElementById("catview");
+var currentList=[];   // list currently feeding the viewer
+var currentCat=null;
+
+function openCategory(cat){
+  currentCat=cat;
+  var c=CATS[cat];
+  var list=PHOTOS.filter(function(p){return p.category===cat;});
+  document.getElementById("catHeb").textContent=c.heb;
+  document.getElementById("catEn").textContent=c.en;
+  document.getElementById("catN").textContent=list.length+" photos";
+  gridEl.innerHTML="";
+  list.forEach(function(p,i){
+    var cell=document.createElement("button");
+    cell.className="cell shimmer";
+    cell.setAttribute("aria-label",c.en+" photo "+(i+1));
+    var img=document.createElement("img");
+    img.alt=c.en+" photo "+(i+1);
+    img.loading="lazy";
+    cell.appendChild(img);
+    cell.addEventListener("click",function(){ openViewer(list,i); });
+    gridEl.appendChild(cell);
+    loadImage(img, p.id, 800, function(){ cell.classList.add("done"); });
+  });
+  landing.style.display="none";
+  catview.classList.add("on");
+  window.scrollTo(0,0);
+}
+
+document.getElementById("backBtn").addEventListener("click",function(){
+  catview.classList.remove("on");
+  landing.style.display="";
+  window.scrollTo(0,0);
+});
+
+/* ---------- Shuffle ---------- */
+function shuffled(arr){
+  var a=arr.slice();
+  for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; }
+  return a;
+}
+document.getElementById("shuffleBtn").addEventListener("click",function(){
+  openViewer(shuffled(PHOTOS),0);
+});
+
+/* ---------- Viewer ---------- */
+var viewer=document.getElementById("viewer");
+var stage=document.getElementById("stage");
+var hlCat=document.getElementById("hlCat");
+var hlPos=document.getElementById("hlPos");
+var vIndex=0;
+var frames={};       // index -> {frame,img,loaded}
+var chromeTimer=null;
+
+function openViewer(list,index){
+  currentList=list;
+  vIndex=index;
+  frames={};
+  stage.innerHTML="";
+  viewer.classList.add("on");
+  viewer.setAttribute("aria-hidden","false");
+  document.body.style.overflow="hidden";
+  render();
+  wakeChrome();
+}
+function closeViewer(){
+  viewer.classList.remove("on");
+  viewer.setAttribute("aria-hidden","true");
+  document.body.style.overflow="";
+  stage.innerHTML="";
+  frames={};
+  if(chromeTimer) clearTimeout(chromeTimer);
+}
+
+function ensureFrame(i){
+  if(i<0||i>=currentList.length) return null;
+  if(frames[i]) return frames[i];
+  var p=currentList[i];
+  var frame=document.createElement("div");
+  frame.className="frame";
+  var shim=document.createElement("div");
+  shim.className="vshim";
+  frame.appendChild(shim);
+  var img=document.createElement("img");
+  img.alt=(CATS[p.category].en)+" photo";
+  frame.appendChild(img);
+  stage.appendChild(frame);
+  var rec={frame:frame,img:img,loaded:false};
+  frames[i]=rec;
+  loadImage(img, p.id, 2000, function(){
+    rec.loaded=true;
+    if(shim.parentNode) shim.parentNode.removeChild(shim);
+  });
+  return rec;
+}
+
+function render(){
+  var p=currentList[vIndex];
+  // show current
+  var cur=ensureFrame(vIndex);
+  Object.keys(frames).forEach(function(k){
+    frames[k].frame.classList.toggle("show", (+k)===vIndex);
+  });
+  if(cur) cur.frame.classList.add("show");
+  // preload neighbours
+  ensureFrame(vIndex+1);
+  ensureFrame(vIndex-1);
+  // prune far frames to keep DOM light
+  Object.keys(frames).forEach(function(k){
+    if(Math.abs((+k)-vIndex)>1){
+      if(frames[k].frame.parentNode) frames[k].frame.parentNode.removeChild(frames[k].frame);
+      delete frames[k];
+    }
+  });
+  // headline
+  hlCat.textContent=CATS[p.category].en;
+  hlPos.textContent=(vIndex+1)+" / "+currentList.length;
+  // arrow availability
+  document.getElementById("prevBtn").style.visibility = vIndex>0 ? "visible":"hidden";
+  document.getElementById("nextBtn").style.visibility = vIndex<currentList.length-1 ? "visible":"hidden";
+}
+
+function go(delta){
+  var n=vIndex+delta;
+  if(n<0||n>=currentList.length) return;
+  vIndex=n;
+  render();
+  wakeChrome();
+}
+
+/* auto-hiding chrome */
+function wakeChrome(){
+  viewer.classList.remove("chrome-hidden");
+  if(chromeTimer) clearTimeout(chromeTimer);
+  chromeTimer=setTimeout(function(){ viewer.classList.add("chrome-hidden"); },2500);
+}
+
+document.getElementById("prevBtn").addEventListener("click",function(e){e.stopPropagation();go(-1);});
+document.getElementById("nextBtn").addEventListener("click",function(e){e.stopPropagation();go(1);});
+document.getElementById("closeBtn").addEventListener("click",function(e){e.stopPropagation();closeViewer();});
+
+/* click outside image closes */
+stage.addEventListener("click",function(e){
+  if(e.target.tagName!=="IMG") closeViewer();
+});
+
+/* mouse movement reveals chrome */
+viewer.addEventListener("mousemove",wakeChrome);
+
+/* keyboard */
+document.addEventListener("keydown",function(e){
+  if(!viewer.classList.contains("on")) return;
+  if(e.key==="Escape") closeViewer();
+  else if(e.key==="ArrowLeft") go(-1);
+  else if(e.key==="ArrowRight") go(1);
+});
+
+/* touch swipe */
+var tsx=0,tsy=0,tst=0;
+viewer.addEventListener("touchstart",function(e){
+  var t=e.changedTouches[0]; tsx=t.clientX; tsy=t.clientY; tst=Date.now(); wakeChrome();
+},{passive:true});
+viewer.addEventListener("touchend",function(e){
+  var t=e.changedTouches[0];
+  var dx=t.clientX-tsx, dy=t.clientY-tsy, dt=Date.now()-tst;
+  if(Math.abs(dx)>50 && Math.abs(dx)>Math.abs(dy)*1.4 && dt<600){
+    go(dx<0?1:-1);
+  } else if(Math.abs(dx)<12 && Math.abs(dy)<12 && dt<400){
+    // tap outside image closes
+    if(e.target.tagName!=="IMG" && e.target.className!=="frame") { /* nav/close handle themselves */ }
+  }
+},{passive:true});
+</script>
