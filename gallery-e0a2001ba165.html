@@ -308,6 +308,12 @@
     .nav{width:46px;height:46px}
     .nav.prev{left:6px}.nav.next{right:6px}
     .cattitle .en{display:none}
+    /* Phone: Shuffle All rises above the category cards, just under the tagline */
+    #landing{display:flex;flex-direction:column}
+    .hero{order:1}
+    .shuffle-wrap{order:2;margin-top:clamp(18px,5vw,26px)}
+    .cards{order:3;margin-top:clamp(18px,5vw,26px)}
+    .foot{order:4}
   }
 </style>
 
@@ -533,9 +539,16 @@ var order=["family","cambridge","harvard"];
 function countOf(cat){ return PHOTOS.filter(function(p){return p.category===cat;}).length; }
 function firstOf(cat){ return PHOTOS.filter(function(p){return p.category===cat;})[0]; }
 
+/* Pinned cover overrides (specific photo ids). Falls back to firstOf(cat) when absent. */
+var COVER = {
+  family:    "1torHiLAyH6fSihQmXG2wa_Lrw0Nf_gDX", // 16th Family photo (IMG_6388.heic)
+  cambridge: "1tigrQF6c6I6vK2AgbIx7VnE66jpdWxiQ"  // 10th Cambridge photo (IMG_0388.heic)
+};
+function coverOf(cat){ return COVER[cat] || firstOf(cat).id; }
+
 var cardsEl=document.getElementById("cards");
 order.forEach(function(cat){
-  var c=CATS[cat], n=countOf(cat), cover=firstOf(cat);
+  var c=CATS[cat], n=countOf(cat), coverId=coverOf(cat);
   var btn=document.createElement("button");
   btn.className="card";
   btn.setAttribute("aria-label",c.en+", "+n+" photos");
@@ -546,7 +559,7 @@ order.forEach(function(cat){
     '<div class="meta"><div class="heb">'+c.heb+'</div><div class="en">'+c.en+'</div></div>';
   cardsEl.appendChild(btn);
   var cov=btn.querySelector(".cover");
-  loadImage(cov, cover.id, gridW());
+  loadImage(cov, coverId, gridW());
   btn.addEventListener("click",function(){ openCategory(cat); });
 });
 
