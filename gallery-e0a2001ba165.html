@@ -63,6 +63,16 @@
     line-height:1.55;
     font-weight:400;
   }
+  .hero .tagline{
+    font-size:clamp(13.5px,1.5vw,16px);
+    color:var(--ink-soft);
+    opacity:.85;
+    max-width:40ch;
+    margin:-8px auto 22px;
+    line-height:1.6;
+    font-weight:400;
+    direction:rtl;
+  }
 
   .cards{
     display:grid;
@@ -323,6 +333,7 @@
   <header class="hero">
     <div class="eyebrow">Photographs</div>
     <h1>Gallery</h1>
+    <p class="tagline" dir="rtl">תמונות שצילמתי של המשפחה, קיימברידג׳ והרווארד (חוץ מהתמונה שלי בתור ילד)</p>
     <p>A small collection from home, from Cambridge, and from Harvard. Pick a set to wander through, or shuffle everything.</p>
   </header>
 
@@ -364,7 +375,7 @@
   <button class="close chrome" id="closeBtn" aria-label="Close viewer">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
   </button>
-  <div class="headline chrome" id="headline">
+  <div class="headline" id="headline">
     <span class="cat" id="hlCat"></span>
     <span class="dot"></span>
     <span class="pos" id="hlPos"></span>
@@ -499,14 +510,28 @@ var PHOTOS = [
 ];
 
 /* ---------- URL helpers ---------- */
+/* Google user-content endpoint: best color/fidelity, supports large sizes. Primary for the viewer. */
+function hd(id,w){ return "https://lh3.googleusercontent.com/d/"+id+"=w"+w; }
+/* Drive thumbnail endpoint: reliable fallback. */
 function thumb(id,w){ return "https://drive.google.com/thumbnail?id="+id+"&sz=w"+w; }
 
-/* Robust image loader: retry once, then fall back to smaller size, then neutral placeholder. */
+/* Retina-aware HD size for the full-screen viewer (floored to 1600, capped 2560 for safety). */
+function viewerW(){
+  var w=Math.round((window.innerWidth||1280)*(window.devicePixelRatio||1));
+  return Math.max(1600, Math.min(w,2560));
+}
+/* DPR-aware grid/cover thumbnail size (kept light, capped ~1200). */
+function gridW(){
+  return Math.min(Math.round(1000*(window.devicePixelRatio||1)),1200);
+}
+
+/* Robust image loader: lh3 HD primary, retry, then drive-thumbnail fallback, then smaller, then neutral placeholder (shimmer stays). */
 function loadImage(imgEl, id, baseW, onOk){
   var attempt=0;
-  var sizes=[baseW, baseW, Math.min(baseW,600)]; // try, retry same, then smaller
+  // primary lh3 (best fidelity) -> retry same -> drive fallback same size -> drive smaller
+  var cands=[ hd(id,baseW), hd(id,baseW), thumb(id,baseW), thumb(id,Math.min(baseW,600)) ];
   function go(){
-    var w=sizes[attempt];
+    var url=cands[attempt];
     var probe=new Image();
     probe.decoding="async";
     probe.onload=function(){
@@ -516,10 +541,10 @@ function loadImage(imgEl, id, baseW, onOk){
     };
     probe.onerror=function(){
       attempt++;
-      if(attempt<sizes.length){ setTimeout(go, 500+attempt*400); }
+      if(attempt<cands.length){ setTimeout(go, 500+attempt*400); }
       // else: leave shimmer/neutral placeholder in place, no broken icon
     };
-    probe.src=thumb(id,w);
+    probe.src=url;
   }
   go();
 }
@@ -542,7 +567,7 @@ order.forEach(function(cat){
     '<div class="meta"><div class="heb">'+c.heb+'</div><div class="en">'+c.en+'</div></div>';
   cardsEl.appendChild(btn);
   var cov=btn.querySelector(".cover");
-  loadImage(cov, cover.id, 800);
+  loadImage(cov, cover.id, gridW());
   btn.addEventListener("click",function(){ openCategory(cat); });
 });
 
@@ -574,7 +599,7 @@ function openCategory(cat){
     cell.appendChild(img);
     cell.addEventListener("click",function(){ openViewer(list,i); });
     gridEl.appendChild(cell);
-    loadImage(img, p.id, 800, function(){ cell.classList.add("done"); });
+    loadImage(img, p.id, gridW(), function(){ cell.classList.add("done"); });
   });
   landing.style.display="none";
   catview.classList.add("on");
@@ -641,7 +666,7 @@ function ensureFrame(i){
   stage.appendChild(frame);
   var rec={frame:frame,img:img,loaded:false};
   frames[i]=rec;
-  loadImage(img, p.id, 2000, function(){
+  loadImage(img, p.id, viewerW(), function(){
     rec.loaded=true;
     if(shim.parentNode) shim.parentNode.removeChild(shim);
   });
