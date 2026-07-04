@@ -330,8 +330,6 @@
       <span>Shuffle All</span><span class="sub" id="shuffleCount"></span>
     </button>
   </div>
-
-  <div class="foot" id="foot"></div>
 </main>
 
 <section id="catview" aria-label="Category grid">
@@ -362,8 +360,6 @@
   </button>
   <div class="headline" id="headline">
     <span class="cat" id="hlCat"></span>
-    <span class="dot"></span>
-    <span class="pos" id="hlPos"></span>
   </div>
 </div>
 
@@ -460,16 +456,16 @@ var PHOTOS = [
   {id:"1I8geTWENXCLTWW4wLuU3y66hoojpzxMA",title:"IMG_9279.HEIC",category:"harvard"},
   {id:"12rXztCayVAIKiwBzyvOLYJOalMxTX9c5",title:"IMG_9363.HEIC",category:"harvard"},
   {id:"1lI7EiepqAH3uZmw04Ns-IAqM7BWlOfNC",title:"IMG_0469.HEIC",category:"harvard"},
-  {id:"13i2TMgaq8ZwlTLna09jGhGNBSQ9VCu06",title:"IMG_0012.jpeg",category:"harvard"},
-  {id:"1EC646OVRwvTNSorjE76ZAGacRuARmLfO",title:"IMG_0011.jpeg",category:"harvard"},
-  {id:"1RfrWDgUal79K-23gfFzt6ltuOCSxAyO8",title:"IMG_0009.jpeg",category:"harvard"},
-  {id:"1WAN1I-iYOJGsDIdf1zvPC7yjTtvAvspM",title:"IMG_0006.jpeg",category:"harvard"},
-  {id:"1oUmnrQ3d9XfnkaGGK4cctt1s7-eeuGE6",title:"IMG_0004.jpeg",category:"harvard"},
+  {id:"13i2TMgaq8ZwlTLna09jGhGNBSQ9VCu06",title:"IMG_0012.jpeg",category:"harvard",place:"Montreal"},
+  {id:"1EC646OVRwvTNSorjE76ZAGacRuARmLfO",title:"IMG_0011.jpeg",category:"harvard",place:"Montreal"},
+  {id:"1RfrWDgUal79K-23gfFzt6ltuOCSxAyO8",title:"IMG_0009.jpeg",category:"harvard",place:"Montreal"},
+  {id:"1WAN1I-iYOJGsDIdf1zvPC7yjTtvAvspM",title:"IMG_0006.jpeg",category:"harvard",place:"Montreal"},
+  {id:"1oUmnrQ3d9XfnkaGGK4cctt1s7-eeuGE6",title:"IMG_0004.jpeg",category:"harvard",place:"Montreal"},
   {id:"1SFZ0tS9MS0GkLjoxD_cyroMBN5deGmQc",title:"IMG_9853.HEIC",category:"harvard"},
   {id:"1jXR2c0_C13THDo1DX9yDdoGBaJGGmTVe",title:"IMG_9458.HEIC",category:"harvard"},
   {id:"16hlhiqRuzJOVxxoB1zo5zykscNlaL7US",title:"IMG_9454.HEIC",category:"harvard"},
   {id:"1GIyn-EtgMU48cZ0T4ykl5Sjn6PF0Oim-",title:"IMG_E1365.HEIC",category:"harvard"},
-  {id:"1yFaTsNjKsDjyrRVCESy5ahjIAX46FMjD",title:"IMG_5202.heic",category:"harvard"},
+  {id:"1yFaTsNjKsDjyrRVCESy5ahjIAX46FMjD",title:"IMG_5202.heic",category:"harvard",place:"MIT"},
   {id:"1QhdltvCheY3jCU01Ef_bEWASc8bVGfU8",title:"IMG_4056.heic",category:"harvard"},
   {id:"1OVqm9vV_PnkXN5peBuGyvO1t8Gq9CJJw",title:"IMG_1189.HEIC",category:"harvard"},
   {id:"1betCnaEIHZrMsSdTgy1m86GrShLWfOvM",title:"deca567a-1321-4b88-a7fc-777d768e1845.JPG",category:"harvard"},
@@ -554,7 +550,6 @@ order.forEach(function(cat){
   btn.innerHTML=
     '<img class="cover" alt="'+c.en+' cover photo">'+
     '<div class="veil"></div>'+
-    '<div class="count">'+n+' photos</div>'+
     '<div class="meta"><div class="heb">'+c.heb+'</div><div class="en">'+c.en+'</div></div>';
   cardsEl.appendChild(btn);
   var cov=btn.querySelector(".cover");
@@ -563,7 +558,6 @@ order.forEach(function(cat){
 });
 
 document.getElementById("shuffleCount").textContent=PHOTOS.length+" photos";
-document.getElementById("foot").textContent=PHOTOS.length+" photographs across "+order.length+" galleries";
 
 /* ---------- Category grid ---------- */
 var gridEl=document.getElementById("grid");
@@ -617,7 +611,6 @@ document.getElementById("shuffleBtn").addEventListener("click",function(){
 var viewer=document.getElementById("viewer");
 var stage=document.getElementById("stage");
 var hlCat=document.getElementById("hlCat");
-var hlPos=document.getElementById("hlPos");
 var vIndex=0;
 var frames={};       // index -> {frame,img,loaded}
 var chromeTimer=null;
@@ -683,8 +676,7 @@ function render(){
     }
   });
   // headline
-  hlCat.textContent=CATS[p.category].en;
-  hlPos.textContent=(vIndex+1)+" / "+currentList.length;
+  hlCat.textContent=p.place||CATS[p.category].en;
   // arrow availability
   document.getElementById("prevBtn").style.visibility = vIndex>0 ? "visible":"hidden";
   document.getElementById("nextBtn").style.visibility = vIndex<currentList.length-1 ? "visible":"hidden";
