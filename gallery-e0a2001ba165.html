@@ -327,7 +327,7 @@
   <div class="shuffle-wrap">
     <button class="shuffle" id="shuffleBtn" aria-label="Shuffle all photos">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M4 20 21 3"/><path d="M21 16v5h-5"/><path d="m15 15 6 6"/><path d="M4 4l5 5"/></svg>
-      <span>Shuffle All</span><span class="sub" id="shuffleCount"></span>
+      <span>Shuffle All</span>
     </button>
   </div>
 </main>
@@ -341,7 +341,6 @@
     <div class="cattitle">
       <span class="heb" id="catHeb"></span>
       <span class="en" id="catEn"></span>
-      <span class="n" id="catN"></span>
     </div>
   </div>
   <div class="grid" id="grid"></div>
@@ -360,6 +359,8 @@
   </button>
   <div class="headline" id="headline">
     <span class="cat" id="hlCat"></span>
+    <span class="dot" id="hlDot"></span>
+    <span class="pos" id="hlPos"></span>
   </div>
 </div>
 
@@ -474,7 +475,6 @@ var PHOTOS = [
   {id:"11eLXZK_9AaqaWmA5XfWZ-RGhMgOKyhL-",title:"IMG_0750.heic",category:"harvard"},
   {id:"1A0iLBw-makdRc-U38Tm8nrOvcKKK_rk-",title:"IMG_1078.heic",category:"harvard"},
   {id:"1_SRieZbtPeP6p2uMq5KxRSLiNXf9cY40",title:"IMG_1095.heic",category:"harvard"},
-  {id:"1QD-bbBh7v44K48w1qwF1B0XsbPnZKHh9",title:"IMG_9801.HEIC",category:"harvard"},
   {id:"1tEsmwAc7lERrydOuOgEZitAZsjn1Ahe0",title:"IMG_9213.heic",category:"harvard"},
   {id:"1gai-rW7lHYN2Xu5gLqoQM3VKkQE-DBKS",title:"IMG_1369.HEIC",category:"harvard"},
   {id:"12ysokNHWGs8TR1Qb7GktQW63LVNRuuHp",title:"IMG_2416.HEIC",category:"harvard"},
@@ -557,8 +557,6 @@ order.forEach(function(cat){
   btn.addEventListener("click",function(){ openCategory(cat); });
 });
 
-document.getElementById("shuffleCount").textContent=PHOTOS.length+" photos";
-
 /* ---------- Category grid ---------- */
 var gridEl=document.getElementById("grid");
 var landing=document.getElementById("landing");
@@ -572,7 +570,6 @@ function openCategory(cat){
   var list=PHOTOS.filter(function(p){return p.category===cat;});
   document.getElementById("catHeb").textContent=c.heb;
   document.getElementById("catEn").textContent=c.en;
-  document.getElementById("catN").textContent=list.length+" photos";
   gridEl.innerHTML="";
   list.forEach(function(p,i){
     var cell=document.createElement("button");
@@ -604,19 +601,23 @@ function shuffled(arr){
   return a;
 }
 document.getElementById("shuffleBtn").addEventListener("click",function(){
-  openViewer(shuffled(PHOTOS),0);
+  openViewer(shuffled(PHOTOS),0,true);
 });
 
 /* ---------- Viewer ---------- */
 var viewer=document.getElementById("viewer");
 var stage=document.getElementById("stage");
 var hlCat=document.getElementById("hlCat");
+var hlDot=document.getElementById("hlDot");
+var hlPos=document.getElementById("hlPos");
 var vIndex=0;
+var isShuffle=false;  // true when viewer opened via Shuffle All, false when opened from a category
 var frames={};       // index -> {frame,img,loaded}
 var chromeTimer=null;
 
-function openViewer(list,index){
+function openViewer(list,index,shuffle){
   currentList=list;
+  isShuffle=!!shuffle;
   vIndex=index;
   frames={};
   stage.innerHTML="";
@@ -675,8 +676,17 @@ function render(){
       delete frames[k];
     }
   });
-  // headline
+  // headline: name always; position + dot only in category mode (hidden in shuffle)
   hlCat.textContent=p.place||CATS[p.category].en;
+  if(isShuffle){
+    hlDot.style.display="none";
+    hlPos.style.display="none";
+    hlPos.textContent="";
+  } else {
+    hlDot.style.display="";
+    hlPos.style.display="";
+    hlPos.textContent=(vIndex+1)+" / "+currentList.length;
+  }
   // arrow availability
   document.getElementById("prevBtn").style.visibility = vIndex>0 ? "visible":"hidden";
   document.getElementById("nextBtn").style.visibility = vIndex<currentList.length-1 ? "visible":"hidden";
