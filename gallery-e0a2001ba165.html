@@ -285,15 +285,15 @@
     position:absolute;left:50%;bottom:clamp(18px,3.4vh,34px);
     transform:translateX(-50%);
     z-index:11;
-    display:flex;align-items:center;gap:10px;
-    color:rgba(255,255,255,.72);
-    font-size:12.5px;font-weight:500;letter-spacing:.06em;
-    padding:8px 16px;border-radius:999px;
+    display:flex;align-items:center;gap:12px;
+    color:rgba(255,255,255,.92);
+    font-size:clamp(17px, 3.8vw, 24px);font-weight:500;letter-spacing:.06em;
+    padding:10px 22px;border-radius:999px;
     background:rgba(255,255,255,.05);
     -webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);
     white-space:nowrap;
   }
-  .headline .cat{color:#fff;font-weight:600;letter-spacing:.03em}
+  .headline .cat{color:#fff;font-weight:700;letter-spacing:.03em}
   .headline .dot{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.4)}
   .headline .pos{font-variant-numeric:tabular-nums}
 
@@ -308,18 +308,18 @@
     .nav{width:46px;height:46px}
     .nav.prev{left:6px}.nav.next{right:6px}
     .cattitle .en{display:none}
-    /* Phone: Shuffle All rises above the category cards, just under the tagline */
+    /* Phone: categories first, then Shuffle All after the cards */
     #landing{display:flex;flex-direction:column}
     .hero{order:1}
-    .shuffle-wrap{order:2;margin-top:clamp(18px,5vw,26px)}
-    .cards{order:3;margin-top:clamp(18px,5vw,26px)}
+    .cards{order:2;margin-top:clamp(18px,5vw,26px)}
+    .shuffle-wrap{order:3;margin-top:clamp(18px,5vw,26px)}
     .foot{order:4}
   }
 </style>
 
 <main id="landing">
   <header class="hero">
-    <p class="tagline" dir="rtl">תמונות שצילמתי של המשפחה, קיימברידג׳ והרווארד (חוץ מהתמונה שלי בתור ילד)</p>
+    <p class="tagline" dir="rtl">כמה תמונות שצילמתי של המשפחה, או מתקופת קיימברידג׳ והרווארד (חוץ מהתמונה שלי בתור ילד)</p>
   </header>
 
   <section class="cards" id="cards" aria-label="Categories"></section>
@@ -457,6 +457,7 @@ var PHOTOS = [
   {id:"1CF_GGfGaJKzuPWBU3rYdmI7FUx5Rr3MN",title:"IMG_9409.HEIC",category:"harvard"},
   {id:"1-ki23ZUnTBCWLGWFK8lOUCGv3rMCGhjt",title:"IMG_9400.HEIC",category:"harvard"},
   {id:"1o38rtNRqSwLLMap6lekLC36Uxb7Fm3ZT",title:"IMG_9398.HEIC",category:"harvard"},
+  {id:"1I8geTWENXCLTWW4wLuU3y66hoojpzxMA",title:"IMG_9279.HEIC",category:"harvard"},
   {id:"12rXztCayVAIKiwBzyvOLYJOalMxTX9c5",title:"IMG_9363.HEIC",category:"harvard"},
   {id:"1lI7EiepqAH3uZmw04Ns-IAqM7BWlOfNC",title:"IMG_0469.HEIC",category:"harvard"},
   {id:"13i2TMgaq8ZwlTLna09jGhGNBSQ9VCu06",title:"IMG_0012.jpeg",category:"harvard"},
@@ -482,8 +483,6 @@ var PHOTOS = [
   {id:"1gai-rW7lHYN2Xu5gLqoQM3VKkQE-DBKS",title:"IMG_1369.HEIC",category:"harvard"},
   {id:"12ysokNHWGs8TR1Qb7GktQW63LVNRuuHp",title:"IMG_2416.HEIC",category:"harvard"},
   {id:"1xKxIPgy1BnIZXZdNQt2CiaajfeA0kAAf",title:"IMG_9244.heic",category:"harvard"},
-  {id:"1I8geTWENXCLTWW4wLuU3y66hoojpzxMA",title:"IMG_9279.HEIC",category:"harvard"},
-  {id:"1jqKcxA11VolyJD_3Iv0DEFa5pB1n8UXq",title:"IMG_9853.heic",category:"harvard"},
   {id:"1GXIXxfMmEQWXyNZMSjuWyrPu6Lu-zu4w",title:"IMG_1981.heic",category:"harvard"},
   {id:"1l90eNFAx67E-jLZvSpThGJ9tKh8KgEs2",title:"IMG_9175.heic",category:"harvard"},
   {id:"1-lzxBXU5lCsAWcS6XWD7ey7WHOYzMVGk",title:"IMG_1950.heic",category:"harvard"},
@@ -542,7 +541,7 @@ function firstOf(cat){ return PHOTOS.filter(function(p){return p.category===cat;
 /* Pinned cover overrides (specific photo ids). Falls back to firstOf(cat) when absent. */
 var COVER = {
   family:    "1torHiLAyH6fSihQmXG2wa_Lrw0Nf_gDX", // 16th Family photo (IMG_6388.heic)
-  cambridge: "1tigrQF6c6I6vK2AgbIx7VnE66jpdWxiQ"  // 10th Cambridge photo (IMG_0388.heic)
+  cambridge: "1Sy36CmRMgZsC65jfvdFKcfglHO3Jsxog"  // 42nd Cambridge photo (IMG_8959.heic)
 };
 function coverOf(cat){ return COVER[cat] || firstOf(cat).id; }
 
