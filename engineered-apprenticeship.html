@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Rise of the Engineered Apprenticeship — Dr Philippa Hardman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal: #004E64;
+  --teal-mid: #006880;
+  --teal-light: #e0f0f4;
+  --orange: #F4A261;
+  --orange-dark: #E76F51;
+  --cream: #FEFCF8;
+  --cream-warm: #F5EFE0;
+  --text: #1a2a30;
+  --muted: #5a7a85;
+  --green: #2d9e6b;
+  --red: #c0440a;
+  --ink: #1a2a30;
+  --rule: rgba(0,78,100,0.12);
+  --accent: #004E64;
+  --accent-dark: #003347;
+  --accent-light: #006880;
+  --accent-xlight: #c0d8e0;
+  --accent-xxlight: #e8f4f7;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-500: #6b7280;
+  --gray-900: #111827;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #E8E4DC;
+  font-family: 'Inter', sans-serif;
+  color: var(--text);
+  min-height: 100vh;
+  padding: 24px 12px;
+}
+
+.poster {
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--cream);
+  box-shadow: 0 4px 40px rgba(0,0,0,0.18);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* SCROLL DOTS */
+.scroll-dots {
+  position: fixed;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 200;
+}
+.scroll-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: rgba(0,78,100,0.25);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  border: none;
+}
+.scroll-dot.active { background: var(--teal); transform: scale(1.3); }
+.scroll-dot:hover { background: var(--teal-mid); }
+
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, #004E64 0%, #006880 40%, #003347 100%);
+  padding: 64px 48px 56px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -60px; left: -60px;
+  width: 240px; height: 240px;
+  border-radius: 50%;
+  background: rgba(244,162,97,0.08);
+}
+.hero-kicker {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 900;
+  line-height: 1.12;
+  color: #fff;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+.hero h1 em { color: var(--orange); font-style: italic; }
+.hero-subtitle {
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: rgba(255,255,255,0.82);
+  max-width: 600px;
+  line-height: 1.65;
+  margin-bottom: 36px;
+  position: relative;
+  z-index: 1;
+}
+.stat-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+.stat-pill {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 100px;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: pillIn 0.5s ease forwards;
+  backdrop-filter: blur(4px);
+}
+.stat-pill:nth-child(1) { animation-delay: 0.15s; }
+.stat-pill:nth-child(2) { animation-delay: 0.28s; }
+.stat-pill:nth-child(3) { animation-delay: 0.41s; }
+.stat-pill:nth-child(4) { animation-delay: 0.54s; }
+@keyframes pillIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+.pill-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--orange);
+}
+.pill-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.75);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  max-width: 100px;
+  line-height: 1.3;
+}
+
+/* SECTION COMMON */
+.section {
+  padding: 52px 48px;
+  border-bottom: 1px solid var(--rule);
+}
+.section:last-child { border-bottom: none; }
+.section-kicker {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--orange-dark);
+  margin-bottom: 10px;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.4rem, 3.5vw, 2rem);
+  font-weight: 800;
+  color: var(--teal);
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+.section-subtitle {
+  font-size: 0.92rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+
+/* REVEAL ANIMATION */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* KEY INSIGHTS (details/summary) */
+.insights-list { display: flex; flex-direction: column; gap: 10px; margin-top: 22px; }
+.insight-item {
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.insight-item summary {
+  padding: 14px 18px;
+  cursor: pointer;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--text);
+  list-style: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #fff;
+  transition: background 0.15s;
+}
+.insight-item summary::-webkit-details-marker { display: none; }
+.insight-item summary:hover { background: var(--accent-xxlight); }
+.insight-item[open] summary { background: var(--accent-xxlight); color: var(--accent); font-weight: 600; }
+.insight-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.insight-detail {
+  padding: 14px 18px 16px 46px;
+  font-size: 0.87rem;
+  color: var(--muted);
+  line-height: 1.65;
+  border-top: 1px solid var(--rule);
+  background: var(--accent-xxlight);
+}
+
+/* EDITORIAL SECTION */
+.editorial-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-top: 28px;
+}
+.editorial-col p {
+  font-size: 0.93rem;
+  line-height: 1.75;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+.editorial-col p:last-child { margin-bottom: 0; }
+.pull-quote {
+  border-left: 4px solid var(--teal);
+  background: var(--teal-light);
+  padding: 20px 22px;
+  margin-top: 28px;
+  border-radius: 0 8px 8px 0;
+}
+.pull-quote-marks {
+  font-size: 3rem;
+  color: var(--teal-mid);
+  line-height: 0.5;
+  display: block;
+  margin-bottom: 8px;
+  font-family: Georgia, serif;
+}
+.pull-quote blockquote {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--teal);
+  line-height: 1.6;
+}
+
+/* EXPANDABLE CARDS */
+.cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 24px;
+}
+.exp-card {
+  border: 1px solid var(--accent-xlight);
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  transition: box-shadow 0.2s;
+}
+.exp-card:hover { box-shadow: 0 4px 20px rgba(0,78,100,0.10); }
+.exp-card-header {
+  padding: 18px 18px 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #fff;
+  transition: background 0.15s;
+}
+.exp-card-header:hover { background: var(--accent-xxlight); }
+.exp-card.open .exp-card-header { background: var(--accent-xxlight); }
+.exp-card-emoji { font-size: 1.4rem; flex-shrink: 0; }
+.exp-card-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1.3;
+  margin-bottom: 3px;
+}
+.exp-card-tagline {
+  font-size: 0.78rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+.exp-card-chevron {
+  margin-left: auto;
+  flex-shrink: 0;
+  font-size: 1rem;
+  color: var(--muted);
+  transition: transform 0.25s;
+  padding-top: 2px;
+}
+.exp-card.open .exp-card-chevron { transform: rotate(180deg); }
+.exp-card-body {
+  display: none;
+  padding: 0 18px 18px;
+  border-top: 1px solid var(--accent-xlight);
+  background: var(--accent-xxlight);
+}
+.exp-card.open .exp-card-body { display: block; }
+.exp-card-body p {
+  font-size: 0.87rem;
+  line-height: 1.7;
+  color: var(--text);
+  margin: 12px 0 8px;
+}
+.exp-card-idea {
+  background: rgba(0,78,100,0.06);
+  border-left: 3px solid var(--accent-light);
+  padding: 10px 12px;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.84rem;
+  font-style: italic;
+  color: var(--accent-dark);
+  margin: 10px 0;
+  line-height: 1.6;
+}
+.exp-card-highlight {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--teal);
+  padding: 8px 12px;
+  background: rgba(0,104,128,0.08);
+  border-radius: 6px;
+  margin: 10px 0;
+  line-height: 1.5;
+}
+.exp-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 12px 0 8px;
+}
+.tag {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 100px;
+  background: var(--accent-xlight);
+  color: var(--accent-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.zoom-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent);
+  background: none;
+  border: 1px solid var(--accent-xlight);
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  margin-top: 4px;
+}
+.zoom-btn:hover { background: var(--accent-xxlight); border-color: var(--accent); }
+.zoom-btn.ready { border-color: var(--accent); }
+.zoom-btn .zoom-icon { font-size: 0.9rem; }
+
+/* FLOW SECTION */
+.flow-container {
+  margin-top: 32px;
+  position: relative;
+}
+.flow-nodes {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0;
+  position: relative;
+}
+.flow-svg {
+  position: absolute;
+  top: 44px;
+  left: 0; right: 0;
+  width: 100%;
+  height: 20px;
+  pointer-events: none;
+}
+.flow-node {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  z-index: 1;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.4s, transform 0.4s;
+}
+.flow-node.animated { opacity: 1; transform: translateY(0); }
+.flow-node-circle {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  background: var(--teal-light);
+  border: 3px solid var(--teal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  margin-bottom: 12px;
+}
+.flow-node:hover .flow-node-circle,
+.flow-node.active .flow-node-circle {
+  background: var(--teal);
+  border-color: var(--teal);
+  transform: scale(1.08);
+}
+.flow-node-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--teal);
+  text-align: center;
+  margin-bottom: 4px;
+}
+.flow-node-desc {
+  font-size: 0.78rem;
+  color: var(--muted);
+  text-align: center;
+  max-width: 160px;
+  line-height: 1.45;
+}
+.flow-detail-panel {
+  margin-top: 24px;
+  padding: 20px 22px;
+  background: var(--accent-xxlight);
+  border: 1px solid var(--accent-xlight);
+  border-radius: 10px;
+  display: none;
+}
+.flow-detail-panel.active { display: block; }
+.flow-detail-panel h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.05rem;
+  color: var(--teal);
+  margin-bottom: 8px;
+}
+.flow-detail-panel p {
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--text);
+}
+
+/* FLIP CARDS */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 28px;
+}
+.stat-counter-box {
+  background: var(--teal);
+  border-radius: 10px;
+  padding: 20px 16px;
+  text-align: center;
+  color: #fff;
+}
+.stat-counter-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.7rem;
+  font-weight: 900;
+  color: var(--orange);
+  display: block;
+  margin-bottom: 4px;
+}
+.stat-counter-label {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.4;
+}
+.flip-cards-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+.flip-card {
+  height: 180px;
+  perspective: 800px;
+  cursor: pointer;
+}
+.flip-inner {
+  position: relative;
+  width: 100%; height: 100%;
+  transition: transform 0.55s cubic-bezier(0.4,0,0.2,1);
+  transform-style: preserve-3d;
+}
+.flip-card:hover .flip-inner,
+.flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+.flip-face {
+  position: absolute;
+  width: 100%; height: 100%;
+  backface-visibility: hidden;
+  border-radius: 10px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.flip-front {
+  background: var(--accent-dark);
+  color: #fff;
+}
+.flip-back {
+  background: #fff;
+  border: 1.5px solid var(--accent-xlight);
+  transform: rotateY(180deg);
+}
+.flip-front-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 8px;
+}
+.flip-front-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1.3;
+}
+.flip-back-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--orange-dark);
+  margin-bottom: 8px;
+}
+.flip-back-text {
+  font-size: 0.82rem;
+  color: var(--text);
+  line-height: 1.55;
+}
+
+/* ZOOM CHIPS */
+.zoom-chips-section {
+  padding: 44px 48px;
+  background: var(--cream-warm);
+  border-bottom: 1px solid var(--rule);
+}
+.zoom-chips-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--teal);
+  margin-bottom: 6px;
+}
+.zoom-chips-sub {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+.chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.zoom-chip {
+  background: #fff;
+  border: 1.5px solid var(--accent-xlight);
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.zoom-chip:hover { background: var(--accent-xxlight); border-color: var(--accent); }
+.zoom-freeform {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+.zoom-freeform input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1.5px solid var(--accent-xlight);
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-family: 'Inter', sans-serif;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.zoom-freeform input:focus { border-color: var(--accent); }
+.zoom-freeform button {
+  padding: 10px 18px;
+  background: var(--teal);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.zoom-freeform button:hover { background: var(--teal-mid); }
+
+/* FEEDBACK WIDGET */
+.feedback-strip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--rule);
+}
+.feedback-label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+.feedback-btns {
+  display: flex;
+  gap: 8px;
+}
+.fb-btn {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 100px;
+  border: 1.5px solid var(--rule);
+  background: #fff;
+  cursor: pointer;
+  color: var(--muted);
+  transition: all 0.15s;
+}
+.fb-btn:hover { border-color: var(--teal); color: var(--teal); }
+.fb-btn.selected { background: var(--teal); color: #fff; border-color: var(--teal); }
+.fb-thanks { font-size: 0.78rem; color: var(--green); font-weight: 600; display: none; }
+
+/* ZOOM OVERLAY */
+.zoom-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(3px);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.zoom-overlay.open { display: flex; }
+.zoom-modal {
+  background: var(--cream);
+  border-radius: 12px;
+  max-width: 680px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+.zoom-modal-header {
+  background: var(--teal);
+  color: #fff;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 12px 12px 0 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.zoom-modal-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+.zoom-modal-close {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.7);
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 0 4px;
+  transition: color 0.15s;
+}
+.zoom-modal-close:hover { color: #fff; }
+.zoom-modal-body {
+  padding: 24px;
+  font-size: 0.9rem;
+  line-height: 1.75;
+  color: var(--text);
+}
+.zoom-modal-body h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  color: var(--teal);
+  margin: 16px 0 8px;
+}
+.zoom-modal-body p { margin-bottom: 12px; }
+.zoom-modal-body ul { padding-left: 18px; margin-bottom: 12px; }
+.zoom-modal-body ul li { margin-bottom: 6px; }
+.zoom-loading { text-align: center; padding: 40px 24px; color: var(--muted); font-size: 0.9rem; }
+.zoom-spinner {
+  width: 32px; height: 32px;
+  border: 3px solid var(--accent-xlight);
+  border-top-color: var(--teal);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 16px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* CHAT WIDGET */
+.chat-fab {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 400;
+  background: var(--teal);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 52px; height: 52px;
+  font-size: 1.4rem;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0,78,100,0.4);
+  transition: background 0.15s, transform 0.2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.chat-fab:hover { background: var(--teal-mid); transform: scale(1.08); }
+.chat-panel {
+  position: fixed;
+  bottom: 84px;
+  left: 24px;
+  z-index: 400;
+  width: 320px;
+  background: var(--cream);
+  border-radius: 12px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.22);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  max-height: 440px;
+}
+.chat-panel.open { display: flex; }
+.chat-header {
+  background: var(--teal);
+  color: #fff;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.chat-header-title { font-size: 0.88rem; font-weight: 700; }
+.chat-close { background: none; border: none; color: rgba(255,255,255,0.7); cursor: pointer; font-size: 1.1rem; }
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.chat-msg {
+  font-size: 0.82rem;
+  line-height: 1.55;
+  padding: 9px 12px;
+  border-radius: 8px;
+  max-width: 90%;
+}
+.chat-msg.bot { background: var(--accent-xxlight); color: var(--text); align-self: flex-start; }
+.chat-msg.user { background: var(--teal); color: #fff; align-self: flex-end; }
+.chat-input-row {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid var(--rule);
+}
+.chat-input {
+  flex: 1;
+  font-size: 0.82rem;
+  font-family: 'Inter', sans-serif;
+  padding: 8px 11px;
+  border: 1.5px solid var(--accent-xlight);
+  border-radius: 6px;
+  outline: none;
+  color: var(--text);
+}
+.chat-input:focus { border-color: var(--accent); }
+.chat-send {
+  background: var(--teal);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 13px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.chat-send:hover { background: var(--teal-mid); }
+
+/* FOOTER */
+.footer {
+  background: var(--teal);
+  padding: 28px 48px;
+  text-align: center;
+  color: rgba(255,255,255,0.7);
+  font-size: 0.82rem;
+  line-height: 1.65;
+}
+.footer a { color: var(--orange); text-decoration: none; }
+.footer a:hover { text-decoration: underline; }
+
+/* RESPONSIVE */
+@media (max-width: 640px) {
+  .hero { padding: 40px 24px 36px; }
+  .section { padding: 36px 24px; }
+  .editorial-grid { grid-template-columns: 1fr; }
+  .cards-grid { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .flip-cards-row { grid-template-columns: repeat(2, 1fr); }
+  .flow-nodes { flex-direction: column; gap: 20px; }
+  .flow-svg { display: none; }
+  .scroll-dots { display: none; }
+  .zoom-chips-section { padding: 36px 24px; }
+  .footer { padding: 28px 24px; }
+}
+</style>
+</head>
+<body>
+
+<script>
+var PAGE_SLUG = 'engineered-apprenticeship';
+var SOURCE_PATH = '/home/gavri/visual-summaries/engineered-apprenticeship/engineered-apprenticeship-source.txt';
+var ZOOM_CACHE = {};
+var CHAT_CONFIG = {
+  slug: 'engineered-apprenticeship',
+  source: SOURCE_PATH,
+  title: 'Ask about the Engineered Apprenticeship'
+};
+</script>
+
+<!-- SCROLL DOTS -->
+<nav class="scroll-dots" aria-label="Page sections">
+  <button class="scroll-dot active" onclick="scrollToSection('hero')" title="Hero"></button>
+  <button class="scroll-dot" onclick="scrollToSection('builds')" title="Builds"></button>
+  <button class="scroll-dot" onclick="scrollToSection('loop')" title="Loop"></button>
+  <button class="scroll-dot" onclick="scrollToSection('anatomy')" title="Anatomy"></button>
+  <button class="scroll-dot" onclick="scrollToSection('stakes')" title="Stakes"></button>
+</nav>
+
+<!-- ZOOM OVERLAY -->
+<div class="zoom-overlay" id="zoom-overlay" onclick="handleOverlayClick(event)">
+  <div class="zoom-modal" id="zoom-modal">
+    <div class="zoom-modal-header">
+      <span class="zoom-modal-title" id="zoom-modal-title">Loading…</span>
+      <button class="zoom-modal-close" onclick="closeZoomOverlay()">✕</button>
+    </div>
+    <div class="zoom-modal-body" id="zoom-modal-body">
+      <div class="zoom-loading"><div class="zoom-spinner"></div>Generating insight…</div>
+    </div>
+  </div>
+</div>
+
+<!-- CHAT FAB -->
+<button class="chat-fab" onclick="toggleChat()" title="Ask a question" id="chat-fab">💬</button>
+<div class="chat-panel" id="chat-panel">
+  <div class="chat-header">
+    <span class="chat-header-title">Ask about the Engineered Apprenticeship</span>
+    <button class="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-messages" id="chat-messages">
+    <div class="chat-msg bot">Hi! I can answer questions about this article on engineered apprenticeships, the case studies, or what this means for L&amp;D practice. What would you like to know?</div>
+  </div>
+  <div class="chat-input-row">
+    <input class="chat-input" id="chat-input" type="text" placeholder="Ask anything…" onkeydown="if(event.key==='Enter')sendChat()">
+    <button class="chat-send" onclick="sendChat()">Send</button>
+  </div>
+</div>
+
+<div class="poster">
+
+  <!-- 1. HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-kicker">L&D Intelligence &mdash; Dr Philippa Hardman &mdash; 2026</div>
+    <h1>The Rise of the <em>Engineered</em> Apprenticeship</h1>
+    <p class="hero-subtitle">AI didn't kill L&amp;D's job. It handed us the 90% of capability development we never had to design before.</p>
+    <div class="stat-pills">
+      <div class="stat-pill">
+        <span class="pill-num">9×</span>
+        <span class="pill-label">Remit expansion</span>
+      </div>
+      <div class="stat-pill">
+        <span class="pill-num">90%</span>
+        <span class="pill-label">Jobs still hiring for old role</span>
+      </div>
+      <div class="stat-pill">
+        <span class="pill-num">£52.5K</span>
+        <span class="pill-label">New L&amp;D salary (UK)</span>
+      </div>
+      <div class="stat-pill">
+        <span class="pill-num">160hrs</span>
+        <span class="pill-label">Law firm pilot hours</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. KEY INSIGHTS -->
+  <section class="section reveal">
+    <div class="section-kicker">Key Insights</div>
+    <div class="section-title">Five Things Worth Knowing</div>
+    <div class="insights-list">
+      <details class="insight-item">
+        <summary>
+          <span class="insight-icon">📊</span>
+          <span>Courses covered only 10% of how people built capability — the other 90% happened invisibly through the informal apprenticeship (routine tasks + proximity to experts).</span>
+        </summary>
+        <div class="insight-detail">
+          The 70-20-10 model has always shown that formal learning is a minority sport in capability development. The real development engine was the 70% — the daily reps, the proximity to senior judgment, the slow accumulation of pattern experience. L&D never had to design this. It happened as a side effect of work itself.
+        </div>
+      </details>
+      <details class="insight-item">
+        <summary>
+          <span class="insight-icon">💡</span>
+          <span>AI killed the informal apprenticeship by absorbing routine work and hiding senior reasoning inside its outputs — now L&amp;D must engineer it deliberately.</span>
+        </summary>
+        <div class="insight-detail">
+          When AI handles document review, first-draft decks, and routine analysis, junior staff lose the repetitions that built pattern recognition. Simultaneously, when a partner uses AI to produce an answer, the reasoning process that would have been visible to a nearby junior is now invisible inside the model's output. Both losses — the reps and the reasoning — must now be engineered back into the learning environment.
+        </div>
+      </details>
+      <details class="insight-item">
+        <summary>
+          <span class="insight-icon">📊</span>
+          <span>Six Big Law firms logged 160+ hours in AI deposition simulations; KPMG is rolling out TaxSIM to ~10,000 tax professionals; Deloitte and PwC have redesigned their entire entry-level graduate training.</span>
+        </summary>
+        <div class="insight-detail">
+          These are not pilots in training suites. DepoSim has been demonstrated live to 500 attorneys. TaxSIM is a national-scale rollout. Deloitte's redesign started in September. PwC's new hires are AI reviewers from week one. The biggest knowledge-work employers in the world are already rebuilding — not experimenting.
+        </div>
+      </details>
+      <details class="insight-item">
+        <summary>
+          <span class="insight-icon">💡</span>
+          <span>On complex tasks requiring domain judgment, AI widens the gap between novice and expert — novices accept plausible-but-generic output; experts use AI to go further.</span>
+        </summary>
+        <div class="insight-detail">
+          Research from An (2026) on complex knowledge tasks shows the opposite effect to the Brynjolfsson, Li and Raymond call centre study (2025). On routine tasks, AI narrows the competence gap. On complex tasks requiring professional judgment, it widens it. Giving juniors AI tools without teaching them to judge AI's work doesn't close the gap — it compounds it. This is the design problem that the engineered apprenticeship must solve.
+        </div>
+      </details>
+      <details class="insight-item">
+        <summary>
+          <span class="insight-icon">📊</span>
+          <span>UK L&amp;D roles focused on AI/capability pay a median £52,551 vs £35,000 for course design (50% premium). US gap: $161,400 vs $85,493 (89% premium).</span>
+        </summary>
+        <div class="insight-detail">
+          The salary data makes the professional stakes visible. 90% of L&D job postings still name a course as the deliverable — meaning the market has not yet caught up with the premium on judgment-mapping, simulation design, and expert elicitation skills. The window to develop these capabilities before they become table stakes is open, but not indefinitely.
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- 3. BROKEN ENGINE -->
+  <section class="section reveal">
+    <div class="section-kicker">The Problem</div>
+    <div class="section-title">Why the Course Was Never the Engine</div>
+    <div class="editorial-grid">
+      <div class="editorial-col">
+        <p>For decades, the 70-20-10 model described where competence actually came from: 70% from on-the-job experience, 20% from others, 10% from formal courses. L&D owned the 10%. The other 90% ran on autopilot — routine tasks accumulated the reps, proximity to senior colleagues transmitted the judgment, and feedback loops closed naturally through the flow of live work.</p>
+        <p>Nobody designed this. It happened as a side effect of how knowledge work was structured. New associates sat near partners. Junior tax professionals did the groundwork that senior ones reviewed. The informal apprenticeship was free, invisible, and doing most of the development work.</p>
+        <p>The critical insight is that transmitting knowledge was never the binding constraint on competence. Accumulating enough first-hand pattern experience to develop judgment was. Courses were never the engine — they were the visible part of a much larger system that was doing the real work in the background.</p>
+      </div>
+      <div class="editorial-col">
+        <p>AI has dismantled this system in two ways. First, it has absorbed the routine tasks that created most of the pattern experience — the document reviews, the first-draft decks, the repetitive analysis. Junior staff no longer accumulate the reps, because AI is doing the reps. Second, it has hidden the senior reasoning that used to be visible. When a partner uses AI to produce an output, the chain of thinking that would previously have been observable — through proximity, through reviewed drafts, through corridor conversation — is now inside the model's black box.</p>
+        <p>Both the reps and the reasoning have been switched off simultaneously. The informal apprenticeship, which was invisible precisely because it required no design, has collapsed. What L&D now faces is not a marginal expansion of scope. It is responsibility for the entire capability development system — the 100%, not the 10%.</p>
+        <div class="pull-quote">
+          <span class="pull-quote-marks">&ldquo;</span>
+          <blockquote>AI has broken this arrangement not by making courses worse, but by switching off the engine that was actually doing the development work.</blockquote>
+        </div>
+      </div>
+    </div>
+    <div class="feedback-strip">
+      <span class="feedback-label">Was this useful?</span>
+      <div class="feedback-btns">
+        <button class="fb-btn" onclick="giveFeedback(this,'problem','yes')">Yes</button>
+        <button class="fb-btn" onclick="giveFeedback(this,'problem','no')">Not really</button>
+        <button class="fb-btn" onclick="giveFeedback(this,'problem','deep')">Tell me more</button>
+      </div>
+      <span class="fb-thanks" id="fb-problem">Thanks!</span>
+    </div>
+  </section>
+
+  <!-- 4. CASE STUDIES -->
+  <section class="section reveal" id="builds">
+    <div class="section-kicker">Case Studies</div>
+    <div class="section-title">What the Engineered Apprenticeship Looks Like in Practice</div>
+    <p class="section-subtitle">Four builds from 2025-2026. Different sectors, same design logic.</p>
+    <div class="cards-grid">
+
+      <!-- Card 1: DepoSim -->
+      <div class="exp-card" id="card-deposim">
+        <div class="exp-card-header" onclick="toggleCard('card-deposim')">
+          <span class="exp-card-emoji">🏛️</span>
+          <div>
+            <div class="exp-card-title">Big Law — DepoSim</div>
+            <div class="exp-card-tagline">Six firms, 160+ hours, 97% approval — practising what AI can't do</div>
+          </div>
+          <span class="exp-card-chevron">▾</span>
+        </div>
+        <div class="exp-card-body">
+          <p>Six US firms (Orrick, K&amp;L Gates, McDermott, Littler, Taft, Brownstein) participated. Built by AltaClaro + Verbit. AI agents play the witness, opposing counsel, and court reporter simultaneously. Associates must read the situation and make real-time decisions under realistic pressure.</p>
+          <p>160+ hours have been piloted. 97% of participants strongly agreed the simulation was valuable. One litigation chair ran it live in front of 500 attorneys as a demonstration of what practice-centred training looks like at scale.</p>
+          <div class="exp-card-idea">This isn't a simulation of document review — AI's domain. It's simulation of the deposition: the human judgment call that requires reading a room, adapting live, and making calls that AI cannot reliably make for you.</div>
+          <div class="exp-card-highlight">"Mentor–mentee pairs use its feedback to start coaching conversations." — the simulator becomes the prompt for human-to-human learning.</div>
+          <div class="exp-card-tags">
+            <span class="tag">Litigation</span>
+            <span class="tag">Simulation</span>
+            <span class="tag">6 firms</span>
+          </div>
+          <button class="zoom-btn" id="zoom-deposim" onclick="zoomIn(event, 'DepoSim Deposition Simulator', 'AI-powered deposition practice across six major US law firms — how it works, what it teaches, and why 97% of participants found it valuable.', SOURCE_PATH)">
+            <span class="zoom-icon">🔍</span> DepoSim Deposition Simulator
+          </button>
+        </div>
+      </div>
+
+      <!-- Card 2: Atelier -->
+      <div class="exp-card" id="card-atelier">
+        <div class="exp-card-header" onclick="toggleCard('card-atelier')">
+          <span class="exp-card-emoji">⚖️</span>
+          <div>
+            <div class="exp-card-title">Arbitration — Atelier</div>
+            <div class="exp-card-tagline">Skill that used to take years now practised on day one</div>
+          </div>
+          <span class="exp-card-chevron">▾</span>
+        </div>
+        <div class="exp-card-body">
+          <p>Built by Three Crowns arbitration firm with Dr Megan Ma at Stanford Law's LIFT Lab. Junior associates rehearse cross-examining witnesses, adapting in real time as the AI witness responds in unexpected ways — a skill that previously required years of courtroom experience to practise under pressure.</p>
+          <p>The build represents an emerging design principle: simulate the performance-critical professional decisions, but keep human-to-human learning — the culture, unwritten rules, client presence — in the room. Simulators can replicate decision pressure; they cannot replicate a profession's social fabric.</p>
+          <div class="exp-card-idea">Skills built on recognition — reading a witness, sensing when an argument is landing — can be practised in a simulator and learned faster there than through years of live exposure. The simulator compresses the experience curve.</div>
+          <div class="exp-card-highlight">"Skills built on recognition can be practised in a simulator, and learned faster there than through years of live work."</div>
+          <div class="exp-card-tags">
+            <span class="tag">Arbitration</span>
+            <span class="tag">Stanford</span>
+            <span class="tag">Recognition skills</span>
+          </div>
+          <button class="zoom-btn" id="zoom-atelier" onclick="zoomIn(event, 'Atelier Arbitration Simulator', 'How Three Crowns and Stanford Law LIFT Lab built an AI simulator for cross-examination practice — design principles and what it teaches us about recognition skills.', SOURCE_PATH)">
+            <span class="zoom-icon">🔍</span> Atelier Arbitration Simulator
+          </button>
+        </div>
+      </div>
+
+      <!-- Card 3: TaxSIM -->
+      <div class="exp-card" id="card-taxsim">
+        <div class="exp-card-header" onclick="toggleCard('card-taxsim')">
+          <span class="exp-card-emoji">💼</span>
+          <div>
+            <div class="exp-card-title">KPMG — TaxSIM (10,000 people)</div>
+            <div class="exp-card-tagline">A national bet that designed practice can replace the reps clients used to fund</div>
+          </div>
+          <span class="exp-card-chevron">▾</span>
+        </div>
+        <div class="exp-card-body">
+          <p>TaxSIM built with Centaurian AI. Rolling out to approximately 10,000 US tax professionals across KPMG's national practice. The programme is designed to give junior professionals the skills that used to take years of repetitive client work — work that AI now absorbs before juniors can practise it.</p>
+          <p>The routine reps that AI has absorbed were not just tasks — they were the practice that used to develop competence. TaxSIM is KPMG's answer to a structural gap: if clients no longer fund junior development through repetitive work, who does?</p>
+          <div class="exp-card-idea">KPMG is training juniors to work as "managers of agents" — a title that implies supervising AI output rather than doing the underlying computation. The entire training model has had to shift to match a redefined entry-level job.</div>
+          <div class="exp-card-highlight">"Not a pilot in a training suite — it's a bet, across a national practice." The scale signals strategic conviction, not experimentation.</div>
+          <div class="exp-card-tags">
+            <span class="tag">Tax</span>
+            <span class="tag">Scale</span>
+            <span class="tag">KPMG</span>
+          </div>
+          <button class="zoom-btn" id="zoom-taxsim" onclick="zoomIn(event, 'KPMG TaxSIM', 'How KPMG is scaling AI-powered tax practice simulations to 10,000 professionals — the strategic logic and what managers-of-agents training looks like.', SOURCE_PATH)">
+            <span class="zoom-icon">🔍</span> KPMG TaxSIM
+          </button>
+        </div>
+      </div>
+
+      <!-- Card 4: Deloitte/PwC -->
+      <div class="exp-card" id="card-big4">
+        <div class="exp-card-header" onclick="toggleCard('card-big4')">
+          <span class="exp-card-emoji">🔍</span>
+          <div>
+            <div class="exp-card-title">Deloitte &amp; PwC — Graduate Redesign</div>
+            <div class="exp-card-tagline">First-years doing what used to take five years — reviewing AI from week one</div>
+          </div>
+          <span class="exp-card-chevron">▾</span>
+        </div>
+        <div class="exp-card-body">
+          <p>Deloitte is rebuilding its 3-year audit graduate scheme around simulated scenarios from September — replacing a programme structured around live client exposure with one structured around deliberate practice. PwC's first-year hires are expected to work as AI reviewers immediately upon joining.</p>
+          <p>Within 3 years, according to PwC, first-year associates will feel like the managers of a previous generation — because client-facing responsibility, which once took years to earn, is being handed to them from week one.</p>
+          <div class="exp-card-idea">The entry-level job has been redefined. Mid-career skills — scepticism, knowing when plausible is wrong, professional judgment, knowing when to escalate — must now be taught from day one because client-facing responsibility no longer waits three years.</div>
+          <div class="exp-card-highlight">"The training is changing to match a redefined entry-level job." The locus of change is not the learning programme — it's the nature of entry-level professional work.</div>
+          <div class="exp-card-tags">
+            <span class="tag">Audit</span>
+            <span class="tag">Graduate</span>
+            <span class="tag">Day one</span>
+          </div>
+          <button class="zoom-btn" id="zoom-big4" onclick="zoomIn(event, 'Deloitte PwC Graduate Redesign', 'How Deloitte and PwC are rethinking entry-level professional development — what AI-reviewer roles from week one really means for graduate training.', SOURCE_PATH)">
+            <span class="zoom-icon">🔍</span> Deloitte PwC Graduate Redesign
+          </button>
+        </div>
+      </div>
+
+    </div>
+    <div class="feedback-strip">
+      <span class="feedback-label">Useful?</span>
+      <div class="feedback-btns">
+        <button class="fb-btn" onclick="giveFeedback(this,'builds','yes')">Yes</button>
+        <button class="fb-btn" onclick="giveFeedback(this,'builds','no')">Not really</button>
+        <button class="fb-btn" onclick="giveFeedback(this,'builds','deep')">More detail</button>
+      </div>
+      <span class="fb-thanks" id="fb-builds">Thanks!</span>
+    </div>
+  </section>
+
+  <!-- 5. THE LOOP -->
+  <section class="section reveal" id="loop">
+    <div class="section-kicker">The Mechanism</div>
+    <div class="section-title">The Loop at the Heart of Every Build</div>
+    <p class="section-subtitle">Three nodes. One repeating cycle. The deliberate practice engine behind every engineered apprenticeship.</p>
+    <div class="flow-container">
+      <div class="flow-nodes" id="flow-nodes">
+        <!-- SVG paths between nodes -->
+        <svg class="flow-svg" viewBox="0 0 800 20" preserveAspectRatio="none">
+          <line x1="15%" y1="10" x2="48%" y2="10" stroke="var(--teal-mid)" stroke-width="2" stroke-dasharray="6 4"/>
+          <line x1="52%" y1="10" x2="85%" y2="10" stroke="var(--teal-mid)" stroke-width="2" stroke-dasharray="6 4"/>
+        </svg>
+
+        <div class="flow-node" id="flow-node-0" onclick="selectFlowNode(0)">
+          <div class="flow-node-circle">🎯</div>
+          <div class="flow-node-label">Make the Call</div>
+          <div class="flow-node-desc">Force commitment to a decision before seeing any answer</div>
+        </div>
+        <div class="flow-node" id="flow-node-1" onclick="selectFlowNode(1)">
+          <div class="flow-node-circle">👁️</div>
+          <div class="flow-node-label">See the Expert's Call</div>
+          <div class="flow-node-desc">Show what an experienced person would have done — and why</div>
+        </div>
+        <div class="flow-node" id="flow-node-2" onclick="selectFlowNode(2)">
+          <div class="flow-node-circle">🔄</div>
+          <div class="flow-node-label">Go Again</div>
+          <div class="flow-node-desc">Repeat on something harder, with support that deliberately fades</div>
+        </div>
+      </div>
+
+      <div class="flow-detail-panel" id="flow-detail">
+        <h4 id="flow-detail-title">Select a node to learn more</h4>
+        <p id="flow-detail-text">Click any of the three nodes above to see the design detail behind each stage of the loop.</p>
+      </div>
+    </div>
+    <div class="feedback-strip">
+      <span class="feedback-label">Useful?</span>
+      <div class="feedback-btns">
+        <button class="fb-btn" onclick="giveFeedback(this,'loop','yes')">Yes</button>
+        <button class="fb-btn" onclick="giveFeedback(this,'loop','no')">Not really</button>
+        <button class="fb-btn" onclick="giveFeedback(this,'loop','deep')">More detail</button>
+      </div>
+      <span class="fb-thanks" id="fb-loop">Thanks!</span>
+    </div>
+  </section>
+
+  <!-- 6. THREE DESIGN MOVES -->
+  <section class="section reveal" id="anatomy">
+    <div class="section-kicker">The Anatomy</div>
+    <div class="section-title">Three Design Moves That Appear in Every Build</div>
+    <p class="section-subtitle">Across DepoSim, Atelier, TaxSIM, and the Big Four redesigns — the same three structural choices appear each time.</p>
+    <div class="cards-grid" style="grid-template-columns: 1fr;">
+
+      <div class="exp-card" id="card-loop-move">
+        <div class="exp-card-header" onclick="toggleCard('card-loop-move')">
+          <span class="exp-card-emoji">🔁</span>
+          <div>
+            <div class="exp-card-title">Design Move 1 — The Loop</div>
+            <div class="exp-card-tagline">Attempt → Compare → Retry — replacing years of case accumulation</div>
+          </div>
+          <span class="exp-card-chevron">▾</span>
+        </div>
+        <div class="exp-card-body">
+          <p>Every build puts the learner in a realistic situation and forces a decision before showing any answer. Then shows what an expert would have done and why. Then goes again — harder, with less scaffolding. The structure is identical across law, tax, and audit. The content is domain-specific; the loop is universal.</p>
+          <div class="exp-card-idea">The loop's specific purpose: building enough first-hand pattern experience to judge AI's work without needing years of live cases. You cannot teach someone to spot a wrong answer by describing wrong answers. They must have experienced being wrong — and understood why — enough times to have calibrated intuition.</div>
+          <div class="exp-card-highlight">"A course starts from 'what do they need to know?' These builds start from 'which calls make someone good at this job?'"</div>
+          <div class="exp-card-tags">
+            <span class="tag">Deliberate practice</span>
+            <span class="tag">Pattern recognition</span>
+          </div>
+          <button class="zoom-btn" id="zoom-loop-move" onclick="zoomIn(event, 'The Practice Loop Mechanism', 'The research foundation and design logic behind the attempt-compare-retry loop — deliberate practice theory, cognitive apprenticeship, and what AI changed about who delivers the loop.', SOURCE_PATH)">
+            <span class="zoom-icon">🔍</span> The Practice Loop Mechanism
+          </button>
+        </div>
+      </div>
+
+      <div class="exp-card" id="card-expert">
+        <div class="exp-card-header" onclick="toggleCard('card-expert')">
+          <span class="exp-card-emoji">🧠</span>
+          <div>
+            <div class="exp-card-title">Design Move 2 — Expert Reasoning, Captured on Purpose</div>
+            <div class="exp-card-tagline">The most valuable new skill in L&amp;D: getting reasoning OUT of experts' heads</div>
+          </div>
+          <span class="exp-card-chevron">▾</span>
+        </div>
+        <div class="exp-card-body">
+          <p>The old apprenticeship passed on judgment by proximity — you sat near the partner for years. The reasoning was transmitted through observation, correction, and gradual exposure. AI ended this: when the partner's reasoning goes into the model's output, the chain of thinking is no longer observable.</p>
+          <p>Every build now requires the opposite: experts explaining their thinking on purpose, so it can be captured and turned into simulator logic, feedback rubrics, and example decisions. This is the work that learning designers now need to do — and it is craft, not administration.</p>
+          <div class="exp-card-idea">This is a new competence that most L&D professionals have never practised. Training taught us to collect content from subject matter experts. The new skill is getting experts to narrate their decision-making — to make tacit judgment explicit enough to be modelled, tested against, and improved.</div>
+          <div class="exp-card-highlight">"Getting reasoning out of experts' heads used to happen by accident, through seating plans. Now it has to happen on purpose."</div>
+          <div class="exp-card-tags">
+            <span class="tag">SME elicitation</span>
+            <span class="tag">Expertise</span>
+          </div>
+          <button class="zoom-btn" id="zoom-expert" onclick="zoomIn(event, 'Expert Reasoning Elicitation', 'Techniques for getting expert judgment out of experts heads — cognitive task analysis, decision-focused interviewing, and how to turn tacit expertise into simulator logic and feedback rubrics.', SOURCE_PATH)">
+            <span class="zoom-icon">🔍</span> Expert Reasoning Elicitation
+          </button>
+        </div>
+      </div>
+
+      <div class="exp-card" id="card-ai-judge">
+        <div class="exp-card-header" onclick="toggleCard('card-ai-judge')">
+          <span class="exp-card-emoji">🤖</span>
+          <div>
+            <div class="exp-card-title">Design Move 3 — Judging AI's Work from Day One</div>
+            <div class="exp-card-tagline">At PwC, reviewing AI output IS the entry-level job now</div>
+          </div>
+          <span class="exp-card-chevron">▾</span>
+        </div>
+        <div class="exp-card-body">
+          <p>On routine tasks, AI narrows the competence gap between novices and experts (Brynjolfsson, Li and Raymond, 2025 call centre study). On complex tasks that require domain judgment, the effect is the opposite: AI widens the gap. Experts use AI to go further, faster. Novices accept plausible-but-generic output because they lack the pattern recognition to distinguish it from genuinely good work (An, 2026).</p>
+          <p>At PwC, reviewing AI output is not a future task or an advanced skill — it is the entry-level job. New hires are given AI reviewer responsibility from week one. The implication for training is direct: mid-career skills (scepticism, calibrated escalation, professional judgment about when plausible is wrong) must be developed from day one.</p>
+          <div class="exp-card-idea">Giving juniors AI tools without teaching them to judge AI's work doesn't close the competence gap. It compounds it. This is the risk hiding inside the most generous AI access policies.</div>
+          <div class="exp-card-highlight">"On complex tasks that need domain judgment, AI widens the gap: experts use it to go further, novices accept plausible-but-generic output."</div>
+          <div class="exp-card-tags">
+            <span class="tag">AI supervision</span>
+            <span class="tag">Scepticism</span>
+            <span class="tag">Day one</span>
+          </div>
+          <button class="zoom-btn" id="zoom-ai-judge" onclick="zoomIn(event, 'Novice Expert AI Gap', 'The research on how AI affects novices versus experts on complex tasks — An 2026 and Brynjolfsson Li Raymond 2025 — and what it means for how junior professionals should be trained to work with AI.', SOURCE_PATH)">
+            <span class="zoom-icon">🔍</span> Novice Expert AI Gap
+          </button>
+        </div>
+      </div>
+
+    </div>
+    <div class="feedback-strip">
+      <span class="feedback-label">Useful?</span>
+      <div class="feedback-btns">
+        <button class="fb-btn" onclick="giveFeedback(this,'anatomy','yes')">Yes</button>
+        <button class="fb-btn" onclick="giveFeedback(this,'anatomy','no')">Not really</button>
+        <button class="fb-btn" onclick="giveFeedback(this,'anatomy','deep')">More detail</button>
+      </div>
+      <span class="fb-thanks" id="fb-anatomy">Thanks!</span>
+    </div>
+  </section>
+
+  <!-- 7. THE STAKES -->
+  <section class="section reveal" id="stakes">
+    <div class="section-kicker">The Stakes</div>
+    <div class="section-title">What This Means for L&amp;D Professionals</div>
+    <p class="section-subtitle">The remit has expanded 9x. The market is already pricing the new skills. Most job postings haven't caught up yet.</p>
+
+    <div class="stats-row" id="stats-row">
+      <div class="stat-counter-box">
+        <span class="stat-counter-num" data-target="100" data-prefix="" data-suffix="%">10%</span>
+        <div class="stat-counter-label">Remit — from designing the 10% to owning the full 100%</div>
+      </div>
+      <div class="stat-counter-box">
+        <span class="stat-counter-num" data-target="52551" data-prefix="£" data-suffix="">£35,000</span>
+        <div class="stat-counter-label">UK AI/Capability L&amp;D salary (vs £35K course design)</div>
+      </div>
+      <div class="stat-counter-box">
+        <span class="stat-counter-num" data-target="161400" data-prefix="$" data-suffix="">$85,493</span>
+        <div class="stat-counter-label">US AI/Capability L&amp;D salary (vs $85,493 course design)</div>
+      </div>
+      <div class="stat-counter-box">
+        <span class="stat-counter-num" data-target="90" data-prefix="" data-suffix="%">0%</span>
+        <div class="stat-counter-label">Job postings still advertising the old course-design role</div>
+      </div>
+    </div>
+
+    <div style="margin-top: 28px; margin-bottom: 8px;">
+      <div class="section-kicker" style="margin-bottom: 8px;">The L&amp;D Workflow Shift</div>
+      <p style="font-size:0.88rem;color:var(--muted);margin-bottom:20px;">Hover or tap each card to see the before and after.</p>
+    </div>
+    <div class="flip-cards-row">
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-face flip-front">
+            <div class="flip-front-label">Before — Analysis</div>
+            <div class="flip-front-title">Content mapping</div>
+          </div>
+          <div class="flip-face flip-back">
+            <div class="flip-back-label">After — Analysis</div>
+            <div class="flip-back-text">Judgment mapping — identify which decisions make someone expert at this job, not which topics they need to know</div>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-face flip-front">
+            <div class="flip-front-label">Before — Design</div>
+            <div class="flip-front-title">Building courses</div>
+          </div>
+          <div class="flip-face flip-back">
+            <div class="flip-back-label">After — Design</div>
+            <div class="flip-back-text">Building loops — realistic situations, forced commitment, expert comparison, fading support. Not modules.</div>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-face flip-front">
+            <div class="flip-front-label">Before — Delivery</div>
+            <div class="flip-front-title">Around the work</div>
+          </div>
+          <div class="flip-face flip-back">
+            <div class="flip-back-label">After — Delivery</div>
+            <div class="flip-back-text">Inside the work — the workflow itself becomes the learning environment. Embedded, not adjacent.</div>
+          </div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-face flip-front">
+            <div class="flip-front-label">Before — Evaluation</div>
+            <div class="flip-front-title">Activity metrics</div>
+          </div>
+          <div class="flip-face flip-back">
+            <div class="flip-back-label">After — Evaluation</div>
+            <div class="flip-back-text">Transfer evidence — does practice show up in real performance once scaffolding is gone?</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="feedback-strip">
+      <span class="feedback-label">Useful?</span>
+      <div class="feedback-btns">
+        <button class="fb-btn" onclick="giveFeedback(this,'stakes','yes')">Yes</button>
+        <button class="fb-btn" onclick="giveFeedback(this,'stakes','no')">Not really</button>
+        <button class="fb-btn" onclick="giveFeedback(this,'stakes','deep')">More detail</button>
+      </div>
+      <span class="fb-thanks" id="fb-stakes">Thanks!</span>
+    </div>
+  </section>
+
+  <!-- 8. FREE-FORM ZOOM -->
+  <div class="zoom-chips-section reveal">
+    <div class="zoom-chips-title">Go Deeper on Any Topic</div>
+    <p class="zoom-chips-sub">Select a topic for an instant deep-dive, or type your own question below.</p>
+    <div class="chips-row">
+      <button class="zoom-chip" onclick="zoomIn(event, 'Expert reasoning elicitation techniques', 'Detailed techniques for extracting tacit expert judgment — cognitive task analysis, decision-focused interviewing, and how to turn expert reasoning into simulator content.', SOURCE_PATH)">Expert reasoning elicitation techniques</button>
+      <button class="zoom-chip" onclick="zoomIn(event, 'The 70-20-10 model and AI', 'How AI has disrupted the 70-20-10 model of capability development — what the 70% informal learning looked like, how AI removed it, and what must be deliberately engineered now.', SOURCE_PATH)">The 70-20-10 model and AI</button>
+      <button class="zoom-chip" onclick="zoomIn(event, 'How PwC redefined the entry-level job', 'The strategic logic behind PwC making new hires AI reviewers from week one — what this means for the nature of early-career professional work and how training must change.', SOURCE_PATH)">How PwC redefined the entry-level job</button>
+    </div>
+    <div class="zoom-freeform">
+      <input type="text" id="zoom-freeform-input" placeholder="Ask anything about the engineered apprenticeship…" onkeydown="if(event.key==='Enter')triggerFreeformZoom()">
+      <button onclick="triggerFreeformZoom()">Ask</button>
+    </div>
+  </div>
+
+  <!-- 9. FOOTER -->
+  <footer class="footer">
+    <div>Source: <a href="https://drphilippahardman.substack.com/p/the-rise-of-the-engineered-apprenticeship" target="_blank">Dr Philippa Hardman, Substack, 2026</a></div>
+    <div style="margin-top:6px;">Visual summary by Leo &middot; 2026</div>
+  </footer>
+
+</div><!-- end .poster -->
+
+<script>
+// ============================================================
+// SCROLL DOTS
+// ============================================================
+var sectionIds = ['hero', 'builds', 'loop', 'anatomy', 'stakes'];
+var dots = document.querySelectorAll('.scroll-dot');
+
+function scrollToSection(id) {
+  var el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function updateDots() {
+  var scrollY = window.scrollY + window.innerHeight * 0.35;
+  var active = 0;
+  sectionIds.forEach(function(id, i) {
+    var el = document.getElementById(id);
+    if (el && el.getBoundingClientRect().top + window.scrollY <= scrollY) {
+      active = i;
+    }
+  });
+  dots.forEach(function(d, i) {
+    d.classList.toggle('active', i === active);
+  });
+}
+window.addEventListener('scroll', updateDots, { passive: true });
+
+// ============================================================
+// REVEAL ANIMATION
+// ============================================================
+var revealObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.reveal').forEach(function(el) {
+  revealObserver.observe(el);
+});
+
+// ============================================================
+// EXPANDABLE CARDS
+// ============================================================
+function toggleCard(id) {
+  var card = document.getElementById(id);
+  if (!card) return;
+  card.classList.toggle('open');
+}
+
+// ============================================================
+// FLOW NODE INTERACTION
+// ============================================================
+var flowDetails = [
+  {
+    title: '🎯 Make the Call',
+    text: 'The key design constraint: the learner MUST commit before seeing the answer. This is what builds judgment — not exposure to right answers, but the experience of being wrong and understanding why. None of these builds simulate document review or first-draft decks. They simulate the decision points that AI cannot replace: cross-examining a witness, advising a client on a tax position, flagging an audit risk. Commitment before comparison is what separates deliberate practice from passive exposure.'
+  },
+  {
+    title: '👁️ See the Expert\'s Call',
+    text: 'This is now the most valuable skill in learning design: getting reasoning out of experts\' heads. Old method: proximity — sit near the partner for years and absorb tacit judgment by osmosis. New method: deliberate elicitation — experts narrate their decisions through real cases, explaining not just what they would do but what they were looking for, what made them hesitant, what would have changed their answer. Every simulator and feedback rubric is only as good as the expert thinking inside it. This is craft, not administration.'
+  },
+  {
+    title: '🔄 Go Again',
+    text: 'The "go again" is not repetition — it is deliberate practice: graduated difficulty, fading support, increasing realism. The research base is unchanged (deliberate practice, cognitive apprenticeship, spaced retrieval). What AI changed is not the learning science — it is who delivers the loop. It used to be the work itself: the live cases accumulated naturally over years. Now that AI has absorbed the routine work, the loop must be designed deliberately. The designer is now responsible for the engine that used to run by accident.'
+  }
+];
+
+var activeFlowNode = -1;
+
+function selectFlowNode(idx) {
+  activeFlowNode = activeFlowNode === idx ? -1 : idx;
+  document.querySelectorAll('.flow-node').forEach(function(n, i) {
+    n.classList.toggle('active', i === activeFlowNode);
+  });
+  var panel = document.getElementById('flow-detail');
+  if (activeFlowNode === -1) {
+    panel.classList.remove('active');
+    return;
+  }
+  panel.classList.add('active');
+  document.getElementById('flow-detail-title').textContent = flowDetails[activeFlowNode].title;
+  document.getElementById('flow-detail-text').textContent = flowDetails[activeFlowNode].text;
+}
+
+// Animate flow nodes on scroll
+var flowAnimated = false;
+var flowObserver = new IntersectionObserver(function(entries) {
+  if (entries[0].isIntersecting && !flowAnimated) {
+    flowAnimated = true;
+    document.querySelectorAll('.flow-node').forEach(function(node, i) {
+      setTimeout(function() {
+        node.classList.add('animated');
+      }, i * 200);
+    });
+    flowObserver.disconnect();
+  }
+}, { threshold: 0.2 });
+var flowSection = document.getElementById('loop');
+if (flowSection) flowObserver.observe(flowSection);
+
+// ============================================================
+// ANIMATED STAT COUNTERS
+// ============================================================
+function formatNum(val, prefix, suffix) {
+  var formatted;
+  if (val >= 100000) {
+    formatted = prefix + val.toLocaleString();
+  } else if (val >= 1000) {
+    formatted = prefix + val.toLocaleString();
+  } else {
+    formatted = prefix + val;
+  }
+  return formatted + suffix;
+}
+
+function animateCounter(el) {
+  var target = parseInt(el.dataset.target);
+  var prefix = el.dataset.prefix || '';
+  var suffix = el.dataset.suffix || '';
+  var start = 0;
+  var duration = 1400;
+  var startTime = null;
+
+  // determine start value based on what's shown
+  if (prefix === '£') start = 35000;
+  else if (prefix === '$') start = 85493;
+  else start = 0;
+
+  function step(ts) {
+    if (!startTime) startTime = ts;
+    var progress = Math.min((ts - startTime) / duration, 1);
+    var ease = 1 - Math.pow(1 - progress, 3);
+    var current = Math.round(start + (target - start) * ease);
+    el.textContent = formatNum(current, prefix, suffix);
+    if (progress < 1) requestAnimationFrame(step);
+    else el.textContent = formatNum(target, prefix, suffix);
+  }
+  requestAnimationFrame(step);
+}
+
+var statsObserver = new IntersectionObserver(function(entries) {
+  if (entries[0].isIntersecting) {
+    document.querySelectorAll('.stat-counter-num[data-target]').forEach(animateCounter);
+    statsObserver.disconnect();
+  }
+}, { threshold: 0.3 });
+var statsRow = document.getElementById('stats-row');
+if (statsRow) statsObserver.observe(statsRow);
+
+// ============================================================
+// FEEDBACK WIDGET
+// ============================================================
+function giveFeedback(btn, section, type) {
+  btn.closest('.feedback-btns').querySelectorAll('.fb-btn').forEach(function(b) {
+    b.classList.remove('selected');
+  });
+  btn.classList.add('selected');
+  var thanks = document.getElementById('fb-' + section);
+  if (thanks) { thanks.style.display = 'inline'; }
+  if (type === 'deep') {
+    var labels = {
+      problem: 'Why the course was never the capability engine',
+      builds: 'Real-world engineered apprenticeship builds',
+      loop: 'The practice loop mechanism in depth',
+      anatomy: 'Three design moves in every engineered apprenticeship',
+      stakes: 'What the L&D shift means for practitioners'
+    };
+    var label = labels[section] || section;
+    zoomIn(null, label, 'The user wants more depth on: ' + label, SOURCE_PATH);
+  }
+}
+
+// ============================================================
+// ZOOM SYSTEM
+// ============================================================
+function openZoomOverlay(title, htmlContent) {
+  document.getElementById('zoom-modal-title').textContent = title;
+  document.getElementById('zoom-modal-body').innerHTML = htmlContent;
+  document.getElementById('zoom-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeZoomOverlay() {
+  document.getElementById('zoom-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('zoom-overlay')) closeZoomOverlay();
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeZoomOverlay();
+});
+
+function markZoomButtonReady(btnId) {
+  var btn = document.getElementById(btnId);
+  if (btn) btn.classList.add('ready');
+}
+
+function zoomIn(event, topic, context, sourcePath) {
+  if (event) event.stopPropagation();
+  var cacheKey = topic.toLowerCase().replace(/\s+/g, '-');
+  openZoomOverlay(topic, '<div class="zoom-loading"><div class="zoom-spinner"></div>Generating deep-dive…</div>');
+
+  if (ZOOM_CACHE[cacheKey]) {
+    openZoomOverlay(topic, ZOOM_CACHE[cacheKey]);
+    return;
+  }
+
+  // Build content synchronously for standalone mode
+  var content = buildZoomContent(topic, context);
+  ZOOM_CACHE[cacheKey] = content;
+  setTimeout(function() {
+    openZoomOverlay(topic, content);
+  }, 600);
+}
+
+function buildZoomContent(topic, context) {
+  var articleContext = {
+    title: 'The Rise of the Engineered Apprenticeship',
+    author: 'Dr Philippa Hardman',
+    year: '2026',
+    thesis: 'AI expanded L&D\'s remit 9x by killing the informal apprenticeship. Courses covered 10% of capability development. The other 90% happened invisibly. Now L&D must engineer it deliberately.',
+    keyFacts: [
+      '97% of DepoSim participants (160+ hours, 6 law firms) strongly agreed it was valuable',
+      'KPMG TaxSIM reaching ~10,000 US tax professionals',
+      'Deloitte rebuilt 3-year audit graduate scheme around simulations',
+      'PwC: new hires review AI from week one',
+      'AI widens competence gap on complex tasks (An, 2026)',
+      'AI narrows gap on routine tasks (Brynjolfsson, Li and Raymond, 2025)',
+      '90% of L&D job postings still name a course as deliverable',
+      'UK: £35K course design vs £52,551 AI/capability roles',
+      'US: $85,493 course design vs $161,400 AI/capability roles'
+    ]
+  };
+
+  var topicLower = topic.toLowerCase();
+  var html = '';
+
+  if (topicLower.includes('deposim') || topicLower.includes('deposition')) {
+    html = '<h3>DepoSim: AI Deposition Practice at Scale</h3>' +
+      '<p>DepoSim was built by AltaClaro and Verbit for six major US law firms: Orrick, K&L Gates, McDermott, Littler, Taft, and Brownstein. The simulator deploys AI agents to play the witness, opposing counsel, and court reporter simultaneously, creating a realistic deposition environment that previously required scheduling real participants.</p>' +
+      '<h3>What It Simulates</h3>' +
+      '<p>Critically, DepoSim does not simulate document review — the work AI has already absorbed. It simulates the deposition itself: the moment where human judgment, reading of the room, and adaptive decision-making are non-negotiable. The associate must commit to a line of questioning, read how the witness responds, and adjust in real time.</p>' +
+      '<h3>Results</h3>' +
+      '<ul><li>160+ hours piloted across participating firms</li><li>97% of participants strongly agreed the simulation was valuable</li><li>One litigation chair demonstrated it live to 500 attorneys</li><li>Mentor-mentee pairs use its feedback to initiate coaching conversations</li></ul>' +
+      '<h3>Design Logic</h3>' +
+      '<p>The simulation closes the gap that AI created: when document review moved to AI, the junior associates who used to build pattern recognition through that work lost their primary practice environment. DepoSim recreates the practice environment at the skill level — the deposition — where it matters most.</p>';
+  } else if (topicLower.includes('atelier') || topicLower.includes('arbitration')) {
+    html = '<h3>Atelier: Cross-Examination Practice for Junior Arbitration Associates</h3>' +
+      '<p>Built by Three Crowns arbitration firm with Dr Megan Ma at Stanford Law\'s LIFT Lab, Atelier allows junior associates to practise cross-examining AI witnesses that respond dynamically and unexpectedly — simulating the adaptive judgment required in live hearings.</p>' +
+      '<h3>The Design Principle</h3>' +
+      '<p>Atelier represents an emerging design principle in legal simulation: simulate performance-critical professional decisions in the simulator, but keep human-to-human learning — culture, unwritten rules, client presence — in the room. The simulator compresses the experience curve on recognition skills. It cannot replicate a profession\'s social fabric.</p>' +
+      '<p>Recognition skills — reading a witness, sensing when an argument is landing, knowing when to press and when to hold — can be practised in a simulator more efficiently than through years of live exposure. The simulator allows a junior associate to accumulate the pattern experience of years in a matter of weeks.</p>';
+  } else if (topicLower.includes('taxsim') || topicLower.includes('kpmg')) {
+    html = '<h3>TaxSIM: Scaling Practice to 10,000 Professionals</h3>' +
+      '<p>TaxSIM was built by KPMG with Centaurian AI and is rolling out to approximately 10,000 US tax professionals. The programme is designed to give junior professionals the skills that used to take years of repetitive client work — work that AI now absorbs.</p>' +
+      '<h3>The Strategic Problem It Solves</h3>' +
+      '<p>When AI handles the routine tax analysis, two things happen simultaneously: clients pay less (because the work is faster), and junior professionals lose the repetitions that built their competence. TaxSIM is KPMG\'s answer to a structural gap: if clients no longer fund junior development through repetitive work, the firm must fund it through designed practice.</p>' +
+      '<h3>Managers of Agents</h3>' +
+      '<p>The programme is explicitly training juniors to work as "managers of agents" — a title that signals a fundamental redefinition of the entry-level job. The junior professional\'s task is no longer to do the computation but to supervise AI output, check it against domain knowledge, and take responsibility for the final judgment.</p>';
+  } else if (topicLower.includes('deloitte') || topicLower.includes('pwc') || topicLower.includes('graduate')) {
+    html = '<h3>Deloitte and PwC: Redesigning Entry-Level Professional Development</h3>' +
+      '<p>Deloitte is rebuilding its 3-year audit graduate scheme around simulated scenarios from September 2026. PwC\'s first-year hires are expected to work as AI reviewers immediately upon joining. Within 3 years, PwC expects first-year associates to have the client-facing responsibility that previously took mid-level professionals years to earn.</p>' +
+      '<h3>The Redefined Entry-Level Job</h3>' +
+      '<p>The training changes because the job has changed. The entry-level audit or consulting role no longer involves years of supervised document preparation before client exposure. From week one, the new hire is reviewing AI output and taking responsibility for its quality. Mid-career skills — professional scepticism, calibrated escalation, judgment about when plausible is wrong — must be developed immediately.</p>' +
+      '<h3>Implications for Training Design</h3>' +
+      '<p>Training programmes that were designed around a 3-year accumulation of supervised experience no longer match the job. The new design challenge is compressing the judgment development that used to take years into a simulated environment that builds it from day one.</p>';
+  } else if (topicLower.includes('expert reasoning') || topicLower.includes('elicitation')) {
+    html = '<h3>Expert Reasoning Elicitation: The New Core L&D Skill</h3>' +
+      '<p>The engineered apprenticeship depends on expert reasoning being made explicit. Every simulator, feedback rubric, and example decision is only as good as the expert thinking inside it. Getting that thinking out is now the most valuable skill in learning design.</p>' +
+      '<h3>Old Method vs New Method</h3>' +
+      '<p><strong>Old:</strong> Proximity. You sat near the partner for years. Judgment was transmitted through observation, correction, and casual exposure. The knowledge transfer happened invisibly.</p>' +
+      '<p><strong>New:</strong> Deliberate elicitation. Experts narrate their decision-making through real cases — explaining not just what they would do, but what they were looking for, what made them hesitant, what would have changed their answer. This is structured interview technique applied to tacit expertise.</p>' +
+      '<h3>Techniques</h3>' +
+      '<ul><li><strong>Cognitive Task Analysis:</strong> Break down the expert\'s decision process into observable steps. Ask "what are you looking for?" at each decision point.</li><li><strong>Think-aloud protocols:</strong> Have experts narrate decisions in real time using live or reconstructed cases.</li><li><strong>Critical Incident Technique:</strong> Ask for specific cases where judgment made the difference. Focus on what distinguished the good call from the wrong one.</li><li><strong>Contrast cases:</strong> Present pairs of situations (one that would warrant action, one that wouldn\'t) and ask the expert to explain the distinction.</li></ul>';
+  } else if (topicLower.includes('70-20-10') || topicLower.includes('7020') || topicLower.includes('informal')) {
+    html = '<h3>The 70-20-10 Model and What AI Did to It</h3>' +
+      '<p>The 70-20-10 model describes where competence historically came from: 70% from on-the-job experience, 20% from others (coaching, feedback, observation), 10% from formal courses. L&D owned the 10%. The other 90% ran on autopilot.</p>' +
+      '<h3>How the 90% Worked</h3>' +
+      '<p>The informal apprenticeship was a system of invisible inputs. Routine tasks accumulated pattern recognition. Proximity to senior colleagues transmitted judgment through observation. Feedback loops closed naturally through the review of real work. Nobody designed this. It was a side effect of how knowledge work was structured.</p>' +
+      '<h3>What AI Removed</h3>' +
+      '<p>AI absorbed the routine tasks — document review, first drafts, repetitive analysis. Junior staff lost the repetitions. Simultaneously, AI hid the senior reasoning inside its outputs: when a partner uses AI to produce an answer, the chain of thinking that would previously have been visible (through proximity, through reviewed drafts, through corridor conversation) is now inside the model.</p>' +
+      '<p>Both losses — the reps and the reasoning — happened simultaneously. The informal apprenticeship, which was invisible because it required no design, collapsed. L&D now faces responsibility for the full 100%, not the 10%.</p>';
+  } else if (topicLower.includes('pwc') && topicLower.includes('entry')) {
+    html = '<h3>How PwC Redefined the Entry-Level Job</h3>' +
+      '<p>PwC has made new hires AI reviewers from week one. This is not a gradual expansion of responsibility — it is a fundamental redefinition of what the entry-level job is. Within 3 years, PwC expects first-year associates to have the client-facing responsibility that previously took mid-level professionals several years to earn.</p>' +
+      '<h3>The Logic</h3>' +
+      '<p>When AI handles the routine preparation work, the junior role ceases to be about doing that work. It becomes about supervising AI\'s output, applying domain judgment to check it, and taking responsibility for the final result. This is inherently a judgment-intensive job, not an execution job. The skills required are those that used to be considered mid-career: professional scepticism, calibrated escalation, knowing when plausible is wrong.</p>' +
+      '<h3>What This Requires of Training</h3>' +
+      '<p>A training programme designed for gradual accumulation of supervised experience no longer matches this job. PwC must build professional judgment from day one — which requires simulated environments, deliberate practice, and the three design moves of the engineered apprenticeship, rather than a programme structured around years of supervised live-client exposure.</p>';
+  } else if (topicLower.includes('novice') || topicLower.includes('ai gap') || topicLower.includes('competence gap')) {
+    html = '<h3>The Novice-Expert AI Gap: Research Evidence</h3>' +
+      '<h3>Routine Tasks: AI Narrows the Gap</h3>' +
+      '<p>Brynjolfsson, Li and Raymond (2025) studied a call centre deployment. On routine tasks with clear parameters, AI assistance narrowed the performance gap between novice and expert workers. Novices benefited more from AI assistance because it provided guidance that experts already internalised.</p>' +
+      '<h3>Complex Tasks: AI Widens the Gap</h3>' +
+      '<p>An (2026) studied complex knowledge-work tasks requiring domain judgment. The effect reversed: AI widened the gap between novices and experts. Experts used AI to go further, faster — their domain knowledge allowed them to leverage AI outputs as raw material, filter the useful from the plausible-but-wrong, and extend their reach. Novices accepted plausible-but-generic output, lacking the pattern recognition to distinguish it from genuinely good work.</p>' +
+      '<h3>The Design Implication</h3>' +
+      '<p>Giving juniors AI access without teaching them to judge AI\'s work doesn\'t close the competence gap on complex tasks. It compounds it. The mid-career skills — professional scepticism, knowing when plausible is wrong, calibrated escalation — must be taught from day one. This is the core design problem of the engineered apprenticeship.</p>';
+  } else if (topicLower.includes('loop') || topicLower.includes('practice loop') || topicLower.includes('mechanism')) {
+    html = '<h3>The Practice Loop: Research Foundation and Design Logic</h3>' +
+      '<p>The loop — Attempt → Compare → Retry — is rooted in two well-established research traditions: deliberate practice (Ericsson) and cognitive apprenticeship (Collins, Brown, Newman). What AI changed is not the learning science. It changed who delivers the loop.</p>' +
+      '<h3>Deliberate Practice</h3>' +
+      '<p>Deliberate practice requires: a defined task at the edge of current ability, immediate feedback against an expert standard, and repetition with graduated difficulty. The loop delivers all three. The key constraint — that the learner commits before seeing the expert answer — is what separates deliberate practice from passive observation.</p>' +
+      '<h3>Cognitive Apprenticeship</h3>' +
+      '<p>Cognitive apprenticeship makes expert thinking visible. The "See the Expert\'s Call" stage of the loop is the modern version of watching a master practitioner work. The simulator captures and displays the reasoning that used to be transmitted by proximity.</p>' +
+      '<h3>What AI Changed</h3>' +
+      '<p>The loop used to be delivered by the work itself: live cases accumulated naturally, senior colleagues provided comparison, and repetition happened over years. AI absorbed the work. Now the designer must deliver the loop deliberately — creating the situations, capturing the expert reasoning, and engineering the graduated repetition that used to happen by accident.</p>';
+  } else {
+    html = '<h3>' + topic + '</h3>' +
+      '<p>' + context + '</p>' +
+      '<h3>From the Article</h3>' +
+      '<p><strong>' + articleContext.thesis + '</strong></p>' +
+      '<h3>Key Evidence</h3>' +
+      '<ul>' + articleContext.keyFacts.map(function(f) { return '<li>' + f + '</li>'; }).join('') + '</ul>' +
+      '<h3>The Core Argument</h3>' +
+      '<p>The binding constraint on competence was never knowledge transmission. It was the accumulation of enough first-hand pattern experience to develop judgment. AI removed this accidentally. Now L&D must engineer it deliberately — and that is a 9x expansion of the design remit.</p>';
+  }
+
+  return html;
+}
+
+function triggerFreeformZoom() {
+  var input = document.getElementById('zoom-freeform-input');
+  var query = input.value.trim();
+  if (!query) return;
+  zoomIn(null, query, 'User question: ' + query, SOURCE_PATH);
+  input.value = '';
+}
+
+// ============================================================
+// CHAT WIDGET
+// ============================================================
+function toggleChat() {
+  var panel = document.getElementById('chat-panel');
+  panel.classList.toggle('open');
+}
+
+var chatKnowledge = {
+  'deposim': 'DepoSim was built by AltaClaro and Verbit for 6 US law firms. AI plays witness, opposing counsel, and court reporter. 160+ hours piloted, 97% found it valuable. One litigation chair demonstrated it live to 500 attorneys.',
+  'atelier': 'Atelier was built by Three Crowns with Dr Megan Ma at Stanford Law LIFT Lab. Junior associates practise cross-examining AI witnesses that respond dynamically. The key design principle: simulate decision-critical skills in the simulator, keep human-to-human culture in the room.',
+  'taxsim': 'TaxSIM was built by KPMG with Centaurian AI and is rolling out to ~10,000 US tax professionals. It replaces years of repetitive client work that AI has absorbed. Goal: train juniors as "managers of agents."',
+  'deloitte': 'Deloitte rebuilt its 3-year audit graduate scheme around simulated scenarios from September 2026.',
+  'pwc': 'PwC trains new hires as AI reviewers from week one. Within 3 years, first-years will have mid-level responsibility. The entry-level job has been fundamentally redefined.',
+  'salary': 'UK: AI/capability L&D roles pay £52,551 median vs £35,000 for course design (50% premium). US: $161,400 vs $85,493 (89% premium). 90% of job postings still advertise the old role.',
+  'loop': 'The loop: (1) Put learner in realistic situation, force commitment before seeing any answer. (2) Show what an expert would have done and why. (3) Go again harder with fading support. This builds pattern recognition without needing years of live cases.',
+  'expert': 'Getting reasoning out of experts heads is now the most valuable skill in L&D. Old method: proximity (sit near the partner for years). New method: deliberate elicitation — experts narrate decisions through real cases. Every simulator is only as good as the expert thinking inside it.',
+  'ai gap': 'Research (An, 2026): on complex tasks, AI widens the competence gap. Experts use AI to go further; novices accept plausible-but-generic output. On routine tasks, AI narrows the gap (Brynjolfsson, Li, Raymond, 2025).',
+  '70-20-10': 'The 70-20-10 model: 70% from experience, 20% from others, 10% from formal courses. L&D owned the 10%. AI absorbed the 70% (routine reps) and hid the 20% (senior reasoning inside outputs). Now L&D must design the whole 100%.',
+  'default': 'This article by Dr Philippa Hardman (2026) argues that AI has expanded L&D\'s design remit from 10% to 100% by killing the informal apprenticeship. The biggest employers (Big Law, KPMG, Deloitte, PwC) are already rebuilding training around practice-and-feedback cycles at the decision level.'
+};
+
+function getChatResponse(question) {
+  var q = question.toLowerCase();
+  for (var key in chatKnowledge) {
+    if (q.includes(key)) return chatKnowledge[key];
+  }
+  if (q.includes('why') && q.includes('course')) return 'Courses covered only 10% of capability development. The other 90% happened through the informal apprenticeship — routine tasks, proximity to experts, natural feedback loops. AI switched that engine off by absorbing routine work and hiding senior reasoning inside its outputs.';
+  if (q.includes('what') && q.includes('do')) return 'The three design moves: (1) The Loop — make the call before seeing the answer, compare to expert, go again harder. (2) Expert reasoning captured on purpose — deliberate elicitation, not proximity. (3) Teaching AI judgment from day one — because on complex tasks, AI widens the novice-expert gap.';
+  return chatKnowledge['default'] + ' What specific aspect would you like to explore? Try asking about DepoSim, TaxSIM, the salary data, the practice loop, or how AI affects the novice-expert gap.';
+}
+
+function sendChat() {
+  var input = document.getElementById('chat-input');
+  var messages = document.getElementById('chat-messages');
+  var text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+
+  var userMsg = document.createElement('div');
+  userMsg.className = 'chat-msg user';
+  userMsg.textContent = text;
+  messages.appendChild(userMsg);
+
+  setTimeout(function() {
+    var botMsg = document.createElement('div');
+    botMsg.className = 'chat-msg bot';
+    botMsg.textContent = getChatResponse(text);
+    messages.appendChild(botMsg);
+    messages.scrollTop = messages.scrollHeight;
+  }, 320);
+
+  messages.scrollTop = messages.scrollHeight;
+}
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', function() {
+  updateDots();
+  // Mark all zoom buttons as ready after a brief delay
+  setTimeout(function() {
+    document.querySelectorAll('.zoom-btn').forEach(function(btn) {
+      btn.classList.add('ready');
+    });
+  }, 800);
+});
+</script>
+
+</body>
+</html>
