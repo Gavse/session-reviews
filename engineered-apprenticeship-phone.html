@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Rise of the Engineered Apprenticeship</title>
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="The Rise of the Engineered Apprenticeship">
+  <meta property="og:description" content="AI didn't shrink L&D's job — it handed us the 90% of capability development that used to happen invisibly. The course was never the engine. Now someone has to engineer the apprenticeship deliberately.">
+  <meta name="description" content="AI didn't shrink L&D's job — it handed us the 90% of capability development that used to happen invisibly. The course was never the engine. Now someone has to engineer the apprenticeship deliberately.">
+
+  <style>
+    :root {
+      --teal: #004E64;
+      --teal-dark: #003543;
+      --orange: #F4A261;
+      --cream: #FEFCF8;
+      --cream-warm: #F5EFE4;
+      --ink: #1a1a1a;
+      --ink-soft: #4a4a4a;
+      --rule: #e5ddd0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Helvetica Neue", Arial, sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      line-height: 1.6;
+      font-size: 17px;
+    }
+
+    main { max-width: 680px; margin: 0 auto; padding: 0 20px 80px; }
+
+    .hero {
+      background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+      color: var(--cream);
+      padding: 48px 24px 40px;
+      border-bottom: 4px solid var(--orange);
+    }
+    .hero-inner { max-width: 680px; margin: 0 auto; }
+    .hero .kicker {
+      color: var(--orange);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .hero h1 {
+      font-size: 28px;
+      line-height: 1.2;
+      font-weight: 800;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+    .hero .hook {
+      font-size: 17px;
+      line-height: 1.5;
+      opacity: 0.92;
+    }
+
+    h2 {
+      font-size: 22px;
+      color: var(--teal);
+      margin: 40px 0 16px;
+      border-left: 3px solid var(--orange);
+      padding-left: 12px;
+      font-weight: 700;
+    }
+    h3 { font-size: 18px; color: var(--teal-dark); margin: 24px 0 10px; font-weight: 600; }
+    p { margin: 0 0 14px; color: var(--ink-soft); }
+    em { color: var(--ink); font-style: italic; }
+    strong { color: var(--ink); }
+
+    .insights {
+      background: var(--cream-warm);
+      border-radius: 10px;
+      padding: 22px 24px;
+      margin: 32px 0;
+    }
+    .insights h2 {
+      margin-top: 0;
+      margin-bottom: 14px;
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border: none;
+      padding: 0;
+      color: var(--teal);
+    }
+    .insights ul { list-style: none; }
+    .insights li {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--rule);
+      font-size: 16px;
+      color: var(--ink);
+    }
+    .insights li:last-child { border-bottom: none; }
+    .insights li::before {
+      content: "→ ";
+      color: var(--orange);
+      font-weight: 700;
+    }
+
+    details {
+      background: #fff;
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    details[open] { box-shadow: 0 2px 14px rgba(0, 78, 100, 0.10); }
+    summary {
+      padding: 16px 18px;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--teal);
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 16px;
+      gap: 12px;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after {
+      content: '+';
+      font-size: 24px;
+      color: var(--orange);
+      font-weight: 300;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    details[open] summary::after { content: '×'; }
+    .details-body {
+      padding: 4px 18px 18px;
+      color: var(--ink-soft);
+    }
+    .details-body p:first-child { margin-top: 8px; }
+    .details-body .interpretation {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--rule);
+      color: var(--ink);
+    }
+
+    .stat-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    .stat-pill {
+      background: var(--teal);
+      color: var(--cream);
+      border-radius: 8px;
+      padding: 10px 16px;
+      flex: 1;
+      min-width: 120px;
+      text-align: center;
+    }
+    .stat-pill .num {
+      display: block;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--orange);
+      line-height: 1.1;
+    }
+    .stat-pill .lbl {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.85;
+      margin-top: 4px;
+    }
+
+    blockquote {
+      border-left: 3px solid var(--orange);
+      padding: 4px 0 4px 16px;
+      margin: 20px 0;
+      font-style: italic;
+      color: var(--ink-soft);
+    }
+    blockquote cite {
+      display: block;
+      margin-top: 8px;
+      font-size: 14px;
+      font-style: normal;
+      color: var(--teal);
+    }
+
+    a { color: var(--teal); text-decoration: underline; text-decoration-color: var(--orange); text-underline-offset: 3px; }
+    a:hover { color: var(--orange); }
+
+    .source-link {
+      display: inline-block;
+      margin-top: 32px;
+      padding: 12px 18px;
+      background: var(--teal);
+      color: var(--cream);
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .source-link:hover { background: var(--teal-dark); color: var(--orange); }
+
+    footer {
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 1px solid var(--rule);
+      font-size: 13px;
+      color: var(--ink-soft);
+      text-align: center;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --cream: #141414;
+        --cream-warm: #1f1f1f;
+        --ink: #f0f0f0;
+        --ink-soft: #c5c5c5;
+        --rule: #2e2e2e;
+      }
+      body { background: var(--cream); }
+      details { background: #1a1a1a; }
+      .hero { background: linear-gradient(135deg, #002a38, #001b24); }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="kicker">Article · Dr. Philippa Hardman · 2026</div>
+      <h1>The Rise of the Engineered Apprenticeship</h1>
+      <p class="hook">AI didn't shrink L&amp;D's job — it handed us the 90% of capability development that used to happen invisibly. The course was never the engine. Now someone has to engineer the apprenticeship deliberately.</p>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="insights">
+      <h2>Key Insights</h2>
+      <ul>
+        <li>Courses covered only <strong>10%</strong> of how people built capability — the other 90% happened invisibly through routine work and proximity to experts.</li>
+        <li>AI killed the informal apprenticeship by absorbing routine tasks and hiding senior reasoning inside its outputs.</li>
+        <li><strong>Four major builds</strong> already live: DepoSim (160+ hrs, 6 law firms), TaxSIM (10,000 KPMG professionals), Deloitte's rebuilt 3-year audit scheme, PwC's day-one AI reviewer role.</li>
+        <li>On complex tasks, AI <strong>widens</strong> the novice–expert gap — novices accept plausible-but-generic output; experts use AI to go further.</li>
+        <li>UK salary premium for AI/capability L&amp;D over course design: <strong>50%</strong> (£52,551 vs £35,000). US: <strong>89%</strong> ($161,400 vs $85,493).</li>
+      </ul>
+    </section>
+
+    <div class="stat-row">
+      <div class="stat-pill"><span class="num">9×</span><span class="lbl">Remit expansion</span></div>
+      <div class="stat-pill"><span class="num">90%</span><span class="lbl">Job posts: old role</span></div>
+      <div class="stat-pill"><span class="num">160+</span><span class="lbl">Law pilot hours</span></div>
+      <div class="stat-pill"><span class="num">10K</span><span class="lbl">KPMG rollout</span></div>
+    </div>
+
+    <h2>Big Ideas</h2>
+
+    <details>
+      <summary>The Course Was Never the Engine</summary>
+      <div class="details-body">
+        <p>The 70-20-10 rule had the direction right: the bulk of professional skill came from work itself (70%) and people around it (20%), not formal training (10%). The informal apprenticeship — years of routine tasks in close proximity to experts — did the actual development work, invisibly and for free.</p>
+        <p class="interpretation"><em>Courses survived not because they developed people, but because the apprenticeship ran itself. "Designing learning" came to mean designing the small formal layer around the work. AI has broken this by switching off the engine — not by making courses worse, but by automating the routine tasks and hiding the senior reasoning.</em></p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Four Real-World Engineered Apprenticeships</summary>
+      <div class="details-body">
+        <p><strong>DepoSim (Law):</strong> Six major US firms. AI plays witness, opposing counsel, and court reporter. Associate takes the deposition live, gets structured feedback. 160+ hours piloted, 97% strongly agreed it was valuable. One litigation chair ran it live in front of 500 attorneys.</p>
+        <p><strong>Atelier (Arbitration):</strong> Three Crowns + Stanford Law LIFT Lab. Junior associates rehearse cross-examining witnesses — a skill traditionally reserved for advocates years into their careers.</p>
+        <p><strong>TaxSIM (KPMG):</strong> Rolling out to ~10,000 US tax professionals. Designed to replace the years of repetitive client work that AI has absorbed. Goal: train juniors as "managers of agents."</p>
+        <p><strong>Deloitte &amp; PwC:</strong> Deloitte rebuilt its 3-year audit graduate scheme around simulated scenarios. PwC: new hires work as AI reviewers from week one; first-years will feel like the managers of a previous generation within 3 years.</p>
+        <p class="interpretation"><em>All four build the same loop: put the learner in a realistic situation, force a decision before showing any answer, reveal what the expert would have done and why, go again harder. None simulate document review — AI's domain. All simulate the judgment calls that AI cannot reliably replace.</em></p>
+      </div>
+    </details>
+
+    <details>
+      <summary>The Practice Loop: Make → See → Go Again</summary>
+      <div class="details-body">
+        <p>Every engineered apprenticeship runs the same three-step loop: <strong>(1)</strong> Put the learner in a realistic situation and force commitment to a decision before showing any answer. <strong>(2)</strong> Show what an experienced person would have done, and why. <strong>(3)</strong> Go again on something harder, with support that deliberately fades.</p>
+        <p class="interpretation"><em>This is deliberate practice and cognitive apprenticeship — the same evidence base L&D has stood on for decades. AI hasn't changed how humans build capability. What it's changed is who delivers the loop. It used to be the work itself. Now it has to be the designer.</em></p>
+      </div>
+    </details>
+
+    <details>
+      <summary>Expert Reasoning Must Now Be Captured on Purpose</summary>
+      <div class="details-body">
+        <p>The practice loop only works if there's an expert's call to compare against. The old apprenticeship passed on judgment by proximity — you sat near the partner and something rubbed off over years. Every new build requires the opposite: experts explaining their thinking so it can be captured and taught.</p>
+        <p>Getting reasoning out of experts' heads used to happen by accident, through seating plans. Now it has to happen on purpose — and it's becoming the most valuable skill in learning design.</p>
+        <p class="interpretation"><em>Most L&D teams have never practised this. We were trained to collect content from SMEs, not to ask how they decide. Every simulator and feedback rubric is only as good as the expert thinking inside it.</em></p>
+      </div>
+    </details>
+
+    <details>
+      <summary>AI Widens the Gap — and L&D's Remit Just Expanded 9×</summary>
+      <div class="details-body">
+        <p>On routine, well-defined tasks, AI narrows the gap between novices and experts (Brynjolfsson, Li and Raymond, 2025). On complex tasks requiring domain judgment, AI <strong>widens</strong> the gap: experts use it to go further, novices accept plausible-but-generic output (An, 2026). Giving juniors AI without teaching them to check it doesn't close the gap — it compounds it.</p>
+        <p>90% of L&D job postings still name a course as the deliverable. But roles framed around AI, consulting, and capability-building pay a 50–89% salary premium over course-design roles.</p>
+        <p class="interpretation"><em>For decades, L&D's design remit covered roughly 10% of how organisations actually developed people — the formal course layer — while the other 90% designed itself inside the work. AI hasn't shrunk our job; it has handed us the other 90%. The unexpected gift: AI isn't a threat to L&D — it's the biggest expansion of its remit in living history.</em></p>
+      </div>
+    </details>
+
+    <blockquote>
+      "AI has broken this arrangement not by making courses worse, but by switching off the engine that was actually doing the development work."
+      <cite>— Dr. Philippa Hardman</cite>
+    </blockquote>
+
+    <a href="https://drphilippahardman.substack.com/p/the-rise-of-the-engineered-apprenticeship" class="source-link">Read original →</a>
+
+    <footer>Lightweight mobile variant · 2026-08-28</footer>
+  </main>
+
+</body>
+</html>
